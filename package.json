@@ -1,0 +1,31 @@
+{
+  "name": "e-learning",
+  "version": "1.0.0",
+  "description": "Massive open online course (MOOC)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevPuzzle/e-learning.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DevPuzzle/e-learning/issues"
+  },
+  "homepage": "https://github.com/DevPuzzle/e-learning#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.3",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.4",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}
