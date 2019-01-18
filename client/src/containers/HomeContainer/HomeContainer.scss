@@ -1,0 +1,23 @@
+.home{
+  height: 100vh !important;
+  &__banner {
+    background: url(https://1fedpb39ar122rmpto4bdrcc-wpengine.netdna-ssl.com/wp-content/uploads/people-2564955_1920.jpg) no-repeat center center;
+    height: 500px;
+    background-size: cover;
+    display: flex;
+    padding: 0 50px;
+    align-items: center;
+  }
+  &__title{
+    font-size: 44px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 30px;
+  }
+  &__btn{
+    background:  #ff5722 !important;
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+    
+  }
+}
