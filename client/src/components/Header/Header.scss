@@ -1,8 +1,8 @@
 header {
-  background: transparent !important;
-  position: relative !important;
+/*   background: transparent !important; */
+  /* position: relative !important;
   box-shadow: none !important;
-  position: absolute !important; 
+  position: absolute !important;  */
 
   .header {
     display: flex;
@@ -14,7 +14,7 @@ header {
       left: 0;
       display: flex;
       justify-content: flex-end;
-      background: linear-gradient(to right, #d84315, #ff5722);
+      background: #311b92;
       width: 50px;
       a{
         text-align: end;
@@ -37,7 +37,7 @@ header {
         -ms-transition: all 0.3s;
         -o-transition: all 0.3s;
         &:hover{
-          color: #ff5722;
+          color: #674AC5;
         }
       }
     }
@@ -54,7 +54,7 @@ header {
         -ms-transition: all 0.3s;
         -o-transition: all 0.3s;
         &:hover{
-          color: #ff5722;
+          color: #674AC5;
         }
         &:last-child{
           margin: 0;
@@ -70,7 +70,7 @@ header {
       -ms-transition: all 0.3s;
       -o-transition: all 0.3s;
       &:hover{
-        color: #ff5722;
+        color: #674AC5;;
       }
     }
    
@@ -82,5 +82,5 @@ header {
   outline: none;
 }
 .header__dropnav li{
-  color: #d84315;
+  color: #674AC5;
 }

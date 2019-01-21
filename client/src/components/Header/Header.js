@@ -33,8 +33,18 @@ class Header extends Component {
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
-  return(
-    <AppBar color='default'>
+  return(   
+    <AppBar 
+      style={window.location.pathname === '/' ?
+      {
+        background: 'transparent',
+        position: 'absolute',
+        boxShadow: 'none'
+      } : {
+        background: '#151516',
+        position: 'relative'
+      }}
+      color='default'>
       
       <Toolbar className='header'>
         <div className='header__logo'>
