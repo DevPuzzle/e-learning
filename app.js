@@ -25,13 +25,11 @@ app.use((req, res, next) => {
   }
   next();
 });
-
 // app.use((req, res, next) => {
 //     res.status(200).json({
 //         message: 'It works!'
 //     });
 // });
-
 app.use("/user", userRoutes);
 
 app.use((req, res, next) => {
