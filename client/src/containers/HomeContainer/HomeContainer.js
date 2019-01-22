@@ -6,8 +6,10 @@ import Button from '@material-ui/core/Button';
  class HomeContainer extends Component {
   render() {
     return (
-      <section className='home'>
+      <section className='home'>       
         <div className='home__banner'>
+
+        <div className='home__wrapper'>   
           <div className='banner__content'>
           <h1 className='home__title'>
             Study Anytime Anywhere 
@@ -19,6 +21,7 @@ import Button from '@material-ui/core/Button';
           color="primary" >
             Add Knowledges
           </Button>     
+          </div>
           </div>
           
         </div>
