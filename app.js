@@ -10,6 +10,7 @@ mongoose.connect('mongodb://vitaliy:qa123123@ds261114.mlab.com:61114/e-learning'
 mongoose.connection.once('open', () => console.log('Connected to MongoDB'));
 
 app.use(morgan('dev'));
+app.use('/uploads',express.static('uploads'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
