@@ -1,12 +1,19 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import HomeContainer from '../containers/HomeContainer/HomeContainer';
 import SchoolsContainer from '../containers/SchoolsContainer/SchoolsContainer';
 import Login from '../components/Login/Login';
 import SignUp from '../components/SignUp/SignUp';
+import { connect } from 'react-redux';
+import * as actions from '../actions/loginActions';
 
+class Routes extends Component {
 
-const Routes = () => {
+ componentDidMount(){
+   this.props.onTryAutoLogin();
+ }
+
+  render(){  
   return(
     <Switch>
       <Route path='/' exact component={HomeContainer}/>
@@ -16,5 +23,17 @@ const Routes = () => {
     </Switch>
   )
 }
+}
 
-export default Routes;
+
+
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onTryAutoLogin: () => dispatch(actions.authCheckState())
+    }
+  }
+
+
+
+export default withRouter(connect(null, mapDispatchToProps)(Routes));

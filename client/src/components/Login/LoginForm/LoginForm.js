@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import './SignUpForm.scss';
 import Button from '@material-ui/core/Button';
+import '../Login.scss';
 
-class SignUpForm extends Component {
+class LoginForm extends Component {
   
   renderInputField = (field) => {
-    const className = `signUp__form-input ${field.meta.touched 
+    const className = `login__form-input ${field.meta.touched 
     && field.meta.error 
     ? 'has-error' : ''}`
 
 
     return(
       <div className={className}>
-        <label className='signUp__form-label'>{field.mylabel}</label>
-        <input className='signUp__input' type={field.type} {...field.input}/>
+        <label className='login__form-label'>{field.mylabel}</label>
+        <input className='login__input' type={field.type} {...field.input}/>
         <div className='error'>
           {field.meta.touched ? field.meta.error : ''}
         </div>
@@ -29,12 +29,7 @@ class SignUpForm extends Component {
     const { handleSubmit } = this.props;
     let renderform = <form
     onSubmit={handleSubmit} 
-    className='signUp__form'>
-       <Field 
-            type='text'
-            mylabel='Enter your username'
-            name='name'
-            component={this.renderInputField}/>
+    className='login__form'>
           <Field 
             type='email'
             mylabel='Enter your email'
@@ -45,7 +40,7 @@ class SignUpForm extends Component {
             mylabel='Enter your password'
             name='password'
             component={this.renderInputField}/>
-          <div className='signUp__btnCont'>
+          <div className='login__btnCont'>
             <Button
             className='home__btn'
             variant="contained" 
@@ -65,7 +60,7 @@ class SignUpForm extends Component {
     }
 
     return(
-      <div className='signUp'>
+      <div className='login__page'>
          {renderform}       
       </div>
     )
@@ -74,9 +69,7 @@ class SignUpForm extends Component {
 
 function validate(values){
   const errors = {};
-  if(!values.name){
-   errors.name = 'The name is empty'
-  }
+  
   if(!values.email){
     errors.email = 'The email is empty'
    }
@@ -89,5 +82,5 @@ function validate(values){
 
 export default reduxForm({
   validate,
-  form: 'SignUpForm'
-})(SignUpForm);
+  form: 'LoginForm'
+})(LoginForm);

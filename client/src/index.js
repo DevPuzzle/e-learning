@@ -14,6 +14,7 @@ const composeEnhancers =  process.env.NODE_ENV === 'development' ? window.__REDU
 const store = createStore(rootReducer, composeEnhancers(
   applyMiddleware(thunk)));
 
+  
 
 const App = () => {
 
