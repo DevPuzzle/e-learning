@@ -10,14 +10,31 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/loginActions';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
+import Button from '@material-ui/core/Button/Button';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
 
 class Header extends Component {
 
   state = {
     anchorEl: null,
     coursesEl: null,
-    schoolsEl: null
+    schoolsEl: null,
+    left: false
   }
+
+
+  toggleDrawer = (side, open) => () => {
+    this.setState({
+      [side]: open,
+    });
+  };
 
   schoolsOpen = event => {
     this.setState({ coursesEl: event.currentTarget });
@@ -53,6 +70,34 @@ class Header extends Component {
     const { anchorEl, coursesEl, schoolsEl } = this.state;
     const open = Boolean(anchorEl);
 
+    const sideList = (
+      <div>
+        <List>
+            <ListItem button>
+              <NavLink to='/courses'>Courses</NavLink>
+            </ListItem>
+            <ListItem button>
+              <NavLink to='/schools'>Schools</NavLink>
+            </ListItem>
+        <Divider />
+            <ListItem button>
+              <NavLink to='/myschools'>My Schools</NavLink>
+            </ListItem>
+            <ListItem button>
+              <NavLink to='/mycourses'>My Courses</NavLink>
+            </ListItem>
+
+        <Divider />
+            <ListItem button>
+              <NavLink to='/profile'>Profile</NavLink>
+            </ListItem>
+         
+        </List>
+        
+      </div>
+    );
+
+
   return(   
     <AppBar 
       
@@ -60,6 +105,23 @@ class Header extends Component {
       <div className='wrapper'>
       <Toolbar className='header'>
       <div className='header__left'>
+
+      {/* SIDE DRAWER */}
+
+      <div className='header__responseDrawer'>
+      <Button onClick={this.toggleDrawer('left', true)}>Open Left</Button>
+      <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
+      <div
+            tabIndex={0}
+            role="button"
+            onClick={this.toggleDrawer('left', false)}
+            onKeyDown={this.toggleDrawer('left', false)}
+          >
+            {sideList}
+          </div>
+          </Drawer>
+      </div>
+      
       <div className='header__logo'>
           <NavLink to='/'><p>eLearning</p></NavLink>
         </div>

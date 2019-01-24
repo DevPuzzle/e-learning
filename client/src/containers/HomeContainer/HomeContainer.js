@@ -30,8 +30,6 @@ class HomeContainer extends Component {
           </div>
           <div className="home__tab">
             <Switch>
-              
-              
               <Route path={`/home/signup`} component={SignUp} />
               <Route path={`/home/login`} component={Login} />
               <Route path={`/home`}  component={Info} />
