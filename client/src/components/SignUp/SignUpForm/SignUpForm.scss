@@ -1,9 +1,6 @@
-.signUp{
-  height: calc(100vh - 128px);
+.signUp{  
   display: flex;
-  justify-content: center;
-  background: url(https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/47d63772899195.5bf6f326df25a.jpg) no-repeat center center;
-  background-size: cover;
+  justify-content: center;  
   &__form{
     -webkit-box-shadow: 0px 10px 18px -4px rgba(0,0,0,0.49);
     -moz-box-shadow: 0px 10px 18px -4px rgba(0,0,0,0.49);
@@ -32,33 +29,41 @@
   margin: 0 !important;
 }
 
-  &__form-input{
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-    input {
-      padding: 10px;
-      outline: none;
-      &:focus{
-       border: 2px solid rgba(79, 195, 247, 0.4)
-      }
+&__pass {
+  display: flex;
+}
+
+&__form-input{
+  display: flex;
+  flex-direction: column;
+  margin: 0 !important;
+  margin-bottom: 20px !important;
+  position: relative;
+  input {    
+    outline: none;
+    &:focus{
+      border: 2px solid rgba(79, 195, 247, 0.4)
     }
-   
   }
- 
   
-  &__btnCont{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    
-  }
-  .error{
-    color: red;
-  }
-  .has-error input{
-    border: 1px solid red;
-  }
+} 
+  
+&__btnCont{
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  
+}
+
+.error{
+  position: absolute;
+  left: 0;
+  bottom: -20px;
+  color: red;
+  font-size: 14px;
+}
+  
   &__btn {
     padding: 10px !important;
     background: #0277bd !important;
@@ -66,7 +71,13 @@
       background: #039be5 !important;
     }
   }
-
+  &__inp {
+    input {
+      &:focus {
+        border: none !important;
+      }
+    }   
+  }
 }
 
 

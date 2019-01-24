@@ -8,7 +8,7 @@
   }
   &__banner {
    background: url(https://mir-s3-cdn-cf.behance.net/project_modules/1400/ddb43372899195.5bf6f326e06a9.jpg) no-repeat center center;
-    height: 500px;
+    height: 670px;
     background-size: cover;
     display: flex;
     padding: 0 50px;
@@ -74,5 +74,8 @@
   &__tab{
     height: 250px;
   }
-  
+  &__active {
+    color: rgba(255, 255, 255, 1) !important; 
+  }
 }
+
