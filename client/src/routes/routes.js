@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/loginActions';
 
 import Profile from '../components/Profile/Profile';
+import SignUp from '../components/SignUp/SignUp';
 
 class Routes extends Component {
 
