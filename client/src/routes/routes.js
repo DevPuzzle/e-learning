@@ -4,6 +4,7 @@ import HomeContainer from '../containers/HomeContainer/HomeContainer';
 import SchoolsContainer from '../containers/SchoolsContainer/SchoolsContainer';
 import { connect } from 'react-redux';
 import * as actions from '../actions/loginActions';
+import SignUp from '../components/SignUp/SignUp';
 
 import Profile from '../components/Profile/Profile';
 
@@ -15,16 +16,16 @@ class Routes extends Component {
 
 render(){  
 
-  return(
-    <Switch>
-      <Route path='/' exact component={HomeContainer}/>
-      <Route path='/signup' component={SignUp} />
-      <Route path='/schools' component={SchoolsContainer} />
-      <Route path='/profile' component={Profile} />
-    </Switch>
-  )
+    return(
+      <Switch>
+        <Route path='/' exact component={HomeContainer}/>
+        <Route path='/signup' component={SignUp} />
+        <Route path='/schools' component={SchoolsContainer} />
+        <Route path='/profile' component={Profile} />
+      </Switch>
+    )
+  }
 }
-
 
 const mapDispatchToProps = (dispatch) => {
   return {
