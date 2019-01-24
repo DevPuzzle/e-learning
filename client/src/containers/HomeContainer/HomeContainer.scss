@@ -41,6 +41,7 @@
     font-size: 20px;
     color: #fff;
     font-weight: 600;
+    margin-bottom: 15px;
   }
   &__btn{
     background: #fff !important;
@@ -54,20 +55,24 @@
       background: #0277bd !important;
     }
   }
-  &__tabContainer{
+  &__tabs {
     display: flex;
-    flex-direction: column;
-    height: 240px;
-  }
-  &__tabsCont{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  &__tabs{
-    display: flex !important;
     justify-content: center;
-    max-width: 250px;
-    width: 100%;
+    margin-bottom: 15px;
+    a{
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 16px;
+      margin-right: 20px;
+      &:last-child{
+        margin: 0;
+      }
+      &:hover{
+        color: rgba(255, 255, 255, 0.9);
+      }
+    }
   }
+  &__tab{
+    height: 250px;
+  }
+  
 }
