@@ -5,6 +5,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { withStyles } from '@material-ui/core/styles';
 import Login from '../../components/Login/Login';
+import { Route, Link, Switch } from 'react-router-dom';
+
+const Profile = () => <div>You're on the Profile Tab</div>;
+const Comments = () => <div>You're on the Comments Tab</div>;
+const Contact = () => <div>You're on the Contact Tab</div>;
 
 
 
@@ -75,8 +80,16 @@ const styles = theme => ({
           <h3 className='home__subTitle'>
             For free. For everyone. Forever
           </h3>
-          
-          
+          <Link to={'/'}>Info</Link>
+          <Link to={'/home/login'}>Login</Link>
+          <Link to={'/home/contact'}>Contact</Link>
+          <div className="tabs">
+  <Switch>
+    <Route path={`/home`} exact component={Profile} />
+    <Route path={`/home/login`} component={Login} />
+    <Route path={`/home/contact`} component={Contact} />
+  </Switch>
+</div>
           {/* <div className='home__tabsCont'>    
           <Tabs
           className='home__tabs'
@@ -133,7 +146,8 @@ const styles = theme => ({
           {value === 1 && <Login />}
           </div>
         </div> */}
-        <Login />
+       
+      
           </div>
           </div>
           
