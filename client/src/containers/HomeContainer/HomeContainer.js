@@ -3,20 +3,13 @@ import './HomeContainer.scss';
 import Login from '../../components/Login/Login';
 import { Route, NavLink, Switch } from 'react-router-dom';
 import Info from '../../components/Info/Info';
+import SignUp from '../../components/SignUp/SignUp';
 
-const Contact = () => <div>You're on the Contact Tab</div>;
-
-
-
-
-
-
- class HomeContainer extends Component {
+class HomeContainer extends Component {
 
 
 
   render() {
-
 
     return (
       <section className='home'>       
@@ -31,15 +24,17 @@ const Contact = () => <div>You're on the Contact Tab</div>;
             For free. For everyone. Forever
           </h3>
           <div className='home__tabs'>
-          <NavLink activeClassName='home__active' to={'/'}><i className="fas fa-info"></i></NavLink>
-          <NavLink to={'/home/login'}><i className="fas fa-lock"></i></NavLink>
-          <NavLink to={'/home/contact'}><i className="fas fa-user-plus"></i></NavLink>
+          <NavLink activeClassName='home__active' exact to={'/home'}><i className="fas fa-info"></i></NavLink>
+          <NavLink activeClassName='home__active' to={'/home/login'}><i className="fas fa-lock"></i></NavLink>
+          <NavLink activeClassName='home__active' to={'/home/signup'}><i className="fas fa-user-plus"></i></NavLink>
           </div>
           <div className="home__tab">
             <Switch>
-              <Route path={`/home`} exact component={Info} />
+              
+              
+              <Route path={`/home/signup`} component={SignUp} />
               <Route path={`/home/login`} component={Login} />
-              <Route path={`/home/contact`} component={Contact} />
+              <Route path={`/home`}  component={Info} />
             </Switch>
           </div>
          

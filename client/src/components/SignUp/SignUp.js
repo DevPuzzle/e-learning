@@ -7,6 +7,7 @@ class SignUp extends Component {
 
   submit = (values) => {
     this.props.onSignUpUser(values)
+    console.log(values);
   }
 
   render(){

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import './SignUpForm.scss';
 import Button from '@material-ui/core/Button';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
 
 class SignUpForm extends Component {
   
@@ -10,19 +13,16 @@ class SignUpForm extends Component {
     && field.meta.error 
     ? 'has-error' : ''}`
 
-
     return(
-      <div className={className}>
-        
-        <input className='signUp__input' type={field.type} className={field.className} placeholder={field.label}{...field.input}/>
+      <FormControl className={className} margin="normal" required fullWidth>
+        <InputLabel htmlFor={field.name} >{field.label}</InputLabel>
+        <Input id={field.name} className="signUp__inp" name={field.name} type={field.type} {...field.input} />
         <div className='error'>
           {field.meta.touched ? field.meta.error : ''}
         </div>
-      </div>
+      </FormControl>
     )
-  }
-
- 
+  } 
   
 
   render(){
@@ -34,40 +34,47 @@ class SignUpForm extends Component {
       <Field 
             type='text'
             label='First name'
-            name='firstname'
+            name='first_name'
             component={this.renderInputField}/>
       <Field 
             className='signUp__right'
             type='text'
             label='Last name'
-            name='lastname'
+            name='last_name'
             component={this.renderInputField}/>
       </div>
-       <Field 
-            type='text'
-            label='Enter your username'
-            name='name'
-            component={this.renderInputField}/>
-          <Field 
-            type='email'
-            label='Enter your email'
-            name='email'
-            component={this.renderInputField}/>
-          <Field 
-            type='password'
-            label='Enter your password'
-            name='password'
-            component={this.renderInputField}/>
-          <div className='signUp__btnCont'>
-            <Button
-            className='signUp__btn'
-            variant="contained" 
-            color="primary"
-            type='submit' >
-              Add Knowledges
-            </Button>     
-          </div>
-          </form>
+      <Field 
+        type='text'
+        label='Enter your username'
+        name='name'
+        component={this.renderInputField}/>
+      <Field 
+        type='email'
+        label='Enter your email'
+        name='email'
+        component={this.renderInputField}/>
+      <div className='signUp__pass'>
+      <Field 
+        type='password'
+        label='Enter your password'
+        name='password'
+        component={this.renderInputField}/>
+      <Field 
+        type='password'
+        label='Confirm password'
+        name='confirm_password'
+        component={this.renderInputField}/>
+      </div>
+      <div className='signUp__btnCont'>
+        <Button
+        className='signUp__btn'
+        variant="contained" 
+        color="primary"
+        type='submit' >
+          Sign Up
+        </Button>     
+      </div>
+      </form>
 
 
     if(this.props.loading){
@@ -86,17 +93,33 @@ class SignUpForm extends Component {
 }
 
 function validate(values){
+
   const errors = {};
+  if(!values.first_name){
+    errors.first_name = 'The firstname is empty'
+  }
+  if(!values.last_name){
+    errors.last_name = 'The lastname is empty'
+  }
   if(!values.name){
    errors.name = 'The name is empty'
   }
   if(!values.email){
     errors.email = 'The email is empty'
-   }
-   if(!values.password){
+  }
+  if(!values.password){
     errors.password = 'The password is empty'
-   }
-
+  }
+  if(!values.confirm_password){
+    errors.confirm_password = 'The confirm is empty'
+  }
+  if(values.confirm_password !== values.password){
+    errors.confirm_password = 'Passwords dont match!'
+  }
+  if(values.password && values.password.length < 4 ){
+    errors.password = 'Passwords must be more than 4 symbols!'
+  }
+  
   return errors;
 }
 

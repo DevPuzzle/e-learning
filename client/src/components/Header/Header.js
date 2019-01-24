@@ -119,10 +119,10 @@ class Header extends Component {
         <div className='header__log'>
         {!this.props.auth ? 
         <React.Fragment>
-        <NavLink to={'/home/login'}>
+        <NavLink to='/home/login'>
             LogIn
           </NavLink>
-          <NavLink to='/signup'>
+          <NavLink to='/home/signup'>
             SignUp
           </NavLink> 
           </React.Fragment>

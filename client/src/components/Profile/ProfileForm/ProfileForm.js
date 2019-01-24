@@ -6,6 +6,11 @@ import { Field, reduxForm } from 'redux-form';
 // import FormControl from '@material-ui/core/FormControl';
 // import Input from '@material-ui/core/Input';
 
-class ProfileForm extends Component {
+export class ProfileForm extends Component {
+  state
+
   
+
 }
+
+export default ProfileForm;

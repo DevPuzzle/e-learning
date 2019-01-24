@@ -16,8 +16,7 @@ class Routes extends Component {
 render(){  
 
   return(
-    <Switch>
-      <Route path='/signup' component={SignUp} />
+    <Switch>      
       <Route path='/schools' component={SchoolsContainer} /> 
       <Route path='/home' component={HomeContainer}/>
       <Redirect from='/' to='/home' />
