@@ -8,3 +8,8 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 
 
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+
+export const USER_GET_START = 'USER_GET_START';
+export const USER_GET_SUCCESS = 'USER_GET_SUCCESS';
+export const USER_GET_FAIL = 'USER_GET_FAIL';
+
