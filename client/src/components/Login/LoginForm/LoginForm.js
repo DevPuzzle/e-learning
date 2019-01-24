@@ -10,12 +10,17 @@ import Input from '@material-ui/core/Input';
 class LoginForm extends Component {
   
   renderInputField = (field) => {
-    
+    const className = `login__form-input ${field.meta.touched 
+      && field.meta.error 
+      ? 'has-error' : ''}`
 
     return(
-      <FormControl  margin="normal" required fullWidth>
+      <FormControl className={className} margin="normal" required fullWidth>
         <InputLabel htmlFor={field.name} >{field.mylabel}</InputLabel>
         <Input id={field.name} name={field.name} type={field.type} {...field.input} />
+        <div className='error'>
+          {field.meta.touched ? field.meta.error : ''}
+        </div>
       </FormControl>
     )
   }

@@ -19,6 +19,16 @@
        background: #039be5 !important;
      }
    }
+   &__form-input{
+     position: relative;
+   }
+   .error{
+     position: absolute;
+     bottom: -22px;
+     left: 0;
+    color: red;
+  }
+  
  }
  
 
