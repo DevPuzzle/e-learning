@@ -7,7 +7,9 @@ import * as actions from '../../actions/loginActions';
 class Login extends Component {
 
   submit = (values) => {
+    console.log(values)
     this.props.onLoginUser(values);
+    
   }
 
   render(){ 

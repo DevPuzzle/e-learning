@@ -15,8 +15,8 @@ class LoginForm extends Component {
     return(
       <FormControl  margin="normal" required fullWidth>
         <InputLabel htmlFor={field.name} >{field.mylabel}</InputLabel>
-        <Input id={field.name} name={field.name} type={field.name} autoComplete={field.name} />
-        </FormControl>
+        <Input id={field.name} name={field.name} type={field.type} {...field.input} />
+      </FormControl>
     )
   }
 
@@ -25,7 +25,7 @@ class LoginForm extends Component {
 
   render(){
     const { handleSubmit } = this.props;
-    let renderform = <form
+    let renderform = <form 
     onSubmit={handleSubmit} 
     className='login__form'>
           <Field 
@@ -80,5 +80,5 @@ function validate(values){
 
 export default reduxForm({
   validate,
-  form: 'LoginForm'
+  form: 'loginForm'
 })(LoginForm);
