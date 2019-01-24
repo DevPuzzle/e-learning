@@ -119,7 +119,7 @@ class Header extends Component {
         <div className='header__log'>
         {!this.props.auth ? 
         <React.Fragment>
-        <NavLink to='/login'>
+        <NavLink to={'/home/login'}>
             LogIn
           </NavLink>
           <NavLink to='/signup'>
@@ -167,6 +167,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state.login)
   return {
     auth: state.login.token
   }

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import HomeContainer from '../containers/HomeContainer/HomeContainer';
 import SchoolsContainer from '../containers/SchoolsContainer/SchoolsContainer';
 import { connect } from 'react-redux';
 import * as actions from '../actions/loginActions';
-import Login from '../components/Login/Login';
+import SignUp from '../components/SignUp/SignUp';
 
 class Routes extends Component {
 
@@ -15,9 +15,10 @@ class Routes extends Component {
   render(){  
   return(
     <Switch>
-      <Route path='/' exact component={HomeContainer}/>
-      <Route path='/:login' component={Login} />
-      <Route path='/schools' component={SchoolsContainer} />
+      <Route path='/signup' component={SignUp} />
+      <Route path='/schools' component={SchoolsContainer} /> 
+      <Route path='/home' component={HomeContainer}/>
+      <Redirect from='/' to='/home' />
     </Switch>
   )
 }

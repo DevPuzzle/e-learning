@@ -7,6 +7,7 @@ const URL = 'http://localhost:5000/user/login';
 
 export const login = (values) => {
   return dispatch => {
+    console.log(values)
     dispatch(loginStart());
     axios.post(`${URL}`, values)
     .then(response => {
