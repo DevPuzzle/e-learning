@@ -4,7 +4,8 @@ import HomeContainer from '../containers/HomeContainer/HomeContainer';
 import SchoolsContainer from '../containers/SchoolsContainer/SchoolsContainer';
 import { connect } from 'react-redux';
 import * as actions from '../actions/loginActions';
-import SignUp from '../components/SignUp/SignUp';
+
+import Profile from '../components/Profile/Profile';
 
 class Routes extends Component {
 
@@ -12,7 +13,8 @@ class Routes extends Component {
    this.props.onTryAutoLogin();
  }
 
-  render(){  
+render(){  
+
   return(
     <Switch>
       <Route path='/signup' component={SignUp} />
@@ -20,19 +22,16 @@ class Routes extends Component {
       <Route path='/home' component={HomeContainer}/>
       <Redirect from='/' to='/home' />
     </Switch>
-  )
+    )
+  }
 }
-}
-
-
 
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onTryAutoLogin: () => dispatch(actions.authCheckState())
-    }
   }
-
+}
 
 
 export default withRouter(connect(null, mapDispatchToProps)(Routes));

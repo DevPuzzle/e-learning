@@ -3,16 +3,18 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const expressValidator = require('express-validator');
 
 const userRoutes = require('./server/routes/user');
 
 mongoose.connect('mongodb://vitaliy:qa123123@ds261114.mlab.com:61114/e-learning');
 mongoose.connection.once('open', () => console.log('Connected to MongoDB'));
 
-app.use(morgan('dev'));
-app.use('/uploads',express.static('uploads'));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(morgan("dev"));
+app.use('/uploads', express.static('uploads'));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(expressValidator());
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");

@@ -17,7 +17,7 @@ export const login = (values) => {
     })
     .catch(err => {
       console.log(err)
-    })
+    })//добавить username in local
   }
 }
 
