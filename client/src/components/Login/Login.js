@@ -24,12 +24,6 @@ class Login extends Component {
 }
 
 
-const mapStateToProps = (state) => {
-  console.log('STATE',state)
-  return {
-    
-  }
-}
 
 
 const mapDispatchToProps = (dispatch) => {
@@ -40,4 +34,4 @@ const mapDispatchToProps = (dispatch) => {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import logo from '../../assets/images/open-book.png';
 import { NavLink, withRouter } from 'react-router-dom';
 import './Header.scss';
 import Menu from '@material-ui/core/Menu';
@@ -9,14 +8,30 @@ import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/loginActions';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
 
 class Header extends Component {
 
   state = {
-    anchorEl: null
+    anchorEl: null,
+    coursesEl: null,
+    schoolsEl: null
   }
 
+  schoolsOpen = event => {
+    this.setState({ coursesEl: event.currentTarget });
+  };
+  schoolsClose = () => {
+    this.setState({ coursesEl: null });
+  };
 
+ coursesOpen = event => {
+    this.setState({ coursesEl: event.currentTarget });
+  };
+  coursesClose = () => {
+    this.setState({ coursesEl: null });
+  };
 
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -35,35 +50,72 @@ class Header extends Component {
 
 
   render(){
-
-    const { anchorEl } = this.state;
+    const { anchorEl, coursesEl, schoolsEl } = this.state;
     const open = Boolean(anchorEl);
 
   return(   
     <AppBar 
-      style={window.location.pathname === '/' ?
-      {
-        background: 'transparent',
-        position: 'absolute',
-        boxShadow: 'none'
-      } : {
-        background: '#151516',
-        position: 'relative'
-      }}
-      color='default'>
       
+      color='default'>
+      <div className='wrapper'>
       <Toolbar className='header'>
-        <div className='header__logo'>
-          <NavLink to='/'><img src={logo} alt="eLearn"/></NavLink>
+      <div className='header__left'>
+      <div className='header__logo'>
+          <NavLink to='/'><p>eLearning</p></NavLink>
         </div>
         <nav className='header__nav'>
-          <NavLink to='/courses'>
+          <div className='header__courses'>
+          <p 
+            aria-owns={coursesEl ? 'courses-menu' : undefined}
+            aria-haspopup="true"
+            onClick={this.coursesOpen}>
             Courses
-          </NavLink>
-          <NavLink to='/schools'>
+          </p>
+          <Menu
+          id="courses-menu"
+          anchorEl={coursesEl}
+          open={Boolean(coursesEl)}
+          onClose={this.coursesClose}
+        >
+          <MenuItem onClick={this.coursesClose}>All courses</MenuItem>
+          <MenuItem onClick={this.coursesClose}>Not all courses</MenuItem>
+        </Menu>
+
+          </div>
+          
+          <div className='header__schools'>
+          <p 
+            aria-owns={coursesEl ? 'schools-menu' : undefined}
+            aria-haspopup="true"
+            onClick={this.schoolsOpen}>
             Schools
-          </NavLink>
+          </p>
+          <Menu
+          id="schools-menu"
+          anchorEl={schoolsEl}
+          open={Boolean(schoolsEl)}
+          onClose={this.schoolsClose}
+        >
+          <MenuItem onClick={this.schoolsClose}>All schools</MenuItem>
+          <MenuItem onClick={this.schoolsClose}>Not all schools</MenuItem>
+        </Menu>
+
+          </div>
+          
         </nav>
+        <div className='header__search'>
+              <div className='header__searchIcon'>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: 'header__inputRoot',
+                  input: 'header__inputInput',
+                }}
+              />
+            </div>
+      </div>
         <div className='header__log'>
         {!this.props.auth ? 
         <React.Fragment>
@@ -107,6 +159,8 @@ class Header extends Component {
         
         </div>
       </Toolbar>
+      </div>
+      
     </AppBar>
   )
 } 
