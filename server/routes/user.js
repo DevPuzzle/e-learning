@@ -39,6 +39,6 @@ router.get("/:username", UserController.user_get);
 
 router.patch("/edit/:username", upload.single('userImage'), UserController.user_edit);
 
-router.delete("/:userId", checkAuth, UserController.user_delete);
+router.delete("/:username", checkAuth, UserController.user_delete);
 
 module.exports = router;

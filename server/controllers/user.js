@@ -6,6 +6,16 @@ const User  = require('../models/user');
 const fs = require('fs');
 
 exports.user_signup = (req, res, next) => {
+  req.check('email', 'Invalid email address').isEmail();
+  req.check('password', 'Password is invalid').isLength({min: 4}).equals(req.body.confirm_password);
+
+  var errors = req.validationErrors();
+  if (errors) {    
+    return res.status(500).json({
+      errors: errors
+    });
+  }
+
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
@@ -14,6 +24,12 @@ exports.user_signup = (req, res, next) => {
           message: "Mail exists"
         });
       } else {
+        if (req.body.password !== req.body.confirm_password) {
+          // passwords do not match...
+          return res.status(500).json({
+            error: 'Passwords do not match'
+          });
+        }
         bcrypt.hash(req.body.password, 10, (err, hash) => {
           if (err) {
             return res.status(500).json({
@@ -22,6 +38,8 @@ exports.user_signup = (req, res, next) => {
           } else {
             const user = new User({
               _id: new mongoose.Types.ObjectId(),
+              first_name: req.body.first_name,
+              last_name: req.body.last_name,
               name: req.body.name,
               email: req.body.email,
               password: hash
@@ -47,6 +65,16 @@ exports.user_signup = (req, res, next) => {
 }
 
 exports.user_login = (req, res, next) => {
+  req.check('email', 'Invalid email address').isEmail();
+  req.check('password', 'Password is invalid').isLength({min: 4});
+
+  var errors = req.validationErrors();
+  if (errors) {    
+    return res.status(500).json({
+      errors: errors
+    });
+  }
+
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
@@ -62,6 +90,7 @@ exports.user_login = (req, res, next) => {
           });
         }
         if (result) {
+          const username = user[0].name;
           const token = jwt.sign(
             {
               email: user[0].email,
@@ -74,6 +103,7 @@ exports.user_login = (req, res, next) => {
           );
           return res.status(200).json({
             message: "Auth successful",
+            username: username,
             token: token
           });
         }
@@ -91,9 +121,24 @@ exports.user_login = (req, res, next) => {
 }
 
 exports.user_edit = (req, res, next) => {
-  const username = req.params.username;
-  
-  User.findOne({name: username})
+ 
+  req.check('email', 'Invalid email address').isEmail();
+  req.check('password', 'Password is invalid').isLength({min: 4}).equals(req.body.confirm_password);
+
+  var errors = req.validationErrors();
+  if (errors) {  
+    const path = req.file.path; 
+    fs.unlink(path, (err) => {
+      if (err) return console.log(err);
+      console.log('successfully deleted', path);
+    });
+    //console.log('req.file.path', req.file.path);  
+    return res.status(500).json({
+      errors: errors
+    });
+  }
+    
+  User.findOne({name: req.body.name})
     .select('userImage')
     .exec()
     .then(doc => {      
@@ -121,12 +166,14 @@ exports.user_edit = (req, res, next) => {
       });
     } else {
 
-      User.update({ name: username },
+      User.update({ name: req.body.name },
         {
-          name: req.body.name,
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
           password: hash,
-          userImage: req.file.path
-        })
+          userImage: req.file.path,
+          email: req.body.email
+        }) 
         .exec()
         .then(result => {
           res.status(200).json({
