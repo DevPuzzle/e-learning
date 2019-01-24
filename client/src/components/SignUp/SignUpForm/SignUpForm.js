@@ -13,8 +13,8 @@ class SignUpForm extends Component {
 
     return(
       <div className={className}>
-        <label className='signUp__form-label'>{field.mylabel}</label>
-        <input className='signUp__input' type={field.type} {...field.input}/>
+        
+        <input className='signUp__input' type={field.type} className={field.className} placeholder={field.label}{...field.input}/>
         <div className='error'>
           {field.meta.touched ? field.meta.error : ''}
         </div>
@@ -30,24 +30,37 @@ class SignUpForm extends Component {
     let renderform = <form
     onSubmit={handleSubmit} 
     className='signUp__form'>
+      <div className='signUp__name'>
+      <Field 
+            type='text'
+            label='First name'
+            name='firstname'
+            component={this.renderInputField}/>
+      <Field 
+            className='signUp__right'
+            type='text'
+            label='Last name'
+            name='lastname'
+            component={this.renderInputField}/>
+      </div>
        <Field 
             type='text'
-            mylabel='Enter your username'
+            label='Enter your username'
             name='name'
             component={this.renderInputField}/>
           <Field 
             type='email'
-            mylabel='Enter your email'
+            label='Enter your email'
             name='email'
             component={this.renderInputField}/>
           <Field 
             type='password'
-            mylabel='Enter your password'
+            label='Enter your password'
             name='password'
             component={this.renderInputField}/>
           <div className='signUp__btnCont'>
             <Button
-            className='home__btn'
+            className='signUp__btn'
             variant="contained" 
             color="primary"
             type='submit' >

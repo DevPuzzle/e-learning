@@ -2,23 +2,21 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import Button from '@material-ui/core/Button';
 import '../Login.scss';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+
 
 class LoginForm extends Component {
   
   renderInputField = (field) => {
-    const className = `login__form-input ${field.meta.touched 
-    && field.meta.error 
-    ? 'has-error' : ''}`
-
+    
 
     return(
-      <div className={className}>
-        <label className='login__form-label'>{field.mylabel}</label>
-        <input className='login__input' type={field.type} {...field.input}/>
-        <div className='error'>
-          {field.meta.touched ? field.meta.error : ''}
-        </div>
-      </div>
+      <FormControl  margin="normal" required fullWidth>
+        <InputLabel htmlFor={field.name} >{field.mylabel}</InputLabel>
+        <Input id={field.name} name={field.name} type={field.name} autoComplete={field.name} />
+        </FormControl>
     )
   }
 
@@ -42,11 +40,11 @@ class LoginForm extends Component {
             component={this.renderInputField}/>
           <div className='login__btnCont'>
             <Button
-            className='home__btn'
+            className='login__btn'
             variant="contained" 
             color="primary"
             type='submit' >
-              Add Knowledges
+              LogIn
             </Button>     
           </div>
           </form>
