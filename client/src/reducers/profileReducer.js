@@ -1,26 +1,27 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-  user: null,
+  profile: null,
   loading: false,
   error: false,
 }
 
-const userReducer = (state = initialState, action) => {
+const profileReducer = (state = initialState, action) => {
   switch(action.type){
-    case actionTypes.USER_GET_START:
+    case actionTypes.PROFILE_GET_START:
       return{
         ...state, 
         loading: true,
         error: false      
       }
-    case actionTypes.USER_GET_SUCCESS:
+    case actionTypes.PROFILE_GET_SUCCESS:
       return{
         ...state,
         loading: false,
+        profile: action.payload,
         error:false        
       }
-    case actionTypes.USER_GET_FAIL:
+    case actionTypes.PROFILE_GET_FAIL:
       return{
         ...state,
         loading: false,
@@ -31,4 +32,4 @@ const userReducer = (state = initialState, action) => {
   }
 }
 
-export default userReducer;
+export default profileReducer;
