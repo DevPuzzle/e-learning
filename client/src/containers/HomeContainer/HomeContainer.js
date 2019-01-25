@@ -29,8 +29,7 @@ class HomeContainer extends Component {
           <NavLink activeClassName='home__active' to={'/home/signup'}><i className="fas fa-user-plus"></i></NavLink>
           </div>
           <div className="home__tab">
-            <Switch>
-              
+            <Switch>              
               
               <Route path={`/home/signup`} component={SignUp} />
               <Route path={`/home/login`} component={Login} />

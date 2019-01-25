@@ -137,9 +137,17 @@ exports.user_edit = (req, res, next) => {
       errors: errors
     });
   }
+
+  const imagePath = () => {
+    if(!req.file.path){
+      return image_path = 'uploads/default-avatar.png';
+    } else {
+      return image_path = req.file.path;
+    }
+  }
     
   User.findOne({name: req.body.name})
-    .select('userImage')
+    .select('userImage password')
     .exec()
     .then(doc => {      
       if (doc) {
@@ -148,46 +156,68 @@ exports.user_edit = (req, res, next) => {
           if (err) return console.log(err);
           console.log('successfully deleted', path);
         });
+
+        if (doc.password !== req.body.password){
+          bcrypt.hash(req.body.password, 10, (err, hash) => {
+            if (err) {
+              return res.status(500).json({
+                error: err
+              });
+            } else {        
+              User.update({ name: req.body.name },
+                {
+                  first_name: req.body.first_name,
+                  last_name: req.body.last_name,
+                  password: hash,
+                  userImage: imagePath,
+                  email: req.body.email
+                }) 
+                .exec()
+                .then(result => {
+                  res.status(200).json({
+                      message: 'User updated'
+                  });
+                })
+                .catch(err => {
+                  console.log(err);
+                  res.status(500).json({
+                    error: err
+                  });
+                });
+            }
+          });
+        } else {
+          User.update({ name: req.body.name },
+            {
+              first_name: req.body.first_name,
+              last_name: req.body.last_name,              
+              userImage: req.file.path,
+              email: req.body.email
+            }) 
+            .exec()
+            .then(result => {
+              res.status(200).json({
+                  message: 'User updated'
+              });
+            })
+            .catch(err => {
+              console.log(err);
+              res.status(500).json({
+                error: err
+              });
+            });
+        } 
       } else {
         res
           .status(404)
-          .json({ message: "No valid entry found for provided name" });
+          .json({ message: "No valid name entry found for provided name" });
       }
     })
     .catch(err => {
       console.log(err);
       res.status(500).json({ error: err });
-  });  
-
-  bcrypt.hash(req.body.password, 10, (err, hash) => {
-    if (err) {
-      return res.status(500).json({
-        error: err
-      });
-    } else {
-
-      User.update({ name: req.body.name },
-        {
-          first_name: req.body.first_name,
-          last_name: req.body.last_name,
-          password: hash,
-          userImage: req.file.path,
-          email: req.body.email
-        }) 
-        .exec()
-        .then(result => {
-          res.status(200).json({
-              message: 'User updated'
-          });
-        })
-        .catch(err => {
-          console.log(err);
-          res.status(500).json({
-            error: err
-          });
-        });
-    }
-  });
+  }); 
+  
 };
 
 
@@ -210,13 +240,23 @@ exports.user_delete = (req, res, next) => {
 exports.user_get = (req, res, next) => {
   const username = req.params.username;
   User.findOne({name: username})
-    .select('name password userImage')
+    .select('first_name last_name email name password userImage')
     .exec()
     .then(doc => {
       console.log("From database", doc);
-      if (doc) {
+      if (doc) {        
+        // res.status(200).json({
+        //   user: doc,          
+        // })
         res.status(200).json({
-            user: doc            
+            id: doc._id,
+            first_name: doc.first_name,
+            last_name: doc.last_name,
+            username: doc.name,
+            email: doc.email,
+            password: doc.password,
+            confirm_password: doc.password,
+            userImage: doc.userImage                        
         });
       } else {
         res

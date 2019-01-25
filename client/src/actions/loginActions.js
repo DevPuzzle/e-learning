@@ -6,13 +6,14 @@ import setAuthToken from '../setAuthToken/setAuthToken';
 const URL = 'http://localhost:5000/user/login';
 
 export const login = (values) => {
-  return dispatch => {
-    console.log(values)
+  return dispatch => {    
     dispatch(loginStart());
     axios.post(`${URL}`, values)
-    .then(response => {
+    .then(response => {      
       const token = response.data.token;
-      dispatch(loginSuccess(token));
+      const username = response.data.username;
+      console.log(response.data)
+      dispatch(loginSuccess(token, username));
       window.location.replace(`http://localhost:3000/`);
     })
     .catch(err => {
@@ -27,12 +28,14 @@ export const loginStart = () => {
   }
 }
 
-export const loginSuccess = (token) => {
+export const loginSuccess = (token, username) => {
   localStorage.setItem('jwt', token);
-  setAuthToken(token)
+  localStorage.setItem('username', username);
+  const data = {token: token, username: username}
+  setAuthToken(token);
   return{
     type: actionTypes.LOGIN_SUCCESS,
-    payload: token
+    payload: data
   }
 }
 
@@ -40,10 +43,11 @@ export const loginSuccess = (token) => {
 export const authCheckState = () => {
   return dispatch => {
     const token = localStorage.getItem('jwt');
+    const username = localStorage.getItem('username');
     if(!token) {
       console.log('no')
     }else {
-        dispatch(loginSuccess(token));
+        dispatch(loginSuccess(token, username));
       }
       
     }
@@ -51,7 +55,6 @@ export const authCheckState = () => {
 
 
 export const logout = () => {
-  const token = localStorage.getItem('jwt');
   return dispatch => {
     dispatch(logoutSucces())
   }
@@ -59,6 +62,7 @@ export const logout = () => {
 
 export const logoutSucces = () => {
   localStorage.removeItem('jwt');
+  localStorage.removeItem('username');
   return{
     type: actionTypes.LOGOUT_SUCCESS
   }
