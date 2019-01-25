@@ -2,15 +2,11 @@ header {
   background: #fff !important;
   position: relative !important;
   
-  .wrapper{
-    margin: 0 auto;
-    max-width: 1170px;
-    width: 100%;
-    
-    padding: 0 !important;
+  
   .header {
     display: flex;
-    justify-content: space-between;    
+    justify-content: space-between;   
+    width: 100%; 
     &__left{
       display: flex;
       align-items: center;
@@ -88,6 +84,11 @@ header {
       }
     }
     &__log{
+      outline: none;
+      color: #0277bd;
+      button{
+        outline: none;
+      }
       a{
         -webkit-border-radius: 5px;
       -moz-border-radius: 5px;
@@ -102,7 +103,6 @@ header {
         outline: none;
         text-decoration: none;
         margin-right: 20px;
-        color: #0277bd;
         font-weight: 600;
         transition: all 0.3s;
        
@@ -115,7 +115,7 @@ header {
         }
         &:last-child{
           margin: 0;
-        }
+        
       }
     }
     
@@ -138,3 +138,56 @@ header {
   text-decoration: none;
   outline: none;
 }
+
+
+
+@media (max-width: 575.98px) { 
+  .header{
+    &__nav{
+      display: none !important;
+    }
+    &__log{
+      display: none !important;
+    }
+    &__search {
+      display: none !important;
+    }
+  }
+ }
+
+ @media (min-width: 576px) and (max-width: 767.98px) { 
+  .header{
+    &__nav{
+      display: none !important;
+    }
+    &__log{
+      display: none !important;
+    }
+    
+  }
+  }
+
+ @media (min-width: 768px) and (max-width: 991.98px) { 
+  .header{
+    &__responseDrawer{
+      display: none !important;
+    }
+  }
+  }
+
+ @media (min-width: 992px) and (max-width: 1199.98px) { 
+  .header{
+    
+    &__responseDrawer{
+      display: none !important;
+    }
+  }
+  }
+
+ @media (min-width: 1200px) { 
+  .header{
+    &__responseDrawer{
+      display: none !important;
+    }
+  }
+  }

@@ -1,0 +1,47 @@
+.profile{
+  padding: 50px 15px;
+  &__container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: #fff;
+    -webkit-box-shadow: 0px 10px 24px -1px rgba(0,0,0,0.36);
+-moz-box-shadow: 0px 10px 24px -1px rgba(0,0,0,0.36);
+box-shadow: 0px 10px 24px -1px rgba(0,0,0,0.36);
+  }
+  &__main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__profile{
+    max-width: 150px;
+    width: 100%;
+  }
+  &__image{
+    max-width: 150px;
+    display: flex;
+    margin-bottom: 10px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__imageForm{
+    max-width: 150px;
+    width: 100%;
+  }
+  &__changeImageBtn{
+    background: #0097a7 !important;
+    outline: none !important;
+    max-width: 150px !important;
+    width: 100% !important;
+    margin-bottom: 5px !important;
+  }
+  &__changeImageSaveBtn {
+    max-width: 150px !important;
+    width: 100% !important;
+    background: #0277bd !important;
+    width: 100%;
+    outline: none !important;
+  }
+}

@@ -1,27 +1,27 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-  profile: null,
   loading: false,
   error: false,
+  password: null
 }
 
 const profileReducer = (state = initialState, action) => {
   switch(action.type){
-    case actionTypes.PROFILE_GET_START:
+    case actionTypes.PASSWORD_CHANGE_START:
       return{
         ...state, 
         loading: true,
         error: false      
       }
-    case actionTypes.PROFILE_GET_SUCCESS:
+    case actionTypes.PASSWORD_CHANGE_SUCCESS:
       return{
         ...state,
         loading: false,
-        profile: action.payload,
+        password: action.payload,
         error:false        
       }
-    case actionTypes.PROFILE_GET_FAIL:
+    case actionTypes.PASSWORD_CHANGE_FAIL:
       return{
         ...state,
         loading: false,
