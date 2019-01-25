@@ -4,7 +4,6 @@ import HomeContainer from '../containers/HomeContainer/HomeContainer';
 import SchoolsContainer from '../containers/SchoolsContainer/SchoolsContainer';
 import { connect } from 'react-redux';
 import * as actions from '../actions/loginActions';
-import SignUp from '../components/SignUp/SignUp';
 import Profile from '../components/Profile/Profile';
 
 class Routes extends Component {
@@ -16,7 +15,8 @@ class Routes extends Component {
 render(){  
 
   return(
-    <Switch>      
+    <Switch>   
+      <Route path='/profile' component={Profile} />   
       <Route path='/schools' component={SchoolsContainer} /> 
       <Route path='/home' component={HomeContainer}/>
       <Redirect from='/' to='/home' />

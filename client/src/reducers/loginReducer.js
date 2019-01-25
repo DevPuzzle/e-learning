@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
   loading: false,
   token: null,
-  loading: false
+  loading: false,
+  username: null
 }
 
 
@@ -18,12 +19,14 @@ const loginReducer = (state = initialState, action) => {
       return{
         ...state,
         loading: false,
-        token: action.payload
+        token: action.payload.token,
+        username: action.payload.username
       }
     case actionTypes.LOGOUT_SUCCESS:
       return{
         ...state,
-        token: null
+        token: action.payload.token,
+        username: action.payload.username
       }
     default: 
       return state
