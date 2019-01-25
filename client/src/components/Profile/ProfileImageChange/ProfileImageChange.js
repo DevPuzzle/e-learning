@@ -5,10 +5,9 @@ import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
-import default_avatar from '../../../assets/images/default-avatar.png';
 
 
-export class ProfileForm extends Component {
+export class ProfileImageChange extends Component {
 
   renderInputField = (field) => {
     const className = `profile__form-input ${field.meta.touched 
@@ -27,42 +26,40 @@ export class ProfileForm extends Component {
 
   }
 
+  renderFileField = (field) => {
+    return(
+      <React.Fragment>
+        
+      <input style={{display: 'none'}} 
+        type={field.type} 
+        {...field.input} 
+        name={field.name}
+        ref={fileInput => this.fileInput = fileInput}/>
+      <Button 
+        className='profile__changeImageBtn'
+        variant="contained" 
+        color="primary"
+        onClick={() => this.fileInput.click()}>Change image</Button>
+   </React.Fragment>
+    )
+
+  }
+
+
   render(){
-    console.log('DATA PROFILE',this.props)
     const { handleSubmit } = this.props;
     let renderform = <form 
     onSubmit={handleSubmit} 
-    className='profile__form'>
-      <Field 
-        type='first_name'
-        label='First name'
-        name='first_name'
-        component={this.renderInputField}/>
-      <Field 
-        type='last_name'
-        label='Last name'
-        name='last_name'
-        component={this.renderInputField}/>
-      <Field 
-        type='email'
-        label='Enter your email'
-        name='email'
-        component={this.renderInputField}/>
+    className='profile__imageForm'>
       <div className='profile__pass'>
       <Field 
-        type='password'
-        label='Password'
-        name='password'
-        component={this.renderInputField}/>
-      <Field 
-        type='password'
-        label='Confirm password'
-        name='confirm_password'
-        component={this.renderInputField}/>
+        type='file'
+        name='imageload'
+        component={this.renderFileField}/>
       </div>
-      <div className='login__btnCont'>
+      <div className='profile__changeImageBtnCont'>
         <Button
-        className='login__btn'
+        className='profile__changeImageSaveBtn'
         variant="contained" 
         color="primary"
         type='submit' >
@@ -80,12 +77,9 @@ export class ProfileForm extends Component {
     }
 
     return(
-      <div className='profile__page'>
-        <div className='profile__avatar'>
-          <img src={default_avatar} alt="Avatar"/>
-        </div>
+      <React.Fragment>
          {renderform}       
-      </div>
+      </ React.Fragment>
     )
   }
 }
@@ -93,29 +87,21 @@ export class ProfileForm extends Component {
 function validate(values){
 
   const errors = {};
-  if(!values.first_name){
-    errors.first_name = 'The firstname is empty'
-  }
-  if(!values.last_name){
-    errors.last_name = 'The lastname is empty'
-  }
-  if(!values.name){
-   errors.name = 'The name is empty'
-  }
-  if(!values.email){
-    errors.email = 'The email is empty'
-  }
+  
   if(!values.password){
     errors.password = 'The password is empty'
+  }
+  if(!values.new_password){
+    errors.new_password = 'Enter new password'
   }
   if(!values.confirm_password){
     errors.confirm_password = 'The confirm is empty'
   }
-  if(values.confirm_password !== values.password){
+  if(values.confirm_password !== values.new_password){
     errors.confirm_password = 'Passwords dont match!'
   }
-  if(values.password && values.password.length < 4 ){
-    errors.password = 'Passwords must be more than 4 symbols!'
+  if(values.new_password && values.new_password.length < 4 ){
+    errors.new_password = 'Passwords must be more than 4 symbols!'
   }
   
   return errors;
@@ -123,5 +109,5 @@ function validate(values){
 
 export default reduxForm({
   validate,
-  form: 'profileForm'
-})(ProfileForm);
+  form: 'profileImageChange'
+})(ProfileImageChange);

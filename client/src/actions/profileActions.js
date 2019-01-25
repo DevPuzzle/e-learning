@@ -3,27 +3,27 @@ import axios from 'axios';
 
 const URL = 'http://localhost:5000/user';
 
-export const profile = (username) => {
+export const passwordChange = (username) => {
   console.log(username)
   return dispatch => {
-    dispatch(getProfileStart());
-    axios.get(`${URL}/${username}`)
+    dispatch(changePasswordStart());
+    axios.post(`${URL}/edit/password/${username}`)
     .then(response => {
-      dispatch(getProfileSuccess(response.data));
+      dispatch(changePasswordSuccess(response.data));
       console.log('data', response.data);
     })
   }
 }
 
-export const getProfileStart = () => {
+export const changePasswordStart = () => {
   return {
-    type: actionTypes.PROFILE_GET_START
+    type: actionTypes.PASSWORD_CHANGE_START
   }
 }
 
-export const getProfileSuccess = (data) => {
+export const changePasswordSuccess = (data) => {
   return {
-    type: actionTypes.PROFILE_GET_SUCCESS,
+    type: actionTypes.PASSWORD_CHANGE_SUCCESS,
     payload: data
   }
 }

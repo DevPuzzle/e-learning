@@ -102,7 +102,8 @@ class Header extends Component {
     <AppBar 
       
       color='default'>
-      <div className='wrapper'>
+      <div className='container'>
+      <div className='row'>
       <Toolbar className='header'>
       <div className='header__left'>
 
@@ -221,6 +222,8 @@ class Header extends Component {
         
         </div>
       </Toolbar>
+
+      </div>
       </div>
       
     </AppBar>

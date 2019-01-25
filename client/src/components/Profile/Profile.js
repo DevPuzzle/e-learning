@@ -1,26 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/profileActions';
-import  ProfileForm  from './ProfileForm/ProfileForm';
-import './ProfileForm/ProfileForm.scss';
-
+import './Profile.scss';
+import ProfileChangePassword from './ProfileChangePassword/ProfileChangePassword';
+import ProfileChangeData from './ProfileChangeData/ProfileChangeData';
+import ProfileImageChange from './ProfileImageChange/ProfileImageChange';
+import defaultImage from '../../assets/images/default-avatar.png';
 class Profile extends Component {
-  componentWillMount(){
+ 
+  /* submit = (values) => {
     const username = localStorage.getItem('username');
     console.log(username);
-    this.props.onGetProfile(username);
-  }
+    console.log(values)
+    this.props.onChangePassword(username);
+  } */
 
   render() {
     return (
       <section className='profile'>
         <div className='container'>
         <div className='row justify-content-center'>
-          <div className='col-md-4'>            
-            <ProfileForm
-              initialValues={this.props.profile}
-              loading={this.props.loading}
-              onSubmit={this.submit}/>
+          <div className='col-md-5 profile__container'> 
+            <div className='profile__main'>
+            <div className='profile__image'>
+              <img src={defaultImage} alt=""/>
+            </div>         
+            <ProfileImageChange />
+            </div>
+            <ProfileChangeData />    
+            <ProfileChangePassword /> 
           </div>        
         </div>       
 
@@ -41,7 +49,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onGetProfile: (username) => dispatch(actions.profile(username))
+    onChangePassword: (username, values) => dispatch(actions.passwordChange(username, values))
   }
 }
 
