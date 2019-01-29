@@ -151,7 +151,8 @@ exports.user_avatar_upload = (req, res, next) => {
     .exec()
     .then(result => {
       res.status(200).json({
-          message: 'User updated'
+          message: 'User updated',
+          userImage: req.file.path
       });
     })
     .catch(err => {

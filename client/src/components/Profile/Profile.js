@@ -6,16 +6,60 @@ import ProfileChangePassword from './ProfileChangePassword/ProfileChangePassword
 import ProfileChangeData from './ProfileChangeData/ProfileChangeData';
 import ProfileImageChange from './ProfileImageChange/ProfileImageChange';
 import defaultImage from '../../assets/images/default-avatar.png';
+
+
 class Profile extends Component {
+  state = {
+    selectedImage: null
+
+  }
+
+  componentWillMount(){
+    this.props.onGetUserData();
+  }
+
+
+  changes = (e) => {
+      this.setState({
+        selectedImage: e.target.files[0]
+      })
+    
+  }
  
-  /* submit = (values) => {
+  changePasswordHandler = (values) => {
     const username = localStorage.getItem('username');
-    console.log(username);
-    console.log(values)
-    this.props.onChangePassword(username);
-  } */
+    this.props.onChangePassword(username, values);
+  }
+
+  changeUserDataHandler = (values) => {
+    const username = localStorage.getItem('username');
+    this.props.onChangeUserData(username, values);
+  }
+
+  changeUserImage = () => {
+    console.log(this.state.selectedImage)
+    this.props.onUpdateUserImage(this.state.selectedImage);
+    this.setState({
+      selectedImage: null
+    })
+  }
 
   render() {
+
+    let avatar = defaultImage;
+
+  
+    if(this.props.avatar && this.props.avatar.userImage ){
+      avatar = `http://localhost:5000/${this.props.avatar.userImage}`;
+      console.log('Я В ОБНОВЛЕНИИ',this.props.avatar , this.props.avatar.userImage)
+      
+    }else if(!this.props.avatar && this.props.userData && this.props.userData.userImage){
+      avatar = `http://localhost:5000/${this.props.userData.userImage}`;
+      console.log('Старая картинка',!this.props.avatar , this.props.userData , this.props.userData.userImage)
+    }
+    
+    
+
     return (
       <section className='profile'>
         <div className='container'>
@@ -23,12 +67,21 @@ class Profile extends Component {
           <div className='col-md-5 profile__container'> 
             <div className='profile__main'>
             <div className='profile__image'>
-              <img src={defaultImage} alt=""/>
-            </div>         
-            <ProfileImageChange />
+              <img src={avatar} alt=""/>
+            </div>      
+            <ProfileImageChange
+              selectedImage={this.state.selectedImage}
+              changes={this.changes} 
+              onSubmit={this.changeUserImage}/>
             </div>
-            <ProfileChangeData />    
-            <ProfileChangePassword /> 
+            <h3 className='profile__nickName'>
+              {this.props.userData ? this.props.userData.username : null}
+            </h3>
+            <ProfileChangeData 
+              initialValues={this.props.userData}
+              onSubmit={this.changeUserDataHandler}/>    
+            <ProfileChangePassword 
+              onSubmit={this.changePasswordHandler}/> 
           </div>        
         </div>       
 
@@ -42,14 +95,18 @@ class Profile extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    profile: state.profile.profile
+    userData: state.profile.userData,
+    avatar: state.profile.avatar
 }
 }
 
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onChangePassword: (username, values) => dispatch(actions.passwordChange(username, values))
+    onChangePassword: (username, values) => dispatch(actions.passwordChange(username, values)),
+    onChangeUserData: (username, values) => dispatch(actions.userDataChange(username, values)),
+    onGetUserData: () => dispatch(actions.getUserData()),
+    onUpdateUserImage: (image) => dispatch(actions.avatarUpload(image))
   }
 }
 

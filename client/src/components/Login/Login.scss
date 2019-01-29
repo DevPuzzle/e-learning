@@ -1,6 +1,7 @@
 
  .login{
    &__form{
+    position: relative;
     border-radius: 4px;
     background: #fff;
     display: flex;
@@ -11,6 +12,7 @@
    }
    &__btnCont {
      margin-top: 20px;
+     display: flex;
    }
    &__btn {
      background: #0277bd !important; 
@@ -22,12 +24,20 @@
    &__form-input{
      position: relative;
    }
+   &__toSignUpBtn{
+     position: absolute !important;
+     right: 10px !important;
+     bottom: 10px !important;
+     font-size: 10px !important;
+     width: 50px !important;
+     padding: 0 !important;
+   }
    .error{
      position: absolute;
      bottom: -22px;
      left: 0;
-    color: red;
-    font-size: 14px;
+     color: red;
+     font-size: 14px;
   }
   
  }

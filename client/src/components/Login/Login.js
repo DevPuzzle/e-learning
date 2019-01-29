@@ -14,13 +14,10 @@ class Login extends Component {
 
   render(){ 
   return(
-    <section className='login'>
-      <div className='login__wrapper'>
+    <div className='login'>
       <LoginForm 
         onSubmit={this.submit}/>
-      </div>
-      
-    </section>
+    </div>
   )
 }
 }

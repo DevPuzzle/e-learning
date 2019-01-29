@@ -60,7 +60,7 @@ class Header extends Component {
 
   logout = () => {
     this.props.onLogout();
-    this.props.history.push('/');
+    this.props.history.push('/home/login');
   }
 
 
@@ -215,8 +215,8 @@ class Header extends Component {
           <NavLink className='header__dropnav' to='/myCourses'><MenuItem >My Courses</MenuItem></NavLink>
           
           <NavLink className='header__dropnav' to='/mySchool'><MenuItem >My School</MenuItem></NavLink>
-          <NavLink className='header__dropnav' to='/profile'><MenuItem >Profile</MenuItem></NavLink>
-          <button onClick={this.logout}className='header__dropnav' to='/logout'><MenuItem >Logout</MenuItem></button>
+          <NavLink className='header__dropnav' to='/profile'><MenuItem ><span><i className="fas fa-user-cog"></i></span>Profile</MenuItem></NavLink>
+          <button onClick={this.logout} className='header__dropnav' to='/logout'><MenuItem ><span><i className="fas fa-sign-out-alt"></i></span>Logout</MenuItem></button>
         </Menu>
         </div>}
         
