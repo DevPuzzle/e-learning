@@ -78,6 +78,19 @@ const profileReducer = (state = initialState, action) => {
          error: false,
          avatar: action.payload
        }
+      case actionTypes.DELETE_AVATAR_START:
+       return {
+         ...state,
+         loading: true,
+         error: false,
+       }
+      case actionTypes.DELETE_AVATAR_SUCCESS:
+       return {
+         ...state,
+         loading: false,
+         error: false,
+         avatar: action.payload
+       }
     default: 
       return state
   }

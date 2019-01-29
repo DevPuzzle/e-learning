@@ -76,17 +76,14 @@ export const getUserDataSuccess = (data) => {
 }
 
 export const avatarUpload = (image) => {
-  console.log('1', image.name);
   return dispatch => {
     const username = localStorage.getItem('username');
     const formData = new FormData();
     formData.append('userImage', image)
     dispatch(avatarUploadStart());
-    console.log('2');
     axios.patch(`${URL}/avatar/uploads/${username}`, formData)
     .then(response => {
-      console.log(dispatch(avatarUploadSuccess(response.data)));
-      console.log('3', response.data);
+      dispatch(avatarUploadSuccess(response.data));
     })
   }
 }
@@ -102,6 +99,23 @@ export const avatarUploadSuccess = (data) => {
   console.log('avatarUploadSucces', data)
   return{
     type: actionTypes.AVATAR_UPLOAD_SUCCESS,
+    payload: data
+  }
+}
+
+export const deleteAvatar = () => {
+  return dispatch => {
+    const username = localStorage.getItem('username');
+    axios.delete(`${URL}/avatar/delete/${username}`)
+    .then(response => {
+      dispatch(deleteAvatarSuccess(response.data));
+    })
+  }
+}
+
+export const deleteAvatarSuccess = (data) => {
+  return {
+    type: actionTypes.DELETE_AVATAR_SUCCESS,
     payload: data
   }
 }

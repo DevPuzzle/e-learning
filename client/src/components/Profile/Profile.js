@@ -10,7 +10,8 @@ import defaultImage from '../../assets/images/default-avatar.png';
 
 class Profile extends Component {
   state = {
-    selectedImage: null
+    selectedImage: null,
+    showButtonDelte: false
 
   }
 
@@ -37,25 +38,28 @@ class Profile extends Component {
   }
 
   changeUserImage = () => {
-    console.log(this.state.selectedImage)
     this.props.onUpdateUserImage(this.state.selectedImage);
     this.setState({
-      selectedImage: null
+      selectedImage: null,
+      showButtonDelte: true
+    })
+  }
+
+  deleteAvatar = () => {
+    this.props.onDeleteUserImage();
+    this.setState({
+      showButtonDelte: false
     })
   }
 
   render() {
-
-    let avatar = defaultImage;
-
-  
+    
+    let avatar = defaultImage;  
     if(this.props.avatar && this.props.avatar.userImage ){
       avatar = `http://localhost:5000/${this.props.avatar.userImage}`;
-      console.log('Я В ОБНОВЛЕНИИ',this.props.avatar , this.props.avatar.userImage)
       
     }else if(!this.props.avatar && this.props.userData && this.props.userData.userImage){
       avatar = `http://localhost:5000/${this.props.userData.userImage}`;
-      console.log('Старая картинка',!this.props.avatar , this.props.userData , this.props.userData.userImage)
     }
     
     
@@ -69,10 +73,15 @@ class Profile extends Component {
             <div className='profile__image'>
               <img src={avatar} alt=""/>
             </div>      
+            
             <ProfileImageChange
+              showButtonDelte={this.state.showButtonDelte}
+              avatar={this.props.avatar}
+              userData={this.props.userData}
               selectedImage={this.state.selectedImage}
               changes={this.changes} 
-              onSubmit={this.changeUserImage}/>
+              onSubmit={this.changeUserImage}
+              deleteAvatar={this.deleteAvatar}/>
             </div>
             <h3 className='profile__nickName'>
               {this.props.userData ? this.props.userData.username : null}
@@ -106,7 +115,8 @@ const mapDispatchToProps = (dispatch) => {
     onChangePassword: (username, values) => dispatch(actions.passwordChange(username, values)),
     onChangeUserData: (username, values) => dispatch(actions.userDataChange(username, values)),
     onGetUserData: () => dispatch(actions.getUserData()),
-    onUpdateUserImage: (image) => dispatch(actions.avatarUpload(image))
+    onUpdateUserImage: (image) => dispatch(actions.avatarUpload(image)),
+    onDeleteUserImage: () => dispatch(actions.deleteAvatar())
   }
 }
 
