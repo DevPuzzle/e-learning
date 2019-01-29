@@ -123,43 +123,108 @@ exports.user_login = (req, res, next) => {
 exports.user_avatar_upload = (req, res, next) => {
   const username = req.params.username;
 
-  User.findOne({name: username})
-    .select('userImage')
+  User.findOne({name: username})    
     .exec()
     .then(doc => {      
       if (doc) {
         const path = doc.userImage; 
-        fs.unlink(path, (err) => {
-          if (err) return console.log(err);
-          console.log('successfully deleted', path);
-        });
-      } else {
-        res
-          .status(404)
-          .json({ message: "No valid provided name" });
+        if(path && path !== null){
+          fs.unlink(path, (err) => {
+            if (err) return console.log(err);
+            console.log('successfully deleted', path);            
+          });
+          User.update({ name: username },
+            {                
+              userImage: req.file.path,      
+            }) 
+            .exec()
+            .then(result => {
+              res.status(200).json({
+                  message: 'User updated!!!'
+              });
+            })
+            .catch(err => {
+              console.log(err);
+              res.status(500).json({
+                error: err
+              });
+            });
+        } else {
+
+          User.update({ name: username },
+            {                
+              userImage: req.file.path,      
+            }) 
+            .exec()
+            .then(result => {
+              res.status(200).json({
+                  message: 'User updated!!!'
+              });
+            })
+            .catch(err => {
+              console.log(err);
+              res.status(500).json({
+                message: 'Invalid username',
+                error: err
+              });
+            });          
+        }
       }
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ error: err });
-  });  
+      res.status(500).json({ 
+        message: "No valid provided name",
+        error: err });
+    });  
+}
 
-  User.update({ name: username },
-    {                
-      userImage: req.file.path,      
-    }) 
+exports.user_avatar_delete = (req, res, next) => {
+  const username = req.params.username;
+
+  User.findOne({name: username})    
     .exec()
-    .then(result => {
-      res.status(200).json({
-          message: 'User updated'
-      });
+    .then(doc => {      
+      if (doc) {
+        const path = doc.userImage; 
+        if(path && path !== null){
+          fs.unlink(path, (err) => {
+            if (err) return console.log(err);
+            console.log('successfully deleted user image', path);          
+          });
+
+          User.update({ name: username },
+            {                
+              userImage: null      
+            }) 
+            .exec()
+            .then(result => {
+              res.status(200).json({
+                  message: 'User updated!!!',
+                  userImage: userImage
+              });
+            })
+            .catch(err => {
+              console.log(err);
+              res.status(500).json({
+                error: err
+              });
+            });
+
+        } else {
+          res.status(404).json({
+            message: 'User dont have avatar'
+          });
+        }
+      }
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
+      res.status(500).json({ 
+        message: "No valid provided name",
+        error: err });
+    });  
+
 }
 
 exports.user_edit = (req, res, next) => {
