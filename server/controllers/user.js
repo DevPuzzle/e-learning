@@ -123,7 +123,8 @@ exports.user_login = (req, res, next) => {
 exports.user_avatar_upload = (req, res, next) => {
   const username = req.params.username;
 
-  User.findOne({name: username})    
+  User.findOne({name: username})   
+
     .exec()
     .then(doc => {      
       if (doc) {
@@ -140,7 +141,8 @@ exports.user_avatar_upload = (req, res, next) => {
             .exec()
             .then(result => {
               res.status(200).json({
-                  message: 'User updated!!!'
+                message: 'User updated!!!',
+                userImage: req.file.path
               });
             })
             .catch(err => {
@@ -157,8 +159,9 @@ exports.user_avatar_upload = (req, res, next) => {
             }) 
             .exec()
             .then(result => {
-              res.status(200).json({
-                  message: 'User updated!!!'
+              res.status(200).json({                
+                message: 'User updated!!!',
+                userImage: req.file.path
               });
             })
             .catch(err => {
@@ -195,18 +198,19 @@ exports.user_avatar_delete = (req, res, next) => {
 
           User.update({ name: username },
             {                
-              userImage: null      
+              userImage: null     
             }) 
             .exec()
             .then(result => {
               res.status(200).json({
-                  message: 'User updated!!!',
-                  userImage: userImage
+                  message: 'Successfully deleted user image!!!',
+                  userImage: null
               });
             })
             .catch(err => {
               console.log(err);
               res.status(500).json({
+                message: 'Update error',
                 error: err
               });
             });
@@ -222,7 +226,8 @@ exports.user_avatar_delete = (req, res, next) => {
       console.log(err);
       res.status(500).json({ 
         message: "No valid provided name",
-        error: err });
+        error: err 
+      });
     });  
 
 }
