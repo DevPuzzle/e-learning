@@ -10,8 +10,10 @@ const storage = multer.diskStorage({
   destination: function(req, file, cb){
     cb(null, './uploads/')
   },
-  filename: function(req, file, cb){
-    cb(null, new Date().toISOString() + file.originalname)
+  filename: function(req, file, cb){    
+    cb(null, Date.now()+ '-' + file.originalname)
+    //cb(null, file.originalname + '-' + Date.now() + '.png');
+    //cb(null, new Date().toISOString() + file.originalname)
   }
 });
 
@@ -38,6 +40,8 @@ router.post("/login", UserController.user_login);
 router.get("/:username", UserController.user_get);
 
 router.patch("/avatar/uploads/:username", upload.single('userImage'), UserController.user_avatar_upload);
+
+router.delete("/avatar/delete/:username", UserController.user_avatar_delete);
 
 router.patch("/edit/:username", UserController.user_edit);
 
