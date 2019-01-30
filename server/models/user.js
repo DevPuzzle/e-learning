@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const userSchema = mongoose.Schema({
+const userSchema = new Schema({
   _id: mongoose.Schema.Types.ObjectId,
   first_name: {
     type: String, 
@@ -22,10 +23,15 @@ const userSchema = mongoose.Schema({
     match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
   },
   userImage: { type: String, required: false},
-  password: { type: String, required: true },
+  password: { type: String, required: true },  
   
-},
-{ versionKey: false }
+  courses: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Course'
+  }],
+
+  }, { versionKey: false }
+  
 );
 
 module.exports = mongoose.model('User', userSchema);

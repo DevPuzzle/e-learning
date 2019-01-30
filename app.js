@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const expressValidator = require('express-validator');
 
 const userRoutes = require('./server/routes/user');
+const categoryRoutes = require('./server/routes/category');
 
 mongoose.connect('mongodb://vitaliy:qa123123@ds261114.mlab.com:61114/e-learning');
 mongoose.connection.once('open', () => console.log('Connected to MongoDB'));
@@ -30,6 +31,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/user", userRoutes);
+app.use("/category", categoryRoutes);
 
 app.use((req, res, next) => {
   const error = new Error('Not found');
