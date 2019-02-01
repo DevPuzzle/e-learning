@@ -11,13 +11,16 @@ import defaultImage from '../../assets/images/default-avatar.png';
 class Profile extends Component {
   state = {
     selectedImage: null,
-    showButtonDelte: false
+    showButtonDelete: false
 
   }
 
   componentWillMount(){
     this.props.onGetUserData();
+    
   }
+
+ 
 
 
   changes = (e) => {
@@ -41,18 +44,19 @@ class Profile extends Component {
     this.props.onUpdateUserImage(this.state.selectedImage);
     this.setState({
       selectedImage: null,
-      showButtonDelte: true
+      showButtonDelete: true
     })
   }
 
   deleteAvatar = () => {
     this.props.onDeleteUserImage();
     this.setState({
-      showButtonDelte: false
+      showButtonDelete: false
     })
   }
 
   render() {
+    console.log(this.state.showButtonDelete)
     
     let avatar = defaultImage;  
     if(this.props.avatar && this.props.avatar.userImage ){
@@ -75,10 +79,9 @@ class Profile extends Component {
             </div>      
             
             <ProfileImageChange
-              showButtonDelte={this.state.showButtonDelte}
-              avatar={this.props.avatar}
-              userData={this.props.userData}
+              showButtonDelete={this.state.showButtonDelete}
               selectedImage={this.state.selectedImage}
+              userData={this.props.userData}
               changes={this.changes} 
               onSubmit={this.changeUserImage}
               deleteAvatar={this.deleteAvatar}/>

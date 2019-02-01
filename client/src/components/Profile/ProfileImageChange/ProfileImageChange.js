@@ -50,7 +50,6 @@ export class ProfileImageChange extends Component {
 
 
   render(){
-    console.log(this.props.showButtonDelte)
     const { handleSubmit } = this.props;
     let renderform = <form 
     onSubmit={handleSubmit} 
@@ -70,7 +69,7 @@ export class ProfileImageChange extends Component {
        type='submit' >
          Save
        </Button>
-       : this.props.showButtonDelte ? 
+       : this.props.showButtonDelete || this.props.userData && this.props.userData.userImage ? 
        <Button
        className='profile__deleteImage'
        variant="contained" 

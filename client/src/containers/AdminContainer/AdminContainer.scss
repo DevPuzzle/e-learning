@@ -1,0 +1,23 @@
+.headerAdmin{
+  position: absolute !important;
+  background: #c62828 !important;
+  transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -ms-transition: all 0.4s;
+  -o-transition: all 0.4s;
+}
+
+.adminListItem:hover .adminListItemIcon{
+  color: #c62828 !important;
+}
+
+.adminListItem a {
+  display: flex;
+  align-items: center;
+  color: black;
+  text-decoration: none;
+}
+.adminListItem-active .adminListItemIcon{
+  color: #c62828 !important;
+}
