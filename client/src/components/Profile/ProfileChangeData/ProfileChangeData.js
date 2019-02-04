@@ -60,13 +60,6 @@ export class ProfileChangeData extends Component {
     </form>
 
 
-    if(this.props.loading){
-      renderform = <div className="spinner">
-      <div className="cube1"></div>
-      <div className="cube2"></div>
-    </div>
-    }
-
     return(
       <div className='profile__page'>
          {renderform}       

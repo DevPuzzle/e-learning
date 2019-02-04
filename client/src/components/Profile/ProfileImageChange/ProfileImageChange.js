@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
+import Spinner from '../../UI/Spinner/Spinner';
 
 
 export class ProfileImageChange extends Component {
@@ -30,6 +31,7 @@ export class ProfileImageChange extends Component {
   }
 
   renderFileField = (field) => {
+    
     return(
       <React.Fragment>
       <input style={{display: 'none'}} 
@@ -69,7 +71,7 @@ export class ProfileImageChange extends Component {
        type='submit' >
          Save
        </Button>
-       : this.props.showButtonDelete || this.props.userData && this.props.userData.userImage ? 
+       : this.props.avatar !== this.props.defaultImage ? 
        <Button
        className='profile__deleteImage'
        variant="contained" 
@@ -77,19 +79,15 @@ export class ProfileImageChange extends Component {
        type='button' 
        onClick={this.props.deleteAvatar}>
          Delete image
-       </Button>  : console.log('NO USER IMAGE')}
+       </Button>  : null}
        
         
       </div>
     </form>
 
 
-    if(this.props.loading){
-      renderform = <div className="spinner">
-      <div className="cube1"></div>
-      <div className="cube2"></div>
-    </div>
-    }
+
+
 
     return(
       <React.Fragment>

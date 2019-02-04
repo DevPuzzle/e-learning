@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/loginActions';
 import AdminContaner from '../containers/AdminContainer/AdminContaner';
 import AdminLogin from '../components/AdminComponents/AdminLogin/AdminLogin';
+import AdminComponent from '../components/AdminComponents/AdminComponent';
 
 
 class AdminRoutes extends Component {

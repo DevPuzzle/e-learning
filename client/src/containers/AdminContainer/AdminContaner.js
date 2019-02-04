@@ -58,7 +58,7 @@ const styles = theme => ({
 class AdminContainer extends React.Component {
   state = {
     mobileOpen: false,
-    login: false
+    login: true
   };
 
   handleDrawerToggle = () => {
@@ -76,7 +76,9 @@ class AdminContainer extends React.Component {
         
             <ListItem button className='adminListItem'>
               <NavLink 
-              to='/loginadmin' activeClassName='adminListItem-active'>
+                exact
+                to='/admin' 
+                activeClassName='active-admin'>
               <ListItemIcon className='adminListItemIcon'><InboxIcon /></ListItemIcon>
                 Categories
               </NavLink>

@@ -6,10 +6,13 @@ const URL = 'http://localhost:5000/user';
 export const passwordChange = (username, values) => {
   return dispatch => {
     dispatch(changePasswordStart());
-    console.log(username)
     axios.patch(`${URL}/edit/password/${username}`, values)
     .then(response => {
+      
       dispatch(changePasswordSuccess(response.data));
+    })
+    .catch(err => {
+      console.log(err)
     })
   }
 }
@@ -32,8 +35,7 @@ export const userDataChange = (username, values) => {
     dispatch(changeUserDataStart());
     axios.patch(`${URL}/edit/${username}`, values)
     .then(response => {
-      dispatch(changeUserDataSuccess(response.data));
-      console.log(response.data)
+      dispatch(changeUserDataSuccess(values));
     })
   }
 }
@@ -57,6 +59,7 @@ export const getUserData = () => {
     dispatch(getUserDataStart());
     axios.get(`${URL}/${username}`)
     .then(response => {
+      console.log('USER DATA ПОЛУЧЕНЫ')
       dispatch(getUserDataSuccess(response.data))
     })
   }
@@ -83,6 +86,7 @@ export const avatarUpload = (image) => {
     dispatch(avatarUploadStart());
     axios.patch(`${URL}/avatar/uploads/${username}`, formData)
     .then(response => {
+      console.log(response.data)
       dispatch(avatarUploadSuccess(response.data));
     })
   }
@@ -96,7 +100,6 @@ export const avatarUploadStart = () => {
 }
 
 export const avatarUploadSuccess = (data) => {
-  console.log('avatarUploadSucces', data)
   return{
     type: actionTypes.AVATAR_UPLOAD_SUCCESS,
     payload: data

@@ -3,20 +3,27 @@ import { connect } from 'react-redux';
 import './Login.scss';
 import LoginForm from './LoginForm/LoginForm';
 import * as actions from '../../actions/loginActions';
+import Spinner from '../UI/Spinner/Spinner';
 
 class Login extends Component {
 
   submit = (values) => {
-    console.log(values)
     this.props.onLoginUser(values);
     
   }
 
   render(){ 
+
+    let loginForm = <LoginForm 
+    onSubmit={this.submit}/>;
+
+    if(this.props.loading){
+      loginForm = <Spinner />
+    }
+
   return(
     <div className='login'>
-      <LoginForm 
-        onSubmit={this.submit}/>
+      {loginForm}
     </div>
   )
 }
@@ -24,6 +31,11 @@ class Login extends Component {
 
 
 
+const mapStateToProps = (state) => {
+  return {
+    loading: state.login.loading
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -33,4 +45,4 @@ const mapDispatchToProps = (dispatch) => {
 
 
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

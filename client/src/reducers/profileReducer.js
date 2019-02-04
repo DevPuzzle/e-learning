@@ -47,8 +47,7 @@ const profileReducer = (state = initialState, action) => {
     return{
       ...state,
       loading: true,
-      error: false,
-      userData: null
+      error: false
     }
     case actionTypes.USERDATA_CHANGE_SUCCESS:
       return{
@@ -72,7 +71,8 @@ const profileReducer = (state = initialState, action) => {
         avatar: null
       }
       case actionTypes.AVATAR_UPLOAD_SUCCESS:
-       return {
+        
+      return {
          ...state,
          loading: false,
          error: false,
