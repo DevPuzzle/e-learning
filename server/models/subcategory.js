@@ -13,7 +13,7 @@ const subcategorySchema = new Schema({
     ref: 'Category',
     required: true
   },
-  themes: [{
+  theme: [{
     type: Schema.Types.ObjectId,
     ref: 'Theme'
   }]

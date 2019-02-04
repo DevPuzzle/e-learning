@@ -96,18 +96,39 @@ exports.subcategory_get = (req, res, next) => {
 
 exports.subcategory_delete = (req, res, next) => {
 
-  Subcategory.remove({ name: req.params.subcatname })
+  Subcategory.findOneAndDelete({name: req.params.subcatname})
     .exec()
-    .then(result => {
-      res.status(200).json({
-        message: "Successfuly subcategory deleted"
-      });
-    })
+    .then(doc => {
+      if(doc) {
+        const subcat_id = doc._id;
+        const cat_id = doc.category;
+        // console.log('SUBB', subcat_id)
+        // console.log('CAT', cat_id)
+        Category.update({ _id: cat_id },
+          {
+            $pull: {subcategory: { $in: [subcat_id] }}
+          })          
+          .exec()
+          .then(result => {
+            console.log(result);
+            res.status(200).json({
+              message: "Successfuly subcategory delete and category update"
+            });
+          })
+          .catch(err => {
+            console.log(err);
+            res.status(500).json({ 
+              message: "Error find category",
+              error: err 
+            });
+          });
+      }
+    })    
     .catch(err => {
       console.log(err);
       res.status(500).json({
         error: err,
-        message: "Error delete subcategory"
+        message: "This subcategory not exist or Some Error"
       });
     });
 

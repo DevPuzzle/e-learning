@@ -71,18 +71,41 @@ exports.category_create = (req, res, next) => {
 }  
 
 exports.category_delete = (req, res, next) => {
-  Category.remove({ name: req.params.catname })
+
+  Category.findOne({name: req.params.catname})
     .exec()
-    .then(result => {
-      res.status(200).json({
-        message: "Successfuly category deleted"
-      });
+    .then(doc => {
+      if(doc) {
+        console.log('SUBBB', doc.subcategory);
+        if(doc.subcategory.length < 1){
+          Category.remove({ name: req.params.catname })
+            .exec()
+            .then(result => {
+              res.status(200).json({
+                message: "Successfuly category deleted"
+              });
+            })
+            .catch(err => {
+              console.log(err);
+              res.status(500).json({
+                error: err,
+                message: "Error delete category"
+              });
+            });
+        } else {
+          res.status(500).json({ 
+            message: "Category have subcategory",
+            error: 'Error delete category'
+          });
+        }
+      }
     })
     .catch(err => {
       console.log(err);
       res.status(500).json({
-        error: err,
-        message: "Error delete category"
+        message: 'Error find',
+        error: err
       });
     });
+  
 }

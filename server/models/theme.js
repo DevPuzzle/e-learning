@@ -3,16 +3,20 @@ const Schema = mongoose.Schema;
 
 const themeSchema = new Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  name: String,
-  subcategories: { 
+  name: {
+    type: String, 
+    required: true, 
+    unique: true
+  },
+  subcategory: { 
     type: Schema.Types.ObjectId,
     ref: 'Subcategories',
     required: true
   },
-  courses: [{
+  course: [{
     type: Schema.Types.ObjectId,
     ref: 'Course'
   }]
 });
 
-module.exports = mongoose.model('themeSchema', themeSchema);
+module.exports = mongoose.model('Theme', themeSchema);
