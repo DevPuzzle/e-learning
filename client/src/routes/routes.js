@@ -25,7 +25,6 @@ render(){
           <Route path='/profile' component={Profile} />   
           <Route path='/schools' component={SchoolsContainer} /> 
           <Route path='/' component={HomeContainer}/>
-          {/* <Redirect from='/' to='/home' /> */}
         </Switch>
       <Footer />
     </div>

@@ -10,8 +10,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
+import { connect } from 'react-redux';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -58,7 +57,7 @@ const styles = theme => ({
 class AdminContainer extends React.Component {
   state = {
     mobileOpen: false,
-    login: true
+    
   };
 
   handleDrawerToggle = () => {
@@ -92,7 +91,7 @@ class AdminContainer extends React.Component {
 
     return (
       <React.Fragment>    
-        {this.state.login === false ? 
+       {!this.props.login ? 
         <Redirect to='/loginadmin' />  :
       
         <div className={classes.root}>
@@ -151,12 +150,19 @@ class AdminContainer extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  console.log(state)
+  return {
+    login: state.loginAdmin.token
+  }
+}
+
+
+
 AdminContainer.propTypes = {
   classes: PropTypes.object.isRequired,
-  // Injected by the documentation to work in an iframe.
-  // You won't need it on your project.
   container: PropTypes.object,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(AdminContainer);
+export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(AdminContainer));
