@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-//const checkAuth = require('../middleware/check-auth')
 const User  = require('../models/user');
 const fs = require('fs');
 
@@ -123,8 +122,7 @@ exports.user_login = (req, res, next) => {
 exports.user_avatar_upload = (req, res, next) => {
   const username = req.params.username;
 
-  User.findOne({name: username})   
-
+  User.findOne({name: username})
     .exec()
     .then(doc => {      
       if (doc) {
