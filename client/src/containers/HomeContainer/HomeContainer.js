@@ -11,7 +11,7 @@ class HomeContainer extends Component {
 
 
   render() {
-
+    
     return (
       <section className='home'>       
         <div className='home__banner'>

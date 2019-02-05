@@ -66,7 +66,7 @@ class AdminContainer extends React.Component {
 
   render() {
     const { classes, theme } = this.props;
-
+    console.log(this.props.login)
     const drawer = (
       <div>
         <div className={classes.toolbar} />
@@ -91,7 +91,7 @@ class AdminContainer extends React.Component {
 
     return (
       <React.Fragment>    
-       {!this.props.login ? 
+       { !this.props.login ? 
         <Redirect to='/loginadmin' />  :
       
         <div className={classes.root}>
@@ -151,7 +151,7 @@ class AdminContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
+  
   return {
     login: state.loginAdmin.token
   }

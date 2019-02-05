@@ -9,16 +9,12 @@ class AdminLogin extends Component {
 
 
   submit = (values) => {
-    console.log(values)
-    this.props.onLoginAdmin(values);
-    
+    this.props.onLoginAdmin(values, this.props.history);
   }
 
-  
   render() {
     return (
       <div className='adminLogin'>
-
         <AdminLoginForm 
           onSubmit={this.submit}/>
       </div>
@@ -27,12 +23,17 @@ class AdminLogin extends Component {
 }
 
 
+const mapStateToProps = (state) => {
+  return {
+    login: state.loginAdmin.token
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLoginAdmin: (values) => dispatch(actions.login(values))
+    onLoginAdmin: (values, history) => dispatch(actions.login(values, history))
     
   }
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(AdminLogin));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AdminLogin));

@@ -12,9 +12,7 @@ export const login = (values) => {
     .then(response => {      
       const token = response.data.token;
       const username = response.data.username;
-      console.log(response.data)
       dispatch(loginSuccess(token, username));
-      window.location.replace(`http://localhost:3000/`);
     })
     .catch(err => {
       console.log(err)
@@ -44,9 +42,7 @@ export const authCheckState = () => {
   return dispatch => {
     const token = localStorage.getItem('jwt');
     const username = localStorage.getItem('username');
-    if(!token) {
-      console.log('no')
-    }else {
+    if(token){
         dispatch(loginSuccess(token, username));
       }
       

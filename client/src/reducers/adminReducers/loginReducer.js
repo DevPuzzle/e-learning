@@ -15,7 +15,6 @@ const loginAdminReducer = (state = initialState, action) => {
         loading: true,
       }
     case actionTypes.LOGIN_ADMIN_SUCCESS:
-    console.log(action.payload)
       return{
         ...state,
         loading: false,
