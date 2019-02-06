@@ -5,20 +5,16 @@ import { NavLink, withRouter } from 'react-router-dom';
 import './Header.scss';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import IconButton from '@material-ui/core/IconButton';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/loginActions';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
-import Button from '@material-ui/core/Button/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import MenuIcon from '@material-ui/icons/Menu';
 
 class Header extends Component {
 
@@ -110,7 +106,9 @@ class Header extends Component {
       {/* SIDE DRAWER */}
 
       <div className='header__responseDrawer'>
-      <Button onClick={this.toggleDrawer('left', true)}>Open Left</Button>
+      <IconButton onClick={this.toggleDrawer('left', true)} color="inherit" aria-label="Menu">
+            <MenuIcon />
+      </IconButton>
       <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
       <div
             tabIndex={0}

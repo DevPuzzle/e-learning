@@ -114,16 +114,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onChangePassword: (username, values) => {dispatch(actions.passwordChange(username, values))
-      console.log('ON CHANGE PASSWORD')
     },
     onChangeUserData: (username, values) => {dispatch(actions.userDataChange(username, values))
-      console.log('ON CHANGE USER DATA')
     },
     onGetUserData: () => {dispatch(actions.getUserData())
-      console.log('ON GET USER DATA ACTION')
     },
     onUpdateUserImage: (image) => {dispatch(actions.avatarUpload(image))
-      console.log('ON UPDATE USER IMAGE')
     },
     onDeleteUserImage: () => dispatch(actions.deleteAvatar())
   }

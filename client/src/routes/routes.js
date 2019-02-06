@@ -8,6 +8,7 @@ import Profile from '../components/Profile/Profile';
 
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
+import PrivateRoute from '../hoc/privateRoute';
 class Routes extends Component {
 
  componentDidMount(){
@@ -22,8 +23,8 @@ render(){
     }: {display: 'block'}}>
       <Header />
         <Switch>  
-          <Route path='/profile' component={Profile} />   
-          <Route path='/schools' component={SchoolsContainer} /> 
+          <PrivateRoute path='/profile' redir='/home/login' component={Profile} />   
+          <PrivateRoute path='/schools' redir='/home/login' component={SchoolsContainer} /> 
           <Route path='/' component={HomeContainer}/>
         </Switch>
       <Footer />

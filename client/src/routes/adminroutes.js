@@ -5,13 +5,13 @@ import * as actions from '../actions/adminActions/loginActions';
 import AdminContaner from '../containers/AdminContainer/AdminContaner';
 import AdminLogin from '../components/AdminComponents/AdminLogin/AdminLogin';
 import AdminComponent from '../components/AdminComponents/AdminComponent';
+import PrivateRoute from '../hoc/privateRoute';
 
 
 class AdminRoutes extends Component {
   
  componentDidMount(){
-   console.log(this.props)
-  this.props.onTryAutoLogin(this.props);
+  this.props.onTryAutoLogin();
 }
 
  
@@ -23,9 +23,8 @@ render(){
     }: {display: 'block'}}>
     <Switch>
       <Route exact path='/loginadmin' component={AdminLogin} />
-      <Route exact path='/admin' component={AdminContaner} />
+      <PrivateRoute exact redir='/loginadmin' path='/admin' component={AdminContaner} />
     </Switch>
-
     </div>
     )
   }
@@ -34,7 +33,7 @@ render(){
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onTryAutoLogin: (props) => dispatch(actions.authCheck(props))
+    onTryAutoLogin: () => dispatch(actions.authCheckState())
   }
 }
 export default withRouter(connect(null,mapDispatchToProps)(AdminRoutes));

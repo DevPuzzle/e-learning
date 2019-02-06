@@ -37,15 +37,15 @@ router.post("/signup", UserController.user_signup);
 
 router.post("/login", UserController.user_login);
 
-router.get("/:username", UserController.user_get);
+router.get("/:username", checkAuth, UserController.user_get);
 
-router.patch("/avatar/uploads/:username", upload.single('userImage'), UserController.user_avatar_upload);
+router.patch("/avatar/uploads/:username", checkAuth, upload.single('userImage'), UserController.user_avatar_upload);
 
-router.delete("/avatar/delete/:username", UserController.user_avatar_delete);
+router.delete("/avatar/delete/:username", checkAuth, UserController.user_avatar_delete);
 
-router.patch("/edit/:username", UserController.user_edit);
+router.patch("/edit/:username", checkAuth, UserController.user_edit);
 
-router.patch("/edit/password/:username", UserController.user_edit_password);
+router.patch("/edit/password/:username", checkAuth, UserController.user_edit_password);
 
 //router.delete("/:username", checkAuth, UserController.user_delete);
 

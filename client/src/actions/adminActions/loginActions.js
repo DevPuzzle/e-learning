@@ -11,7 +11,8 @@ export const login = (values, history) => {
     axios.post(`${URL}`, values)
     .then(response => {
       const token = response.data.token;
-      dispatch(loginSuccess(token));
+      const username = response.data.username;
+      dispatch(loginSuccess(token, username));
       history.push('/admin');
     })
     .catch(err => {
@@ -26,23 +27,24 @@ export const loginStart = () => {
   }
 }
 
-export const loginSuccess = (token) => {
-  localStorage.setItem('admintoken', token);
-  console.log(token)
+export const loginSuccess = (token, username) => {
+  localStorage.setItem('jwt', token);
+  localStorage.setItem('username', username);
+  const data = {token: token, username: username}
   setAuthToken(token);
   return {
     type: actionTypes.LOGIN_ADMIN_SUCCESS,
-    payload: token
+    payload: data
   }
 }
 
-export const authCheck = (props) => {
+export const authCheckState = (props) => {
   
   return dispatch => {
-    const token = localStorage.getItem('admintoken');
+    const token = localStorage.getItem('jwt');
+    const username = localStorage.getItem('username');
      if(token){
-        dispatch(loginSuccess(token));/* 
-        props.history.push('/admin') */
+        dispatch(loginSuccess(token, username));
       }      
     }
   }
