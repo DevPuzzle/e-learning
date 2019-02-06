@@ -189,14 +189,15 @@ class Header extends Component {
           </React.Fragment>
           : 
           <div>
+            <div>Hеллоу {this.props.login.username} вы зашли как: </div>
           <IconButton
-                  aria-owns={open ? 'menu-appbar' : undefined}
-                  aria-haspopup="true"
-                  onClick={this.handleMenu}
-                  color="inherit">
-                 <i className="fas fa-user-circle header__usericon"></i>
-                </IconButton>
-                <Menu
+            aria-owns={open ? 'menu-appbar' : undefined}
+            aria-haspopup="true"
+            onClick={this.handleMenu}
+            color="inherit">
+            <i className="fas fa-user-circle header__usericon"></i>
+          </IconButton>
+          <Menu
           id="menu-appbar"
           anchorEl={anchorEl}
           anchorOrigin={{
@@ -230,8 +231,10 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
-    auth: state.login.token
+    auth: state.login.token,
+    login: state.login
   }
 }
 

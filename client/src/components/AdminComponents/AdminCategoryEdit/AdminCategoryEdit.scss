@@ -1,0 +1,13 @@
+.categoryEditForm {
+  display: flex;
+  align-items: center;
+  &__btn {
+    background: #4caf50;
+    padding: 5px;
+    color: #fff;
+    border: none;
+    &:hover {
+      background: #66bb6a;
+    }
+  }
+}

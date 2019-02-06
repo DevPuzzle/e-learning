@@ -25,13 +25,13 @@ class Profile extends Component {
   }
  
   changePasswordHandler = (values) => {
-    const username = localStorage.getItem('username');
-    this.props.onChangePassword(username, values);
+   
+    this.props.onChangePassword(values);
   }
 
   changeUserDataHandler = (values) => {
-    const username = localStorage.getItem('username');
-    this.props.onChangeUserData(username, values);
+    
+    this.props.onChangeUserData(values);
   }
 
   changeUserImage = () => {
@@ -55,7 +55,6 @@ class Profile extends Component {
     }else if(!this.props.avatar && this.props.userData && this.props.userData.userImage){
       avatar = `http://localhost:5000/${this.props.userData.userImage}`;
     }
-    console.log(avatar)
     
 
     return (
@@ -113,9 +112,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onChangePassword: (username, values) => {dispatch(actions.passwordChange(username, values))
+    onChangePassword: (values) => {dispatch(actions.passwordChange(values))
     },
-    onChangeUserData: (username, values) => {dispatch(actions.userDataChange(username, values))
+    onChangeUserData: (values) => {dispatch(actions.userDataChange(values))
     },
     onGetUserData: () => {dispatch(actions.getUserData())
     },

@@ -3,10 +3,10 @@ import axios from 'axios';
 
 const URL = 'http://localhost:5000/user';
 
-export const passwordChange = (username, values) => {
+export const passwordChange = (values) => {
   return dispatch => {
     dispatch(changePasswordStart());
-    axios.patch(`${URL}/edit/password/${username}`, values)
+    axios.patch(`${URL}/edit/password`, values)
     .then(response => {
       
       dispatch(changePasswordSuccess(response.data));
@@ -30,10 +30,10 @@ export const changePasswordSuccess = (data) => {
   }
 }
 
-export const userDataChange = (username, values) => {
+export const userDataChange = (values) => {
   return dispatch => {
     dispatch(changeUserDataStart());
-    axios.patch(`${URL}/edit/${username}`, values)
+    axios.patch(`${URL}/edit`, values)
     .then(response => {
       dispatch(changeUserDataSuccess(values));
     })
@@ -57,7 +57,7 @@ export const getUserData = () => {
   return dispatch => {
     const username = localStorage.getItem('username');
     dispatch(getUserDataStart());
-    axios.get(`${URL}/${username}`)
+    axios.get(`${URL}/profile`)
     .then(response => {
       console.log('USER DATA ПОЛУЧЕНЫ')
       dispatch(getUserDataSuccess(response.data))
@@ -84,7 +84,7 @@ export const avatarUpload = (image) => {
     const formData = new FormData();
     formData.append('userImage', image)
     dispatch(avatarUploadStart());
-    axios.patch(`${URL}/avatar/uploads/${username}`, formData)
+    axios.patch(`${URL}/avatar/uploads`, formData)
     .then(response => {
       console.log(response.data)
       dispatch(avatarUploadSuccess(response.data));
@@ -109,7 +109,7 @@ export const avatarUploadSuccess = (data) => {
 export const deleteAvatar = () => {
   return dispatch => {
     const username = localStorage.getItem('username');
-    axios.delete(`${URL}/avatar/delete/${username}`)
+    axios.delete(`${URL}/avatar/delete`)
     .then(response => {
       dispatch(deleteAvatarSuccess(response.data));
     })

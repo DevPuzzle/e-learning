@@ -143,7 +143,6 @@ class AdminContainer extends React.Component {
            <AdminComponent />
         </main>
       </div>
-      }
       </React.Fragment>
     );
   }

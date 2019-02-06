@@ -6,6 +6,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import './AdminComponent.scss';
+import AdminCategoryEdit from './AdminCategoryEdit/AdminCategoryEdit';
 
 const styles = theme => ({
   root: {
@@ -19,6 +20,25 @@ const styles = theme => ({
 
 
  class AdminComponent extends Component {
+
+  state = {
+    onEdit: false,
+    categories: {name:'Category 1'}
+  }
+
+  editCategory = () => {
+    this.setState({
+      onEdit: true
+    })
+  }
+
+  submit = (values) => {
+    this.setState({
+      onEdit: false,
+      categories: values
+    })
+  }
+  
   render() {
     const { classes } = this.props;
     return (
@@ -28,9 +48,26 @@ const styles = theme => ({
           <h3 className='courses__title'>
             Categories
           </h3>
-        <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          Category 1 
+        <ExpansionPanel >
+        <ExpansionPanelSummary  expandIcon={<ExpandMoreIcon />}>
+        {!this.state.onEdit ?
+        <div className='courses__cont'>
+        <h3 className='courses__name'>
+          {this.state.categories.name}
+        </h3>         
+        <div className='courses__pannel'>
+          <div className='courses__icon' onClick={this.editCategory}>
+            <i className="fas fa-marker"></i>
+          </div>
+          <div className='courses__icon'>
+          <i className="fas fa-trash-alt"></i>
+          </div>
+        </div>
+        </div>
+        : <AdminCategoryEdit onSubmit={this.submit} initialValues={this.state.categories}/>
+        }
+          
+        
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Typography>
