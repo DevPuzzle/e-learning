@@ -120,9 +120,9 @@ exports.user_login = (req, res, next) => {
 }
 
 exports.user_avatar_upload = (req, res, next) => {
-  const username = req.params.username;
+  const userId = req.userData.userId;
 
-  User.findOne({name: username})
+  User.findOne({_id: userId})
     .exec()
     .then(doc => {      
       if (doc) {
@@ -132,7 +132,7 @@ exports.user_avatar_upload = (req, res, next) => {
             if (err) return console.log(err);
             console.log('successfully deleted', path);            
           });
-          User.update({ name: username },
+          User.update({_id: userId},
             {                
               userImage: req.file.path,      
             }) 
@@ -151,7 +151,7 @@ exports.user_avatar_upload = (req, res, next) => {
             });
         } else {
 
-          User.update({ name: username },
+          User.update({_id: userId},
             {                
               userImage: req.file.path,      
             }) 
@@ -181,9 +181,9 @@ exports.user_avatar_upload = (req, res, next) => {
 }
 
 exports.user_avatar_delete = (req, res, next) => {
-  const username = req.params.username;
+  const userId = req.userData.userId;
 
-  User.findOne({name: username})    
+  User.findOne({_id: userId})    
     .exec()
     .then(doc => {      
       if (doc) {
@@ -194,7 +194,7 @@ exports.user_avatar_delete = (req, res, next) => {
             console.log('successfully deleted user image', path);          
           });
 
-          User.update({ name: username },
+          User.update({_id: userId},
             {                
               userImage: null     
             }) 
@@ -231,7 +231,7 @@ exports.user_avatar_delete = (req, res, next) => {
 }
 
 exports.user_edit = (req, res, next) => {
-  const username = req.params.username;
+  const userId = req.userData.userId;
 
   req.check('email', 'Invalid email address').isEmail();  
 
@@ -242,12 +242,12 @@ exports.user_edit = (req, res, next) => {
     });
   }
 
-  User.findOne({name: username})
+  User.findOne({_id: userId})
     .select('first_name last_name email')
     .exec()
     .then(doc => {      
       if (doc) {
-        User.update({ name: username },
+        User.update({_id: userId},
           {
             first_name: req.body.first_name,
             last_name: req.body.last_name,
@@ -278,8 +278,7 @@ exports.user_edit = (req, res, next) => {
 };
 
 exports.user_edit_password = (req, res, next) => {
- 
-  const username = req.params.username;
+  const userId = req.userData.userId;  
 
   req.check('prev_password', 'Previous password is invalid').isLength({min: 4});
   req.check('password', 'Password is invalid').isLength({min: 4}).equals(req.body.confirm_password);
@@ -291,7 +290,7 @@ exports.user_edit_password = (req, res, next) => {
     });
   } 
   //console.log('USER', username);
-  User.findOne({'name': username})
+  User.findOne({_id: userId})
     .select('password')
     .exec()
     .then(doc => {      
@@ -311,7 +310,7 @@ exports.user_edit_password = (req, res, next) => {
                 });
               } else {
 
-                User.update({ name: username },
+                User.update({_id: userId},
                   {                    
                     password: hash                    
                   }) 
@@ -351,13 +350,15 @@ exports.user_edit_password = (req, res, next) => {
 
 exports.user_get = (req, res, next) => {
 
-  const username = req.params.username;
+  const userId = req.userData.userId;  
+  //console.log('REQ USER111', req.userData);
+  console.log('ID', userId);
 
-  User.findOne({name: username})
-    .select('first_name last_name email name password userImage')
+  User.findOne({_id: userId})
+    .select('first_name last_name email name password userImage status')
     .exec()
     .then(doc => {
-
+      
       console.log("From database", doc);
 
       if (doc) {        
@@ -369,7 +370,8 @@ exports.user_get = (req, res, next) => {
             email: doc.email,
             password: doc.password,
             confirm_password: doc.password,
-            userImage: doc.userImage                        
+            userImage: doc.userImage,
+            status: doc.status                                   
         });
       } else {
         res.status(404)

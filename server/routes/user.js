@@ -37,6 +37,7 @@ router.post("/signup", UserController.user_signup);
 
 router.post("/login", UserController.user_login);
 
+<<<<<<< HEAD
 router.get("/:username", checkAuth, UserController.user_get);
 
 router.patch("/avatar/uploads/:username", checkAuth, upload.single('userImage'), UserController.user_avatar_upload);
@@ -46,6 +47,17 @@ router.delete("/avatar/delete/:username", checkAuth, UserController.user_avatar_
 router.patch("/edit/:username", checkAuth, UserController.user_edit);
 
 router.patch("/edit/password/:username", checkAuth, UserController.user_edit_password);
+=======
+router.get("/profile", checkAuth, UserController.user_get);
+
+router.patch("/avatar/uploads", checkAuth, upload.single('userImage'), UserController.user_avatar_upload);
+
+router.delete("/avatar/delete", checkAuth, UserController.user_avatar_delete);
+
+router.patch("/edit", checkAuth, UserController.user_edit);
+
+router.patch("/edit/password", checkAuth, UserController.user_edit_password);
+>>>>>>> 0a1dd4adc91713b7242a0c3cedfc389c66ca1500
 
 //router.delete("/:username", checkAuth, UserController.user_delete);
 
