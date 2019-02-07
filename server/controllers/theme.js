@@ -5,11 +5,13 @@ const Theme = require('../models/theme');
 
 exports.theme_create = (req, res, next) => {
   const themename = req.body.themename;
+  const description = req.body.description;
   const subcat_id = req.body.subcat_id;
 
   theme = new Theme({
     _id: new mongoose.Types.ObjectId(),
       name: themename,
+      description: description,
       subcategory: subcat_id
   })
   theme
@@ -24,7 +26,7 @@ exports.theme_create = (req, res, next) => {
           console.log(result);
           res.status(200).json({
             theme: theme,
-            message: 'Subcategory get theme!!!'
+            message: 'Successfuly created them and Subcategory get theme!!!'
           });
         })
         .catch(err => {
@@ -131,4 +133,33 @@ exports.theme_delete = (req, res, next) => {
       })
     })
 
+}
+
+exports.theme_edit = (req, res, next) => {
+  const themename = req.params.themename;
+  const newthemename = req.body.themename;
+  const description = req.body.description;
+  console.log('EDIT THEME', newthemename)
+
+  Theme.findOneAndUpdate({name: themename}, 
+    {
+      name: newthemename,
+      description: description
+    }, 
+    {
+      new: true
+    })    
+    .then((updatedDoc) => {    
+      if (!updatedDoc){
+        console.log(updatedDoc);
+        res.status(200).json({        
+          message: 'This theme not exist'
+        });
+      }
+      res.status(200).json({
+        theme: updatedDoc,
+        message: 'Successfuly edit theme'
+      });      
+    });    
+    
 }
