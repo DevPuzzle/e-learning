@@ -1,44 +1,41 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import './AdminCategoryEdit.scss';
 
-class AdminCategoryEdit extends Component {
-  
-  renderInputField = (field) => {
-    console.log('FILED', field)
-    const className = `${field.meta.touched 
-      && field.meta.error 
-      ? 'has-error' : ''}`
 
-    return(
-      <div className={className}>
-        <input name={field.name} type={field.type} {...field.input} autoFocus/>
-        <div className='error'>
-          {field.meta.touched ? field.meta.error : ''}
-        </div>
+const renderInputField = (field) => {
+  const className = `${field.meta.touched 
+    && field.meta.error 
+    ? 'has-error' : ''}`
+
+  return(
+    <div className={className}>
+      <input name={field.name} type={field.type} {...field.input} autoFocus/>
+      <div className='error'>
+        {field.meta.touched ? field.meta.error : ''}
       </div>
-    )
-  }
+    </div>
+  )
+}
 
+
+
+const AdminCategoryEdit = (props) => {
  
-  
-
-  render(){
-    
-    const { handleSubmit } = this.props;
+    const { handleSubmit } = props;
     let renderform = <form className='categoryEditForm'
     onSubmit={handleSubmit}>
           <Field 
             type='text'
             name='name'
-            component={this.renderInputField}/>
+            component={renderInputField}/>
           <div >
             <button
             className='categoryEditForm__btn'
             variant="contained" 
             color="primary"
             type='submit' >
-              edit
+              Save
             </button>     
           </div>
           </form>
@@ -50,7 +47,7 @@ class AdminCategoryEdit extends Component {
       </div>
     )
   }
-}
+
 
 /* function validate(values){
   const errors = {};
@@ -67,5 +64,4 @@ class AdminCategoryEdit extends Component {
 
 export default reduxForm({
   /* validate, */
-  form: 'editCategory'
 })(AdminCategoryEdit);

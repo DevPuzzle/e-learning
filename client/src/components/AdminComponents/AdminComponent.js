@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 import './AdminComponent.scss';
-import AdminCategoryEdit from './AdminCategoryEdit/AdminCategoryEdit';
+import * as actions from '../../actions/adminActions/categoriesActions';
+import { connect } from 'react-redux';
+import AdminCategory from './AdminCategory/AdminCategory';
 
 const styles = theme => ({
   root: {
@@ -22,20 +20,23 @@ const styles = theme => ({
  class AdminComponent extends Component {
 
   state = {
-    onEdit: false,
-    categories: {name:'Category 1'}
+    onEdit: null
   }
 
-  editCategory = () => {
+  componentWillMount(){
+    this.props.onGetCategories();
+  }
+
+  editCategory = (id) => {
+    console.log(id)
     this.setState({
-      onEdit: true
+      onEdit: id
     })
   }
 
   submit = (values) => {
     this.setState({
-      onEdit: false,
-      categories: values
+      onEdit: null
     })
   }
   
@@ -48,34 +49,16 @@ const styles = theme => ({
           <h3 className='courses__title'>
             Categories
           </h3>
-        <ExpansionPanel >
-        <ExpansionPanelSummary  expandIcon={<ExpandMoreIcon />}>
-        {!this.state.onEdit ?
-        <div className='courses__cont'>
-        <h3 className='courses__name'>
-          {this.state.categories.name}
-        </h3>         
-        <div className='courses__pannel'>
-          <div className='courses__icon' onClick={this.editCategory}>
-            <i className="fas fa-marker"></i>
-          </div>
-          <div className='courses__icon'>
-          <i className="fas fa-trash-alt"></i>
-          </div>
-        </div>
-        </div>
-        : <AdminCategoryEdit onSubmit={this.submit} initialValues={this.state.categories}/>
-        }
-          
+          {this.props.categories ? 
+          this.props.categories.doc.map(category => (
+          <AdminCategory 
+            submit={this.submit}
+            category={category}
+            onEdit={this.editCategory}
+            key={category._id}
+            editState={this.state.onEdit}/>
+          )) : null }
         
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget.
-          </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
         </div>
         <div className='col-md-4 courses__elementList'>
           <h3 className='courses__title'>
@@ -97,4 +80,17 @@ const styles = theme => ({
   }
 }
 
-export default withStyles(styles)(AdminComponent);
+const mapStateToProps = (state) => {
+  return {
+    categories: state.categories.categories
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onGetCategories: () => dispatch(actions.getCategories())
+    }
+  }
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AdminComponent));
