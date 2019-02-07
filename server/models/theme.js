@@ -8,6 +8,10 @@ const themeSchema = new Schema({
     required: true, 
     unique: true
   },
+  description: {
+    type: String, 
+    required: true,    
+  },
   subcategory: { 
     type: Schema.Types.ObjectId,
     ref: 'Subcategories',

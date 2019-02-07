@@ -9,7 +9,7 @@ exports.categories_list = (req, res, next) => {
     .then(doc => {
       if (doc) {
         res.status(200).json({
-          doc: doc
+          categoryList: doc
         });
         //return doc;
       } else {
@@ -32,7 +32,7 @@ exports.category_get = (req, res, next) => {
     .then(doc => {      
       if (doc) {
         res.status(200).json({
-          doc: doc
+          category: doc
         });
       } else {
         res.status(404)
@@ -47,10 +47,12 @@ exports.category_get = (req, res, next) => {
 
 exports.category_create = (req, res, next) => {
   const catname = req.body.catname;
+  const description = req.body.description;
   
   category = new Category({
     _id: new mongoose.Types.ObjectId(),
-    name: catname
+    name: catname,
+    description: description
   });
   category
     .save()
@@ -69,6 +71,35 @@ exports.category_create = (req, res, next) => {
       });
     });
 }  
+
+exports.category_edit = (req, res, next) => {
+  const catname = req.params.catname;
+  const newcatname = req.body.catname;
+  const description = req.body.description;
+  console.log('EDIT CAT', newcatname)
+
+  Category.findOneAndUpdate({name: catname}, 
+    {
+      name: newcatname,
+      description: description
+    }, 
+    {
+      new: true
+    })    
+    .then((updatedDoc) => {    
+      if (!updatedDoc){
+        console.log(updatedDoc);
+        res.status(200).json({        
+          message: 'This category not exist'
+        });
+      }
+      res.status(200).json({
+        category: updatedDoc,
+        message: 'Successfuly edit category'
+      });      
+    });    
+    
+}
 
 exports.category_delete = (req, res, next) => {
 

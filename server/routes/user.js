@@ -2,7 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 const UserController = require('../controllers/user');
+
 const checkAuth = require('../middleware/check-auth');
+const roleAdmin = require('../middleware/admin');
+const roleTeacher = require('../middleware/teacher');
+const roleStudent = require('../middleware/student');
 
 const multer = require('multer');
 

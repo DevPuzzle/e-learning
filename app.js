@@ -7,6 +7,9 @@ const expressValidator = require('express-validator');
 
 const userRoutes = require('./server/routes/user');
 const adminRoutes = require('./server/routes/admin');
+const studentRoutes = require('./server/routes/student');
+const teacherRoutes = require('./server/routes/teacher');
+
 const categoryRoutes = require('./server/routes/category');
 const subcategoryRoutes = require('./server/routes/subcategory');
 const themeRoutes = require('./server/routes/theme');
@@ -37,6 +40,9 @@ app.use((req, res, next) => {
 
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
+app.use("/student", studentRoutes);
+app.use("/teacher", teacherRoutes);
+
 app.use("/category", categoryRoutes);
 app.use("/subcategory", subcategoryRoutes);
 app.use("/theme", themeRoutes);

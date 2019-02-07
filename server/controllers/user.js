@@ -41,7 +41,8 @@ exports.user_signup = (req, res, next) => {
               last_name: req.body.last_name,
               name: req.body.name,
               email: req.body.email,
-              password: hash
+              password: hash,
+              status: req.body,status
             });
             user
               .save()
@@ -93,7 +94,8 @@ exports.user_login = (req, res, next) => {
           const token = jwt.sign(
             {
               email: user[0].email,
-              userId: user[0]._id
+              userId: user[0]._id,
+              status: user[0].status
             },
             'secretkey',
             {
@@ -351,6 +353,8 @@ exports.user_edit_password = (req, res, next) => {
 exports.user_get = (req, res, next) => {
 
   const userId = req.userData.userId;  
+  const status = req.userData.status;
+  console.log('REQ USER STATUS', status);
   //console.log('REQ USER111', req.userData);
   console.log('ID', userId);
 
@@ -358,7 +362,7 @@ exports.user_get = (req, res, next) => {
     .select('first_name last_name email name password userImage status')
     .exec()
     .then(doc => {
-      
+
       console.log("From database", doc);
 
       if (doc) {        
