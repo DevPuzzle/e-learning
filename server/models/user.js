@@ -23,7 +23,7 @@ const userSchema = new Schema({
     match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
   },
   status: {
-    type: String, required: false
+    type: String, required: true
   },
   userImage: { type: String, required: false},
   password: { type: String, required: true },  

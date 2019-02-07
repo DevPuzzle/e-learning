@@ -8,7 +8,7 @@ const admin = require('../middleware/admin');
 router.get("/list", CategoryController.categories_list);
 router.get("/:catname", CategoryController.category_get);
 router.post("/create", checkAuth, admin, CategoryController.category_create);
-// router.patch("/update/:catname", CategoryController.user_avatar_upload);
+router.patch("/edit/:catname", checkAuth, admin, CategoryController.category_edit);
 router.delete("/delete/:catname", checkAuth, admin, CategoryController.category_delete);
 
 /// Subcategory /////////

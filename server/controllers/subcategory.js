@@ -6,10 +6,12 @@ const Subcategory = require('../models/subcategory');
 exports.subcategory_create = (req, res, next) => {
   const subcatname = req.body.subcatname;
   const cat_id = req.body.cat_id;
+  const description = req.body.description;
     
   subcategory = new Subcategory({
     _id: new mongoose.Types.ObjectId(),
     name: subcatname,
+    description: description,
     category: cat_id
   });
   subcategory
@@ -25,7 +27,7 @@ exports.subcategory_create = (req, res, next) => {
           console.log(result);   
           res.status(200).json({
             subcategory: subcategory,
-            message: 'Category get subcategory!!!'          
+            message: 'Successfuly created subcategory and Category get subcategory!!!'          
           });
         })
         .catch(err => {
@@ -55,7 +57,7 @@ exports.subcategory_list = (req, res, next) => {
     .then(doc => {
       if (doc) {
         res.status(200).json({
-          subcategoriesList: doc
+          subcategoryList: doc
         });        
       } else {
         res.status(500).json({
@@ -130,6 +132,35 @@ exports.subcategory_delete = (req, res, next) => {
         error: err,
         message: "This subcategory not exist or Some Error"
       });
-    });
+    });   
 
+}
+
+exports.subcategory_edit = (req, res, next) => {
+  const subcatname = req.params.subcatname;
+  const newsubcatname = req.body.subcatname;
+  const description = req.body.description;
+  console.log('EDIT SUBCAT', newsubcatname)
+
+  Subcategory.findOneAndUpdate({name: subcatname}, 
+    {
+      name: newsubcatname,
+      description: description
+    }, 
+    {
+      new: true
+    })    
+    .then((updatedDoc) => {    
+      if (!updatedDoc){
+        console.log(updatedDoc);
+        res.status(200).json({        
+          message: 'This subcategory not exist'
+        });
+      }
+      res.status(200).json({
+        subcategory: updatedDoc,
+        message: 'Successfuly edit subcategory'
+      });      
+    });    
+    
 }

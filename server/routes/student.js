@@ -4,9 +4,8 @@ const router = express.Router();
 const UserController = require('../controllers/user');
 const CategoryController = require('../controllers/category');
 const checkAuth = require('../middleware/check-auth');
-const admin = require('../middleware/admin');
+const student = require('../middleware/student');
 
-router.post("/login", admin, UserController.user_login);
-router.get("/get", checkAuth, admin, UserController.user_get);
+router.get("/get", checkAuth, student, UserController.user_get);
 
 module.exports = router;

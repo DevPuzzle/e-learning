@@ -8,6 +8,10 @@ const subcategorySchema = new Schema({
     required: true, 
     unique: true
   },
+  description: {
+    type: String, 
+    required: true,    
+  },
   category: {
     type: Schema.Types.ObjectId,
     ref: 'Category',
