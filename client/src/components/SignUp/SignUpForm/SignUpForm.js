@@ -5,9 +5,17 @@ import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
+import Select from '@material-ui/core/Select';
 
 class SignUpForm extends Component {
   
+
+
+  handleChange = name => event => {
+    console.log(name)
+    this.setState({ [name]: event.target.value });
+  };
+
   renderInputField = (field) => {
     const className = `signUp__form-input ${field.meta.touched 
     && field.meta.error 
@@ -23,6 +31,31 @@ class SignUpForm extends Component {
       </FormControl>
     )
   } 
+
+  renderSelectField = (field) => {
+    const className = `signUp__form-input ${field.meta.touched
+    && field.meta.error
+    ? 'has-error' : ''}` 
+    return(
+      <FormControl className={className}>
+      <InputLabel htmlFor={field.name}>Status</InputLabel>
+      <Select        
+        native
+        onChange={this.handleChange('status')}
+        inputProps={{
+          name: field.name,
+          id: field.name,
+        }}
+      {...field.input}
+      >
+      <option value='' />
+      <option value={'student'}>Student</option>
+      <option value={'teacher'}>Teacher</option>
+      </Select>
+    </FormControl>
+    )
+
+  }
   
 
   render(){
@@ -64,6 +97,11 @@ class SignUpForm extends Component {
         label='Confirm password'
         name='confirm_password'
         component={this.renderInputField}/>
+      </div>
+      <div className='signUp__select'>
+        <Field
+          name='status'
+          component={this.renderSelectField} />
       </div>
       <div className='signUp__btnCont'>
         <Button

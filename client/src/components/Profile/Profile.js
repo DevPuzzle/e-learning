@@ -11,17 +11,11 @@ import defaultImage from '../../assets/images/default-avatar.png';
 class Profile extends Component {
   state = {
     selectedImage: null,
-    showButtonDelete: false
-
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.props.onGetUserData();
-    
   }
-
- 
-
 
   changes = (e) => {
       this.setState({
@@ -31,65 +25,65 @@ class Profile extends Component {
   }
  
   changePasswordHandler = (values) => {
-    const username = localStorage.getItem('username');
-    this.props.onChangePassword(username, values);
+   
+    this.props.onChangePassword(values);
   }
 
   changeUserDataHandler = (values) => {
-    const username = localStorage.getItem('username');
-    this.props.onChangeUserData(username, values);
+    
+    this.props.onChangeUserData(values);
   }
 
   changeUserImage = () => {
     this.props.onUpdateUserImage(this.state.selectedImage);
     this.setState({
-      selectedImage: null,
-      showButtonDelete: true
+      selectedImage: null
     })
   }
 
   deleteAvatar = () => {
     this.props.onDeleteUserImage();
-    this.setState({
-      showButtonDelete: false
-    })
+    
   }
 
   render() {
-    console.log(this.state.showButtonDelete)
-    
-    let avatar = defaultImage;  
+     let avatar = defaultImage;
     if(this.props.avatar && this.props.avatar.userImage ){
       avatar = `http://localhost:5000/${this.props.avatar.userImage}`;
+      
       
     }else if(!this.props.avatar && this.props.userData && this.props.userData.userImage){
       avatar = `http://localhost:5000/${this.props.userData.userImage}`;
     }
     
-    
 
     return (
       <section className='profile'>
+      
         <div className='container'>
         <div className='row justify-content-center'>
           <div className='col-md-5 profile__container'> 
             <div className='profile__main'>
-            <div className='profile__image'>
-              <img src={avatar} alt=""/>
-            </div>      
+            
+              <div className='profile__image'>
+                <img src={avatar} alt=""/>
+              </div>
+         
             
             <ProfileImageChange
-              showButtonDelete={this.state.showButtonDelete}
+              avatar={avatar}
+              defaultImage={defaultImage}
               selectedImage={this.state.selectedImage}
-              userData={this.props.userData}
               changes={this.changes} 
               onSubmit={this.changeUserImage}
-              deleteAvatar={this.deleteAvatar}/>
+              deleteAvatar={this.deleteAvatar}
+              showDeleteButton={this.props.showDeleteButton}/>
             </div>
             <h3 className='profile__nickName'>
               {this.props.userData ? this.props.userData.username : null}
             </h3>
             <ProfileChangeData 
+              loading={this.props.loading}
               initialValues={this.props.userData}
               onSubmit={this.changeUserDataHandler}/>    
             <ProfileChangePassword 
@@ -106,19 +100,26 @@ class Profile extends Component {
 }
 
 const mapStateToProps = (state) => {
+   
   return {
     userData: state.profile.userData,
-    avatar: state.profile.avatar
+    avatar: state.profile.avatar,
+    loading: state.profile.loading,
+    showDeleteButton: state.profile.showDeleteButton
 }
 }
 
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onChangePassword: (username, values) => dispatch(actions.passwordChange(username, values)),
-    onChangeUserData: (username, values) => dispatch(actions.userDataChange(username, values)),
-    onGetUserData: () => dispatch(actions.getUserData()),
-    onUpdateUserImage: (image) => dispatch(actions.avatarUpload(image)),
+    onChangePassword: (values) => {dispatch(actions.passwordChange(values))
+    },
+    onChangeUserData: (values) => {dispatch(actions.userDataChange(values))
+    },
+    onGetUserData: () => {dispatch(actions.getUserData())
+    },
+    onUpdateUserImage: (image) => {dispatch(actions.avatarUpload(image))
+    },
     onDeleteUserImage: () => dispatch(actions.deleteAvatar())
   }
 }

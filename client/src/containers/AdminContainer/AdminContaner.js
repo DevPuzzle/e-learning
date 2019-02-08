@@ -10,8 +10,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
+import { connect } from 'react-redux';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -58,7 +57,7 @@ const styles = theme => ({
 class AdminContainer extends React.Component {
   state = {
     mobileOpen: false,
-    login: false
+    
   };
 
   handleDrawerToggle = () => {
@@ -67,7 +66,6 @@ class AdminContainer extends React.Component {
 
   render() {
     const { classes, theme } = this.props;
-
     const drawer = (
       <div>
         <div className={classes.toolbar} />
@@ -76,7 +74,9 @@ class AdminContainer extends React.Component {
         
             <ListItem button className='adminListItem'>
               <NavLink 
-              to='/loginadmin' activeClassName='adminListItem-active'>
+                exact
+                to='/admin' 
+                activeClassName='active-admin'>
               <ListItemIcon className='adminListItemIcon'><InboxIcon /></ListItemIcon>
                 Categories
               </NavLink>
@@ -90,8 +90,8 @@ class AdminContainer extends React.Component {
 
     return (
       <React.Fragment>    
-        {this.state.login === false ? 
-        <Redirect to='/loginadmin' />  :
+{/*        { !this.props.login ? 
+        <Redirect to='/loginadmin' />  : */}
       
         <div className={classes.root}>
         <CssBaseline />
@@ -143,18 +143,24 @@ class AdminContainer extends React.Component {
            <AdminComponent />
         </main>
       </div>
-      }
       </React.Fragment>
     );
   }
 }
 
+const mapStateToProps = (state) => {
+  
+  return {
+    login: state.loginAdmin.token
+  }
+}
+
+
+
 AdminContainer.propTypes = {
   classes: PropTypes.object.isRequired,
-  // Injected by the documentation to work in an iframe.
-  // You won't need it on your project.
   container: PropTypes.object,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(AdminContainer);
+export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(AdminContainer));

@@ -1,32 +1,124 @@
-import React, { Component } from 'react';
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import * as actions from '../actions/loginActions';
-import AdminContaner from '../containers/AdminContainer/AdminContaner';
-import AdminLogin from '../components/AdminComponents/AdminLogin/AdminLogin';
+import * as actionTypes from './actionTypes';
+import axios from 'axios';
 
+const URL = 'http://localhost:5000/user';
 
-class AdminRoutes extends Component {
-
- 
-render(){  
-
-  return(
-    <div style={ !this.props.location.pathname.includes('admin') ? {
-      display: 'none'
-    }: {display: 'block'}}>
-    <Switch>
-      <Route path='/admin' component={AdminContaner} />
-      <Route path='/loginadmin' component={AdminLogin} />
+export const passwordChange = (values) => {
+  return dispatch => {
+    dispatch(changePasswordStart());
+    axios.patch(`${URL}/edit/password`, values)
+    .then(response => {
       
-    </Switch>
+      dispatch(changePasswordSuccess(response.data));
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
 
-    </div>
-    )
+export const changePasswordStart = () => {
+  return {
+    type: actionTypes.PASSWORD_CHANGE_START
+  }
+}
+
+export const changePasswordSuccess = (data) => {
+  return {
+    type: actionTypes.PASSWORD_CHANGE_SUCCESS,
+    payload: data
+  }
+}
+
+export const userDataChange = (values) => {
+  return dispatch => {
+    dispatch(changeUserDataStart());
+    axios.patch(`${URL}/edit`, values)
+    .then(response => {
+      dispatch(changeUserDataSuccess(values));
+    })
+  }
+}
+
+export const changeUserDataStart = () => {
+  return {
+    type: actionTypes.USERDATA_CHANGE_START
+  }
+}
+
+export const changeUserDataSuccess = (data) => {
+  return {
+    type: actionTypes.USERDATA_CHANGE_SUCCESS,
+    payload: data
+  }
+}
+
+export const getUserData = () => {
+  return dispatch => {
+    const username = localStorage.getItem('username');
+    dispatch(getUserDataStart());
+    axios.get(`${URL}/profile`)
+    .then(response => {
+      console.log('USER DATA ПОЛУЧЕНЫ')
+      dispatch(getUserDataSuccess(response.data))
+    })
+  }
+}
+
+export const getUserDataStart = () => {
+  return {
+    type: actionTypes.GET_USERDATA_START
+  }
+}
+
+export const getUserDataSuccess = (data) => {
+  return{
+    type: actionTypes.GET_USERDATA_SUCCESS,
+    payload: data
+  }
+}
+
+export const avatarUpload = (image) => {
+  return dispatch => {
+    const username = localStorage.getItem('username');
+    const formData = new FormData();
+    formData.append('userImage', image)
+    dispatch(avatarUploadStart());
+    axios.patch(`${URL}/avatar/uploads`, formData)
+    .then(response => {
+      console.log(response.data)
+      dispatch(avatarUploadSuccess(response.data));
+    })
   }
 }
 
 
+export const avatarUploadStart = () => {
+  return {
+    type: actionTypes.AVATAR_UPLOAD_START
+  }
+}
 
+export const avatarUploadSuccess = (data) => {
+  return{
+    type: actionTypes.AVATAR_UPLOAD_SUCCESS,
+    payload: data
+  }
+}
 
-export default withRouter(AdminRoutes);
+export const deleteAvatar = () => {
+  return dispatch => {
+    const username = localStorage.getItem('username');
+    axios.delete(`${URL}/avatar/delete`)
+    .then(response => {
+      dispatch(deleteAvatarSuccess(response.data));
+    })
+  }
+}
+
+export const deleteAvatarSuccess = (data) => {
+  return {
+    type: actionTypes.DELETE_AVATAR_SUCCESS,
+    payload: data
+  }
+}

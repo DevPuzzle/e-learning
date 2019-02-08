@@ -1,0 +1,39 @@
+.categoryEditForm {
+  display: flex;
+  flex-direction: column;
+  &__field {
+    margin-bottom: 10px;
+    input {
+      border: 2px solid #cccccc;
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      -ms-border-radius: 3px;
+      -o-border-radius: 3px;
+      width: 100%;
+      padding: 5px;
+}
+  }
+  &__textarea {
+    textarea {
+      resize: none;
+      padding: 5px;
+      min-height: 150px;
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      -ms-border-radius: 3px;
+      -o-border-radius: 3px;
+}
+  }
+  &__btn {
+    cursor: pointer;
+    background: #4caf50;
+    padding: 5px;
+    color: #fff;
+    border: none;
+    &:hover {
+      background: #66bb6a;
+    }
+  }
+}

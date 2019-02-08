@@ -1,18 +1,19 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from '../actionTypes';
 import axios from 'axios';
-import setAuthToken from '../setAuthToken/setAuthToken';
+import setAuthToken from '../../setAuthToken/setAuthToken';
 
 
-const URL = 'http://localhost:5000/user/login';
+const URL = 'http://localhost:5000/admin/login';
 
-export const login = (values) => {
-  return dispatch => {    
+export const login = (values, history) => {
+  return dispatch => {
     dispatch(loginStart());
     axios.post(`${URL}`, values)
-    .then(response => {      
+    .then(response => {
       const token = response.data.token;
       const username = response.data.username;
       dispatch(loginSuccess(token, username));
+      history.push('/admin');
     })
     .catch(err => {
       console.log(err)
@@ -21,8 +22,8 @@ export const login = (values) => {
 }
 
 export const loginStart = () => {
-  return{
-    type: actionTypes.LOGIN_START
+  return {
+    type: actionTypes.LOGIN_ADMIN_START
   }
 }
 
@@ -31,35 +32,19 @@ export const loginSuccess = (token, username) => {
   localStorage.setItem('username', username);
   const data = {token: token, username: username}
   setAuthToken(token);
-  return{
-    type: actionTypes.LOGIN_SUCCESS,
+  return {
+    type: actionTypes.LOGIN_ADMIN_SUCCESS,
     payload: data
   }
 }
 
-
-export const authCheckState = () => {
+export const authCheckState = (props) => {
+  
   return dispatch => {
     const token = localStorage.getItem('jwt');
     const username = localStorage.getItem('username');
-    if(token){
+     if(token){
         dispatch(loginSuccess(token, username));
-      }
-      
+      }      
     }
   }
-
-
-export const logout = () => {
-  return dispatch => {
-    dispatch(logoutSuccess())
-  }
-}
-
-export const logoutSuccess = () => {
-  localStorage.removeItem('jwt');
-  localStorage.removeItem('username');
-  return{
-    type: actionTypes.LOGOUT_SUCCESS
-  }
-}
