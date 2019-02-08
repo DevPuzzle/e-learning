@@ -45,6 +45,9 @@ table {
 
 body {
 	font-family: 'Roboto',sans-serif;
+	padding: 0 !important;
+	overflow-y: scroll !important;
+
 }
 .wrapper {
 	max-width: 1170px;
@@ -56,4 +59,9 @@ body {
 
 button {
 	outline: none !important;
+}
+
+
+header {
+	padding: 0 !important;
 }

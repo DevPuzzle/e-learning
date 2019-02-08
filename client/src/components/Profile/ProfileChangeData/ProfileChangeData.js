@@ -27,7 +27,6 @@ export class ProfileChangeData extends Component {
   }
 
   render(){
-    console.log('DATA PROFILE',this.props)
     const { handleSubmit } = this.props;
     let renderform = <form 
     onSubmit={handleSubmit} 

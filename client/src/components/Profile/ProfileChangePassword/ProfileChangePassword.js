@@ -35,12 +35,12 @@ export class ProfileChangePassword extends Component {
       <Field 
         type='password'
         label='Previous password'
-        name='password'
+        name='prev_password'
         component={this.renderInputField}/>
       <Field 
         type='password'
         label='New password'
-        name='new_password'
+        name='password'
         component={this.renderInputField}/>
       <Field 
         type='password'
@@ -79,20 +79,20 @@ function validate(values){
 
   const errors = {};
   
-  if(!values.password){
-    errors.password = 'The password is empty'
+  if(!values.prev_password){
+    errors.prev_password = 'The password is empty'
   }
-  if(!values.new_password){
-    errors.new_password = 'Enter new password'
+  if(!values.password){
+    errors.password = 'Enter new password'
   }
   if(!values.confirm_password){
     errors.confirm_password = 'The confirm is empty'
   }
-  if(values.confirm_password !== values.new_password){
+  if(values.confirm_password !== values.password){
     errors.confirm_password = 'Passwords dont match!'
   }
-  if(values.new_password && values.new_password.length < 4 ){
-    errors.new_password = 'Passwords must be more than 4 symbols!'
+  if(values.password && values.password.length < 4 ){
+    errors.password = 'Passwords must be more than 4 symbols!'
   }
   
   return errors;

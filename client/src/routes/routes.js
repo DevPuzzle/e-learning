@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/loginActions';
 import Profile from '../components/Profile/Profile';
 
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 class Routes extends Component {
 
  componentDidMount(){
@@ -15,12 +17,18 @@ class Routes extends Component {
 render(){  
 
   return(
-    <Switch>   
-      <Route path='/profile' component={Profile} />   
-      <Route path='/schools' component={SchoolsContainer} /> 
-      <Route path='/home' component={HomeContainer}/>
-      <Redirect from='/' to='/home' />
-    </Switch>
+    <div style={ this.props.location.pathname.includes('admin') ? {
+      display: 'none'
+    }: {display: 'block'}}>
+      <Header />
+        <Switch>  
+          <Route path='/profile' component={Profile} />   
+          <Route path='/schools' component={SchoolsContainer} /> 
+          <Route path='/' component={HomeContainer}/>
+          {/* <Redirect from='/' to='/home' /> */}
+        </Switch>
+      <Footer />
+    </div>
     )
   }
 }

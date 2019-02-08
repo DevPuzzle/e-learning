@@ -9,6 +9,9 @@ import Input from '@material-ui/core/Input';
 
 export class ProfileImageChange extends Component {
 
+  
+
+
   renderInputField = (field) => {
     const className = `profile__form-input ${field.meta.touched 
       && field.meta.error 
@@ -29,11 +32,11 @@ export class ProfileImageChange extends Component {
   renderFileField = (field) => {
     return(
       <React.Fragment>
-        
       <input style={{display: 'none'}} 
         type={field.type} 
         {...field.input} 
         name={field.name}
+        onChange={this.props.changes}
         ref={fileInput => this.fileInput = fileInput}/>
       <Button 
         className='profile__changeImageBtn'
@@ -58,13 +61,25 @@ export class ProfileImageChange extends Component {
         component={this.renderFileField}/>
       </div>
       <div className='profile__changeImageBtnCont'>
-        <Button
-        className='profile__changeImageSaveBtn'
-        variant="contained" 
-        color="primary"
-        type='submit' >
-          Save
-        </Button>     
+      {this.props.selectedImage ?
+       <Button
+       className='profile__changeImageSaveBtn'
+       variant="contained" 
+       color="primary"
+       type='submit' >
+         Save
+       </Button>
+       : this.props.showButtonDelete || this.props.userData && this.props.userData.userImage ? 
+       <Button
+       className='profile__deleteImage'
+       variant="contained" 
+       color="primary"
+       type='button' 
+       onClick={this.props.deleteAvatar}>
+         Delete image
+       </Button>  : console.log('NO USER IMAGE')}
+       
+        
       </div>
     </form>
 

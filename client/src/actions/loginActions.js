@@ -56,11 +56,11 @@ export const authCheckState = () => {
 
 export const logout = () => {
   return dispatch => {
-    dispatch(logoutSucces())
+    dispatch(logoutSuccess())
   }
 }
 
-export const logoutSucces = () => {
+export const logoutSuccess = () => {
   localStorage.removeItem('jwt');
   localStorage.removeItem('username');
   return{

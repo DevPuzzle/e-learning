@@ -25,8 +25,8 @@ const loginReducer = (state = initialState, action) => {
     case actionTypes.LOGOUT_SUCCESS:
       return{
         ...state,
-        token: action.payload.token,
-        username: action.payload.username
+        token: null,
+        username: null
       }
     default: 
       return state

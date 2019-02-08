@@ -3,14 +3,13 @@ import axios from 'axios';
 
 const URL = 'http://localhost:5000/user';
 
-export const passwordChange = (username) => {
-  console.log(username)
+export const passwordChange = (username, values) => {
   return dispatch => {
     dispatch(changePasswordStart());
-    axios.post(`${URL}/edit/password/${username}`)
+    console.log(username)
+    axios.patch(`${URL}/edit/password/${username}`, values)
     .then(response => {
       dispatch(changePasswordSuccess(response.data));
-      console.log('data', response.data);
     })
   }
 }
@@ -24,6 +23,99 @@ export const changePasswordStart = () => {
 export const changePasswordSuccess = (data) => {
   return {
     type: actionTypes.PASSWORD_CHANGE_SUCCESS,
+    payload: data
+  }
+}
+
+export const userDataChange = (username, values) => {
+  return dispatch => {
+    dispatch(changeUserDataStart());
+    axios.patch(`${URL}/edit/${username}`, values)
+    .then(response => {
+      dispatch(changeUserDataSuccess(response.data));
+      console.log(response.data)
+    })
+  }
+}
+
+export const changeUserDataStart = () => {
+  return {
+    type: actionTypes.USERDATA_CHANGE_START
+  }
+}
+
+export const changeUserDataSuccess = (data) => {
+  return {
+    type: actionTypes.USERDATA_CHANGE_SUCCESS,
+    payload: data
+  }
+}
+
+export const getUserData = () => {
+  return dispatch => {
+    const username = localStorage.getItem('username');
+    dispatch(getUserDataStart());
+    axios.get(`${URL}/${username}`)
+    .then(response => {
+      dispatch(getUserDataSuccess(response.data))
+    })
+  }
+}
+
+export const getUserDataStart = () => {
+  return {
+    type: actionTypes.GET_USERDATA_START
+  }
+}
+
+export const getUserDataSuccess = (data) => {
+  return{
+    type: actionTypes.GET_USERDATA_SUCCESS,
+    payload: data
+  }
+}
+
+export const avatarUpload = (image) => {
+  return dispatch => {
+    const username = localStorage.getItem('username');
+    const formData = new FormData();
+    formData.append('userImage', image)
+    dispatch(avatarUploadStart());
+    axios.patch(`${URL}/avatar/uploads/${username}`, formData)
+    .then(response => {
+      dispatch(avatarUploadSuccess(response.data));
+    })
+  }
+}
+
+
+export const avatarUploadStart = () => {
+  return {
+    type: actionTypes.AVATAR_UPLOAD_START
+  }
+}
+
+export const avatarUploadSuccess = (data) => {
+  console.log('avatarUploadSucces', data)
+  return{
+    type: actionTypes.AVATAR_UPLOAD_SUCCESS,
+    payload: data
+  }
+}
+
+export const deleteAvatar = () => {
+  return dispatch => {
+    const username = localStorage.getItem('username');
+    axios.delete(`${URL}/avatar/delete/${username}`)
+    .then(response => {
+      dispatch(deleteAvatarSuccess(response.data));
+    })
+  }
+}
+
+export const deleteAvatarSuccess = (data) => {
+  return {
+    type: actionTypes.DELETE_AVATAR_SUCCESS,
     payload: data
   }
 }
