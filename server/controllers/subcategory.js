@@ -4,7 +4,7 @@ const Category = require('../models/category');
 const Subcategory = require('../models/subcategory');
 
 exports.subcategory_create = (req, res, next) => {
-  const subcatname = req.body.subcatname;
+  const subcatname = req.body.name;
   const cat_id = req.body.cat_id;
   const description = req.body.description;
     
@@ -72,10 +72,10 @@ exports.subcategory_list = (req, res, next) => {
 }  
 
 exports.subcategory_get = (req, res, next) => {
-  const subcatname = req.params.subcatname;
+  const id = req.params.id;
   console.log('GET SUBCATEGORY',subcatname);
  
-  Subcategory.findOne({name: subcatname})    
+  Subcategory.findOne({_id: id})    
     .exec()
     .then(doc => {      
       if (doc) {
@@ -97,8 +97,9 @@ exports.subcategory_get = (req, res, next) => {
 }
 
 exports.subcategory_delete = (req, res, next) => {
+  const id = req.params.id;
 
-  Subcategory.findOneAndDelete({name: req.params.subcatname})
+  Subcategory.findOneAndDelete({_id: id})
     .exec()
     .then(doc => {
       if(doc) {
@@ -137,12 +138,12 @@ exports.subcategory_delete = (req, res, next) => {
 }
 
 exports.subcategory_edit = (req, res, next) => {
-  const subcatname = req.params.subcatname;
-  const newsubcatname = req.body.subcatname;
+  const id = req.params.id;
+  const newsubcatname = req.body.name;
   const description = req.body.description;
   console.log('EDIT SUBCAT', newsubcatname)
 
-  Subcategory.findOneAndUpdate({name: subcatname}, 
+  Subcategory.findOneAndUpdate({_id: id}, 
     {
       name: newsubcatname,
       description: description

@@ -6,16 +6,6 @@ import * as actions from '../../actions/adminActions/categoriesActions';
 import { connect } from 'react-redux';
 import AdminCategory from './AdminCategory/AdminCategory';
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-});
-
 
  class AdminComponent extends Component {
 
@@ -23,34 +13,35 @@ const styles = theme => ({
     onEdit: null
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.props.onGetCategories();
   }
 
+ 
+  
   editCategory = (id) => {
-    console.log(id)
     this.setState({
       onEdit: id
     })
   }
 
   submit = (values) => {
+    this.props.onUpdateCategory(values, values._id);
     this.setState({
       onEdit: null
     })
   }
   
   render() {
-    const { classes } = this.props;
     return (
-      <div className={classes.root}>
+      <div >
         <div className='row courses'>
         <div className='col-md-4 courses__elementList'>
           <h3 className='courses__title'>
             Categories
           </h3>
           {this.props.categories ? 
-          this.props.categories.doc.map(category => (
+          this.props.categories.map(category => (
           <AdminCategory 
             submit={this.submit}
             category={category}
@@ -88,9 +79,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onGetCategories: () => dispatch(actions.getCategories())
+    onGetCategories: () => dispatch(actions.getCategories()),
+    onUpdateCategory: (values, categoryName) => dispatch(actions.updateCategory(values, categoryName))
     }
   }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AdminComponent));
+export default connect(mapStateToProps, mapDispatchToProps)((AdminComponent));

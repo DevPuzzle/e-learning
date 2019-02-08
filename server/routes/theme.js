@@ -6,9 +6,9 @@ const checkAuth = require('../middleware/check-auth');
 const admin = require('../middleware/admin');
 
 router.get("/list", ThemeController.theme_list);
-router.get("/:themename", ThemeController.theme_get);
+router.get("/:id", ThemeController.theme_get);
 router.post("/create", checkAuth, admin, ThemeController.theme_create);
-router.patch("/edit/:themename", ThemeController.theme_edit);
-router.delete("/delete/:themename", checkAuth, admin, ThemeController.theme_delete);
+router.patch("/edit/:id", ThemeController.theme_edit);
+router.delete("/delete/:id", checkAuth, admin, ThemeController.theme_delete);
 
 module.exports = router;

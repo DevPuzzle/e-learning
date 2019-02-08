@@ -25,9 +25,9 @@ exports.categories_list = (req, res, next) => {
 }  
 
 exports.category_get = (req, res, next) => {
-  const catname = req.params.catname;
+  const id = req.params.id;
  
-  Category.findOne({name: catname})    
+  Category.findOne({_id: id})    
     .exec()
     .then(doc => {      
       if (doc) {
@@ -46,7 +46,7 @@ exports.category_get = (req, res, next) => {
 }
 
 exports.category_create = (req, res, next) => {
-  const catname = req.body.catname;
+  const catname = req.body.name;
   const description = req.body.description;
   
   category = new Category({
@@ -73,12 +73,12 @@ exports.category_create = (req, res, next) => {
 }  
 
 exports.category_edit = (req, res, next) => {
-  const catname = req.params.catname;
-  const newcatname = req.body.catname;
+  const id = req.params.id;
+  const newcatname = req.body.name;
   const description = req.body.description;
   console.log('EDIT CAT', newcatname)
 
-  Category.findOneAndUpdate({name: catname}, 
+  Category.findOneAndUpdate({_id: id}, 
     {
       name: newcatname,
       description: description
@@ -102,14 +102,15 @@ exports.category_edit = (req, res, next) => {
 }
 
 exports.category_delete = (req, res, next) => {
+  const id = req.params.id;
 
-  Category.findOne({name: req.params.catname})
+  Category.findOne({_id: id})
     .exec()
     .then(doc => {
       if(doc) {
         console.log('SUBBB', doc.subcategory);
         if(doc.subcategory.length < 1){
-          Category.remove({ name: req.params.catname })
+          Category.remove({ _id: id })
             .exec()
             .then(result => {
               res.status(200).json({

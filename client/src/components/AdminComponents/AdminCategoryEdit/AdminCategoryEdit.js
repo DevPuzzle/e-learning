@@ -9,8 +9,23 @@ const renderInputField = (field) => {
     ? 'has-error' : ''}`
 
   return(
-    <div className={className}>
-      <input name={field.name} type={field.type} {...field.input} autoFocus/>
+    <div className={className + ' categoryEditForm__field'}>
+      <input name={field.name} type={field.type} {...field.input}/>
+      <div className='error'>
+        {field.meta.touched ? field.meta.error : ''}
+      </div>
+    </div>
+  )
+}
+
+const renderTextAreaField = (field) => {
+  const className = `${field.meta.touched 
+    && field.meta.error 
+    ? 'has-error' : ''}`
+
+  return(
+    <div className={className + ' categoryEditForm__textarea'}>
+      <textarea name={field.name} type={field.type} {...field.input}/>
       <div className='error'>
         {field.meta.touched ? field.meta.error : ''}
       </div>
@@ -29,7 +44,11 @@ const AdminCategoryEdit = (props) => {
             type='text'
             name='name'
             component={renderInputField}/>
-          <div >
+            <Field 
+              type='text'
+              name='description'
+              component={renderTextAreaField}/>
+         
             <button
             className='categoryEditForm__btn'
             variant="contained" 
@@ -37,7 +56,6 @@ const AdminCategoryEdit = (props) => {
             type='submit' >
               Save
             </button>     
-          </div>
           </form>
 
 

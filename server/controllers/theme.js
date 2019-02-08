@@ -4,7 +4,7 @@ const Subcategory = require('../models/subcategory');
 const Theme = require('../models/theme');
 
 exports.theme_create = (req, res, next) => {
-  const themename = req.body.themename;
+  const themename = req.body.name;
   const description = req.body.description;
   const subcat_id = req.body.subcat_id;
 
@@ -71,10 +71,10 @@ exports.theme_list = (req, res, next) => {
 }  
 
 exports.theme_get = (req, res, next) => {
-  const themename = req.params.themename;
+  const id = req.params.id;
   console.log('GET THEME', themename);
 
-  Theme.findOne({name: themename})
+  Theme.findOne({_id: id})
     .exec()
     .then(doc => {
       if(doc) {
@@ -97,8 +97,9 @@ exports.theme_get = (req, res, next) => {
 }
 
 exports.theme_delete = (req, res, next) => {
+  const id = req.params.id
 
-  Theme.findOneAndDelete({name: req.params.themename})
+  Theme.findOneAndDelete({_id: id})
     .exec()
     .then(doc => {
       if(doc) {
@@ -136,12 +137,12 @@ exports.theme_delete = (req, res, next) => {
 }
 
 exports.theme_edit = (req, res, next) => {
-  const themename = req.params.themename;
-  const newthemename = req.body.themename;
+  const id = req.params.id;
+  const newthemename = req.body.name;
   const description = req.body.description;
   console.log('EDIT THEME', newthemename)
 
-  Theme.findOneAndUpdate({name: themename}, 
+  Theme.findOneAndUpdate({_id: id}, 
     {
       name: newthemename,
       description: description

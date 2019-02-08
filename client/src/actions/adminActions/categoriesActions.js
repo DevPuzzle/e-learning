@@ -27,3 +27,30 @@ export const getCategoriesSuccess = (data) => {
     payload: data
   }
 }
+
+export const updateCategory = (values, categoryId) => {
+  return dispatch => {
+    dispatch(updateCategoryStart());
+    axios.patch(`${URL}/edit/${categoryId}`, values)
+    .then(response => {
+      dispatch(updateCategorySuccess(response.data.category));/* 
+      dispatch(getCategories()); */
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
+
+export const updateCategoryStart = () => {
+  return {
+    type: actionTypes.UPDATE_CATEGORY_START
+  }
+}
+
+export const updateCategorySuccess = (data) => {
+  return {
+    type: actionTypes.UPDATE_CATEGORY_SUCCESS,
+    payload: data
+  }
+}
