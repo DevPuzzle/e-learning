@@ -24,6 +24,28 @@ exports.categories_list = (req, res, next) => {
     }); 
 }  
 
+exports.subcategories_of_category = (req, res, next) => {
+  const id = req.params.id;
+
+  Category.findOne({_id: id})   
+    .populate('subcategory') 
+    .exec()
+    .then(doc => {      
+      if (doc) {
+        res.status(200).json({
+          subcategories: doc.subcategory
+        });
+      } else {
+        res.status(404)
+          .json({ message: "Not exist this category id" });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });      
+    });
+}
+
 exports.category_get = (req, res, next) => {
   const id = req.params.id;
  
