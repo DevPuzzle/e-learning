@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User  = require('../models/user');
 const fs = require('fs');
+const mailer = require('../mailer/mailer');
 
 exports.user_signup = (req, res, next) => {
   req.check('email', 'Invalid email address').isEmail();
@@ -15,7 +16,9 @@ exports.user_signup = (req, res, next) => {
     });
   }
 
-  User.find({ email: req.body.email })
+  const email = req.body.email
+
+  User.find({ email: email })
     .exec()
     .then(user => {
       if (user.length >= 1) {
@@ -23,6 +26,10 @@ exports.user_signup = (req, res, next) => {
           message: "Mail exists"
         });
       } else {
+
+        // Flag the account as inactive
+        const active = false;
+
         if (req.body.password !== req.body.confirm_password) {
           // passwords do not match...
           return res.status(500).json({
@@ -35,14 +42,17 @@ exports.user_signup = (req, res, next) => {
               error: err
             });
           } else {
+            //const status = 'admin'
             const user = new User({
               _id: new mongoose.Types.ObjectId(),
               first_name: req.body.first_name,
               last_name: req.body.last_name,
               name: req.body.name,
-              email: req.body.email,
+              email: email,
               password: hash,
-              status: req.body,status
+              active: active,
+              status: req.body.status
+              //status: status
             });
             user
               .save()
@@ -58,10 +68,49 @@ exports.user_signup = (req, res, next) => {
                   error: err
                 });
               });
+            // Compose an email
+            const html = `Hi, there,
+              <br/>
+              Thank you for registering!
+              <br/><br/>
+              Please verify your email ${email}
+              <br/>
+              <a href="http://localhost:3000/user/verify">
+                http://localhost:3000/user/verify
+              </>
+              <br/><br/>
+              Have a pleasant day!`;  
+            // Send the email
+            mailer.sendEmail('adad', email, 'Please verify your email', html)
           }
         });
       }
     });
+}
+
+exports.user_active = (req, res, next) => {
+  const email = req.body.email;
+
+  User.findOneAndUpdate({email: email}, 
+    {
+      active: true      
+    }, 
+    {
+      new: true
+    })    
+    .then((updatedDoc) => {    
+      if (!updatedDoc){
+        console.log(updatedDoc);
+        res.status(200).json({        
+          message: 'This email not exist'
+        });
+      }
+      res.status(200).json({
+        user: updatedDoc,
+        message: 'Successfuly verify user'
+      });      
+    });    
+
 }
 
 exports.user_login = (req, res, next) => {
@@ -83,13 +132,24 @@ exports.user_login = (req, res, next) => {
           message: "Auth failed"
         });
       }
+
+      // Check if the account has been active
+      if (!user[0].active) {
+        console.log('ACTIVE = ', user[0].active);
+        return res.status(500).json({
+          message: 'You need to verify email first'
+        });
+      }
+
       bcrypt.compare(req.body.password, user[0].password, (err, result) => {
         if (err) {
           return res.status(401).json({
             message: "Auth failed"
           });
-        }
-        if (result) {
+        }       
+
+        if (result) {          
+
           const username = user[0].name;
           const token = jwt.sign(
             {

@@ -8,7 +8,6 @@ export const passwordChange = (values) => {
     dispatch(changePasswordStart());
     axios.patch(`${URL}/edit/password`, values)
     .then(response => {
-      
       dispatch(changePasswordSuccess(response.data));
     })
     .catch(err => {
@@ -29,6 +28,7 @@ export const changePasswordSuccess = (data) => {
     payload: data
   }
 }
+
 
 export const userDataChange = (values) => {
   return dispatch => {
