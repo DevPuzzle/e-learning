@@ -3,8 +3,10 @@ import { withStyles } from '@material-ui/core/styles';
 
 import './AdminComponent.scss';
 import * as actions from '../../actions/adminActions/categoriesActions';
+import * as subCategoryActions from '../../actions/adminActions/subCategoriesActions';
 import { connect } from 'react-redux';
 import AdminCategory from './AdminCategory/AdminCategory';
+import AdminSubCategory from './AdminSubCategory/AdminSubCategory';
 
 
  class AdminComponent extends Component {
@@ -31,6 +33,10 @@ import AdminCategory from './AdminCategory/AdminCategory';
       onEdit: null
     })
   }
+
+  getSubCategoriesHandler = (id) => {
+    this.props.onGetSubCategories(id);
+  }
   
   render() {
     return (
@@ -43,6 +49,7 @@ import AdminCategory from './AdminCategory/AdminCategory';
           {this.props.categories ? 
           this.props.categories.map(category => (
           <AdminCategory 
+            getSubCategories={this.getSubCategoriesHandler}
             submit={this.submit}
             category={category}
             onEdit={this.editCategory}
@@ -55,7 +62,13 @@ import AdminCategory from './AdminCategory/AdminCategory';
           <h3 className='courses__title'>
             Sub Categories
           </h3>
-            Sub Categories
+          {this.props.subcategories ?
+            this.props.subcategories.map(subcategory => (
+              <AdminSubCategory 
+                key={subcategory._id}
+                subcategory={subcategory}/>
+            )) : null }
+            
         </div>
         <div className='col-md-4 courses__elementList'>
           <h3 className='courses__title'>
@@ -73,14 +86,17 @@ import AdminCategory from './AdminCategory/AdminCategory';
 
 const mapStateToProps = (state) => {
   return {
-    categories: state.categories.categories
+    categories: state.categories.categories,
+    subcategories: state.subcategories.subcategories
+    
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onGetCategories: () => dispatch(actions.getCategories()),
-    onUpdateCategory: (values, categoryName) => dispatch(actions.updateCategory(values, categoryName))
+    onUpdateCategory: (values, categoryName) => dispatch(actions.updateCategory(values, categoryName)),
+    onGetSubCategories: (categoryId) => dispatch(subCategoryActions.getSubCategories(categoryId))
     }
   }
 

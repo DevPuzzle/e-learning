@@ -11,7 +11,7 @@ import CardContent from '@material-ui/core/CardContent';
     {props.editState !== props.category._id ?
     <div className='courses__card'>
     <div className='courses__cont'>
-    <h3 className='courses__name'>
+    <h3 className='courses__name' onClick={() => props.getSubCategories(props.category._id)}>
     {props.category.name}
     </h3>         
     <div className='courses__pannel'>

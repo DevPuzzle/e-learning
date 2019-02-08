@@ -16,7 +16,6 @@ const categoriesReducer = ( state = initialState, action ) => {
         categories: null
       }
     case actionTypes.GET_CATEGORIES_SUCCESS:
-    console.log(action.payload.categoryList)
       return {
         ...state,
         loading: false,
@@ -37,7 +36,7 @@ const categoriesReducer = ( state = initialState, action ) => {
         error: false,
         categories: state.categories.map(category => category._id === action.payload._id ?
           {...category, name: action.payload.name, description: action.payload.description} : category)
-      }
+      }    
     default: 
       return state
   }
