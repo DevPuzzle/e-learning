@@ -39,6 +39,8 @@ const upload = multer({
 
 router.post("/signup", UserController.user_signup);
 
+router.post("/active", UserController.user_active);
+
 router.post("/login", UserController.user_login);
 
 router.get("/profile", checkAuth, UserController.user_get);
