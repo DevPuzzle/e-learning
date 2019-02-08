@@ -10,5 +10,7 @@ router.get("/:id", SubcategoryController.subcategory_get);
 router.post("/create", checkAuth, admin, SubcategoryController.subcategory_create);
 router.patch("/edit/:id", checkAuth, admin, SubcategoryController.subcategory_edit);
 router.delete("/delete/:id", checkAuth, admin, SubcategoryController.subcategory_delete);
+// Theme /////////
+router.get("/:id/themes", SubcategoryController.themes_of_subcategory);
 
 module.exports = router;

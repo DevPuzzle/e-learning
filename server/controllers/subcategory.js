@@ -71,6 +71,28 @@ exports.subcategory_list = (req, res, next) => {
     }); 
 }  
 
+exports.themes_of_subcategory = (req, res, next) => {
+  const id = req.params.id;
+
+  Subcategory.findOne({_id: id})   
+    .populate('theme') 
+    .exec()
+    .then(doc => {      
+      if (doc) {
+        res.status(200).json({
+          themes: doc.theme
+        });
+      } else {
+        res.status(404)
+          .json({ message: "Not exist this subcategory id" });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });      
+    });
+}
+
 exports.subcategory_get = (req, res, next) => {
   const id = req.params.id;
   console.log('GET SUBCATEGORY',subcatname);

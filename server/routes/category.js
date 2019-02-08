@@ -12,6 +12,6 @@ router.patch("/edit/:id", checkAuth, admin, CategoryController.category_edit);
 router.delete("/delete/:id", checkAuth, admin, CategoryController.category_delete);
 
 /// Subcategory /////////
-// router.get("/:catname/subcategory/list", CategoryController.subcategories_list);
+router.get("/:id/subcategories", CategoryController.subcategories_of_category);
 // router.post("/:catname/subcategory/create", CategoryController.subcategory_create);
 module.exports = router;
