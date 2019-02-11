@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const URL = 'http://localhost:5000/category';
 
-
+//CATEGORIES
 export const getCategories = () => {
   return dispatch => {
     dispatch(getCategoriesStart());
@@ -33,8 +33,7 @@ export const updateCategory = (values, categoryId) => {
     dispatch(updateCategoryStart());
     axios.patch(`${URL}/edit/${categoryId}`, values)
     .then(response => {
-      dispatch(updateCategorySuccess(response.data.category));/* 
-      dispatch(getCategories()); */
+      dispatch(updateCategorySuccess(response.data.category));
     })
     .catch(err => {
       console.log(err)

@@ -6,6 +6,7 @@ import profile from '../reducers/profileReducer';
 import loginAdmin from './adminReducers/loginReducer';
 import categories from './adminReducers/categoriesReducer';
 import subcategories from './adminReducers/subCategoriesReducer';
+import themes from './adminReducers/themesReducer';
 
 export default combineReducers({
   form: formReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   profile,
   loginAdmin,
   categories,
-  subcategories
+  subcategories,
+  themes
 })

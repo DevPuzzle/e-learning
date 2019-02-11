@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import './AdminCategoryEdit.scss';
+import './AdminEditForm.scss';
 
 
 const renderInputField = (field) => {

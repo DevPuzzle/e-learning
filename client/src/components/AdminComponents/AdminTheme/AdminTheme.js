@@ -4,19 +4,19 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import AdminEditForm from '../../UI/Templates/AdminEditForm/AdminEditForm';
 
- const AdminSubCategory = (props) => {
+ const AdminTheme = (props) => {
    console.log(props)
   return (
     <Card className='courses__cardCont'>
     <CardContent>
-      {props.editState !== props.subcategory._id ?
+      {props.editState !== props.theme._id ?
         <div className='courses__card'>
         <div className='courses__cont'>
-          <h3 className='courses__name' onClick={() => props.getThemes(props.subcategory._id)}>
-            {props.subcategory.name}
+          <h3 className='courses__name'>
+            {props.theme.name}
           </h3>
           <div className='courses__pannel'>
-            <div className='courses__icon' onClick={() => props.subcategoryEdit(props.subcategory._id)}>
+            <div className='courses__icon' onClick={() => props.themeEdit(props.theme._id)}>
               <i className="fas fa-marker"></i>
             </div>
             <div className='courses__icon'>
@@ -25,10 +25,10 @@ import AdminEditForm from '../../UI/Templates/AdminEditForm/AdminEditForm';
           </div>
         </div>
         <Typography>
-          {props.subcategory.description}
+          {props.theme.description}
         </Typography>
         </div>
-        : <AdminEditForm onSubmit={props.submit} form={props.subcategory.name} initialValues={props.subcategory}/>
+        : <AdminEditForm onSubmit={props.submit} form={props.theme.name} initialValues={props.theme}/>
 
       }
     
@@ -38,4 +38,4 @@ import AdminEditForm from '../../UI/Templates/AdminEditForm/AdminEditForm';
     </Card>
   )
 }
-export default AdminSubCategory;
+export default AdminTheme;

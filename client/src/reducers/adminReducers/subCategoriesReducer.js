@@ -9,7 +9,6 @@ const initialState = {
 const subCategoriesReducer = (state = initialState, action) => {
   switch(action.type){
     case actionTypes.GET_SUBCATEGORIES_START:
-    console.log('start')
       return {
         ...state,
         loading: true,
@@ -22,6 +21,20 @@ const subCategoriesReducer = (state = initialState, action) => {
         loading: false,
         error: false,
         subcategories: action.payload
+      }
+    case actionTypes.UPDATE_SUBCATEGORY_START:
+      return {
+        ...state,
+        loading: true,
+        error: false
+      }
+    case actionTypes.UPDATE_SUBCATEGORY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        subcategories: state.subcategories.map(subcategory => subcategory._id === action.payload._id ?
+          {...subcategory, name: action.payload.name, description: action.payload.description} : subcategory)
       }
     default:
       return state
