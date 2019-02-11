@@ -3,7 +3,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User  = require('../models/user');
 const fs = require('fs');
-const mailer = require('../mailer/mailer');
+const nodemailer = require('nodemailer');
+const config = require('../config/mailer');
 
 exports.user_signup = (req, res, next) => {
   req.check('email', 'Invalid email address').isEmail();
@@ -57,6 +58,39 @@ exports.user_signup = (req, res, next) => {
             user
               .save()
               .then(result => {
+
+                const transporter = nodemailer.createTransport({
+                  service: 'gmail',
+                  auth: {
+                    user: config.MAIL_USER,
+                    pass: config.MAIL_PASS
+                  }
+                });
+
+                const mailOptions = {
+                  from: config.MAIL_USER,
+                  to: email,
+                  subject: 'Verify your e-learning account',
+                  html:`Hi, there,
+                  <br/>
+                  Thank you for registering!
+                  <br/>
+                  Please verify your email ${email}
+                  <br/>
+                  on this link<a href="http://localhost:3000/user/verify">
+                    http://localhost:3000/user/verify<a/>
+                  <br/>
+                  Have a pleasant day!`
+                };
+
+                transporter.sendMail(mailOptions, function(error, info){
+                  if (error) {
+                    console.log(error);
+                  } else {
+                    console.log('Email sent: ' + info.response);
+                  }
+                });
+                
                 console.log(result);
                 res.status(201).json({
                   message: "User created"
@@ -67,21 +101,7 @@ exports.user_signup = (req, res, next) => {
                 res.status(500).json({
                   error: err
                 });
-              });
-            // Compose an email
-            const html = `Hi, there,
-              <br/>
-              Thank you for registering!
-              <br/><br/>
-              Please verify your email ${email}
-              <br/>
-              <a href="http://localhost:3000/user/verify">
-                http://localhost:3000/user/verify
-              </>
-              <br/><br/>
-              Have a pleasant day!`;  
-            // Send the email
-            mailer.sendEmail('adad', email, 'Please verify your email', html)
+              });            
           }
         });
       }

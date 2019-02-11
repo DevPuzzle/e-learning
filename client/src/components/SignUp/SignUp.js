@@ -5,9 +5,8 @@ import * as actions from '../../actions/signupActions';
 
 class SignUp extends Component {
 
-  submit = (values) => {/* 
-    this.props.onSignUpUser(values) */
-    console.log(values);
+  submit = (values) => {
+    this.props.onSignUpUser(values)
   }
 
   render(){
