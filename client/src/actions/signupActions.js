@@ -11,7 +11,7 @@ export const signup = (values) => {
     dispatch(signupStart());
     axios.post(`${URL}`, values)
     .then(response => {
-      
+      dispatch(signUpSuccess(response.data));
       window.location.replace(`http://localhost:3000/home/login`);
     })
     .catch(err =>{
@@ -23,5 +23,12 @@ export const signup = (values) => {
 export const signupStart = () => {
   return {
     type: actionTypes.SIGNUP_START
+  }
+}
+
+export const  signUpSuccess = (data) => {
+  return {
+    type: actionTypes.SIGNUP_SUCCESS,
+    payload: data
   }
 }
