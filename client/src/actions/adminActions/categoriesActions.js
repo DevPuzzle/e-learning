@@ -54,4 +54,25 @@ export const updateCategorySuccess = (data) => {
   }
 }
 
+export const addCategory = (values) => {
+  return dispatch => {
+    dispatch(addCategoryStart());
+    axios.post(`${URL}/create`, values)
+    .then(response => {
+      dispatch(addCategorySuccess(response.data.category))
+    })
+  }
+}
 
+export const addCategoryStart = () => {
+  return {
+    type: actionTypes.ADD_CATEGORY_START
+  }
+}
+
+export const addCategorySuccess = (data) => {
+  return {
+    type: actionTypes.ADD_CATEGORY_SUCCESS,
+    payload: data
+  }
+}

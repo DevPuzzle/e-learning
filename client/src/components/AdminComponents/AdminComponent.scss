@@ -52,4 +52,12 @@
       color: #c62828;
     }
   }
+  &__addContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.activeName {
+  color: #c62828;
 }

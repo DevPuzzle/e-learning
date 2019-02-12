@@ -2,17 +2,16 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import AdminEditForm from '../../UI/Templates/AdminEditForm/AdminEditForm';
+import AdminEditForm from '../../../../UI/Templates/AdminEditForm/AdminEditForm';
 
  const AdminSubCategory = (props) => {
-   console.log(props)
   return (
     <Card className='courses__cardCont'>
     <CardContent>
       {props.editState !== props.subcategory._id ?
         <div className='courses__card'>
         <div className='courses__cont'>
-          <h3 className='courses__name' onClick={() => props.getThemes(props.subcategory._id)}>
+          <h3 className={props.active === props.subcategory._id ? 'courses__name activeName' : 'courses__name'} onClick={() => props.getThemes(props.subcategory._id)}>
             {props.subcategory.name}
           </h3>
           <div className='courses__pannel'>

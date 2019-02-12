@@ -1,11 +1,13 @@
 import * as actionTypes from '../actionTypes';
 import axios from 'axios';
-
+import {resetThemes} from './themesActions';
 
 const URL = 'http://localhost:5000';
 
 export const getSubCategories = (categoryId) => {
+
   return dispatch => {
+    dispatch(resetThemes());
     dispatch(getSubCategoriesStart());
     axios.get(`${URL}/category/${categoryId}/subcategories`)
     .then(response => {
@@ -58,3 +60,25 @@ export const updateSubCategorySuccess = (data) => {
   }
 }
 
+export const addSubcategory = (values,categoryId) => {
+  return dispatch => {
+    dispatch(addSubcategoryStart());
+    axios.post(`${URL}/subcategory/create`, {name: values.name, description:values.description, cat_id: categoryId})
+    .then(response => {
+      dispatch(addSubcategorySuccess(response.data.subcategory))
+    })
+  }
+}
+
+export const addSubcategoryStart = () => {
+  return {
+    type: actionTypes.ADD_SUBCATEGORY_START
+  }
+}
+
+export const addSubcategorySuccess = (data) => {
+  return {
+    type: actionTypes.ADD_SUBCATEGORY_SUCCESS,
+    payload: data
+  }
+}

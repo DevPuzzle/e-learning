@@ -36,6 +36,25 @@ const themesReducer = (state = initialState, action) => {
         themes: state.themes.map(theme => theme._id === action.payload._id ?
             {...theme, name: action.payload.name, description: action.payload.description} : theme)
       }
+    case actionTypes.ADD_THEME_SUCCESS:
+      return {
+        ...state,
+        themes: [...state.themes, action.payload]
+      }
+    case actionTypes.RESET_THEMES:
+      return {
+        ...state,
+        themes: null
+      }
+    case actionTypes.DELETE_THEME_SUCCESS:
+      const new1 = state.themes.filter(theme => console.log(theme._id !== action.payload));
+      console.log(new1)
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        themes: state.themes.filter(theme => theme._id !== action.payload)
+      }
     default:
       return state
   }

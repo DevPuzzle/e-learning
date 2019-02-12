@@ -55,3 +55,49 @@ export const updateThemeSuccess = (data) => {
     payload: data
   }
 }
+
+export const resetThemes = () => {
+  return {
+    type: actionTypes.RESET_THEMES
+  }
+}
+
+export const addTheme = (values, subcategoryId) => {
+  return dispatch => {
+    axios.post(`${URL}/theme/create`, {name: values.name, description: values.description, subcat_id: subcategoryId})
+    .then(response => {
+      dispatch(addThemeSuccess(response.data.theme))
+    })
+  }
+}
+
+export const addThemeSuccess = (data) => {
+  return {
+    type: actionTypes.ADD_THEME_SUCCESS,
+    payload: data
+  }
+}
+
+export const deleteTheme = (id) => {
+  return dispatch => {
+    dispatch(deleteThemeStart());
+    axios.delete(`${URL}/theme/delete/${id}`)
+    .then(response => {
+      console.log(response);
+      dispatch(deleteThemeSuccess(id));
+    })
+  }
+}
+
+export const deleteThemeStart = () => {
+  return {
+    type: actionTypes.DELETE_THEME_START
+  }
+}
+
+export const deleteThemeSuccess = (data) => {
+  return {
+    type: actionTypes.DELETE_THEME_SUCCESS,
+    payload: data
+  }
+}

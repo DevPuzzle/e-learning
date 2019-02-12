@@ -19,7 +19,7 @@ import AdminEditForm from '../../UI/Templates/AdminEditForm/AdminEditForm';
             <div className='courses__icon' onClick={() => props.themeEdit(props.theme._id)}>
               <i className="fas fa-marker"></i>
             </div>
-            <div className='courses__icon'>
+            <div className='courses__icon' onClick={() => props.deleteTheme(props.theme._id)}>
               <i className="fas fa-trash-alt"></i>
             </div>
           </div>

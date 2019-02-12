@@ -36,6 +36,11 @@ const subCategoriesReducer = (state = initialState, action) => {
         subcategories: state.subcategories.map(subcategory => subcategory._id === action.payload._id ?
           {...subcategory, name: action.payload.name, description: action.payload.description} : subcategory)
       }
+    case actionTypes.ADD_SUBCATEGORY_SUCCESS:
+      return {
+        ...state,
+        subcategories: [...state.subcategories, action.payload]
+      }
     default:
       return state
   }
