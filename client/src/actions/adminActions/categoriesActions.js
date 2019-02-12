@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const URL = 'http://localhost:5000/category';
 
-
+//CATEGORIES
 export const getCategories = () => {
   return dispatch => {
     dispatch(getCategoriesStart());
@@ -33,8 +33,7 @@ export const updateCategory = (values, categoryId) => {
     dispatch(updateCategoryStart());
     axios.patch(`${URL}/edit/${categoryId}`, values)
     .then(response => {
-      dispatch(updateCategorySuccess(response.data.category));/* 
-      dispatch(getCategories()); */
+      dispatch(updateCategorySuccess(response.data.category));
     })
     .catch(err => {
       console.log(err)
@@ -51,6 +50,29 @@ export const updateCategoryStart = () => {
 export const updateCategorySuccess = (data) => {
   return {
     type: actionTypes.UPDATE_CATEGORY_SUCCESS,
+    payload: data
+  }
+}
+
+export const addCategory = (values) => {
+  return dispatch => {
+    dispatch(addCategoryStart());
+    axios.post(`${URL}/create`, values)
+    .then(response => {
+      dispatch(addCategorySuccess(response.data.category))
+    })
+  }
+}
+
+export const addCategoryStart = () => {
+  return {
+    type: actionTypes.ADD_CATEGORY_START
+  }
+}
+
+export const addCategorySuccess = (data) => {
+  return {
+    type: actionTypes.ADD_CATEGORY_SUCCESS,
     payload: data
   }
 }

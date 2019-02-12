@@ -1,6 +1,6 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
-import './AdminCategoryEdit.scss';
+import { Field, reduxForm } from 'redux-form';/* 
+import './AdminEditForm.scss'; */
 
 
 const renderInputField = (field) => {
@@ -35,8 +35,8 @@ const renderTextAreaField = (field) => {
 
 
 
-const AdminCategoryEdit = (props) => {
- 
+const AdminAddForm = (props) => {
+    console.log('FORM PROPS', props)
     const { handleSubmit } = props;
     let renderform = <form className='categoryEditForm'
     onSubmit={handleSubmit}>
@@ -82,4 +82,4 @@ const AdminCategoryEdit = (props) => {
 
 export default reduxForm({
   /* validate, */
-})(AdminCategoryEdit);
+})(AdminAddForm);

@@ -17,8 +17,18 @@
     }
   }
   &__name {
+    cursor: pointer;
     font-size: 16px;
     font-weight: bold;
+    transition: all 0.4s;
+
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -ms-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    &:hover {
+      color: #c62828;
+    }
   }
   &__cont {
     margin-bottom: 10px;
@@ -42,4 +52,12 @@
       color: #c62828;
     }
   }
+  &__addContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.activeName {
+  color: #c62828;
 }
