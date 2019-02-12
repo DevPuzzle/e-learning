@@ -5,6 +5,15 @@ const User  = require('../models/user');
 const fs = require('fs');
 const nodemailer = require('nodemailer');
 const config = require('../config/mailer');
+const generator = require('generate-password');
+// config mail //
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: config.MAIL_USER,
+    pass: config.MAIL_PASS
+  }
+});
 
 exports.user_signup = (req, res, next) => {
   req.check('email', 'Invalid email address').isEmail();
@@ -57,15 +66,7 @@ exports.user_signup = (req, res, next) => {
             });
             user
               .save()
-              .then(result => {
-
-                const transporter = nodemailer.createTransport({
-                  service: 'gmail',
-                  auth: {
-                    user: config.MAIL_USER,
-                    pass: config.MAIL_PASS
-                  }
-                });
+              .then(result => {               
 
                 const mailOptions = {
                   from: config.MAIL_USER,
@@ -199,6 +200,67 @@ exports.user_login = (req, res, next) => {
         error: err
       });
     });
+}
+
+exports.user_forgotten_pass = (req, res, next) => {
+  const email = req.body.email;
+  const password = generator.generate({
+    length: 10,
+    numbers: true
+    });
+
+  bcrypt.hash(password, 10, (err, hash) => {
+    if (err) {
+      return res.status(500).json({
+        error: err
+      });
+    } else {
+
+    User.findOneAndUpdate({email: email}, 
+      {
+        password: hash     
+      }, 
+      {
+        new: true
+      })    
+      .then((updatedDoc) => {    
+        if (!updatedDoc){
+          console.log(updatedDoc);
+          res.status(200).json({        
+            message: 'This user not exist'
+          });
+        }
+        res.status(200).json({
+          user: updatedDoc,
+          message: 'Successfuly created new password'
+        });      
+      });  
+
+      // Send Mail with new password //
+      const mailOptions = {
+        from: config.MAIL_USER,
+        to: email,
+        subject: 'Generate your new e-learning password',
+        html:`Hi, there,
+        <br/>
+        Your new password ${password}
+        <br/>
+        You can Login on this link <a href="http://localhost:3000/home/login">
+        http://localhost:3000/home/login<a/>
+        <br/>
+        Have a pleasant day!`
+      };
+
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+
+    } 
+  }) 
 }
 
 exports.user_avatar_upload = (req, res, next) => {
