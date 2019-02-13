@@ -3,12 +3,11 @@ import axios from 'axios';
 
 const URL = 'http://localhost:5000/user/verifyEmail';
 
-export const verifyEmail = (code) => {
+export const verifyEmail = (verify_code) => {
   return dispatch => {
     dispatch(verifyEmailStart());
-
     setTimeout(()=>{
-    axios.post(`${URL}`, code)
+    axios.post(`${URL}`, {verify_code})
     .then(response => {
       dispatch(verifyEmailSuccess(response.data));
     })
@@ -16,7 +15,7 @@ export const verifyEmail = (code) => {
       dispatch(verifyEmailFail(err));
       
     })
-  },5000)
+  },2000)
   }
 }
 

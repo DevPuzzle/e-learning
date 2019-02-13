@@ -3,6 +3,8 @@ import {withRouter} from 'react-router';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/verifyEmailActions';
 import Spinner from '../UI/Spinner/Spinner';
+import VerifyError from './VerifyEror/VerifyError';
+import VerifySuccess from './VerifySuccess/VerifySuccess';
 
 
  class VerifyEmailPage extends Component {
@@ -11,12 +13,21 @@ import Spinner from '../UI/Spinner/Spinner';
     this.props.onGetVerify(this.props.match.params.code);
   }
 
+
   render() {
-    let verifyRender = <div>VERIFY</div>
+    console.log(this.props.error)
+    let verifyRender = <VerifySuccess />
    if(this.props.loading){
-     verifyRender = <Spinner />
+     verifyRender = 
+      <div style={{
+        height: 'calc(100vh - 128px)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflow: 'hidden'
+      }}><Spinner /></div>
    }else if(this.props.error){
-     verifyRender = <div>we have probleb</div>
+     verifyRender = <VerifyError />
    }
     return (
       <div>

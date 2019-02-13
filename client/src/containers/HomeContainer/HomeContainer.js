@@ -5,7 +5,7 @@ import { Route, NavLink, Switch } from 'react-router-dom';
 import Info from '../../components/Info/Info';
 import SignUp from '../../components/SignUp/SignUp';
 import { connect } from 'react-redux';
-import ErrorComponent from '../../routes/ErrorComponent';
+import ErrorComponent from '../../components/ErrorComponent/ErrorComponent';
 
 class HomeContainer extends Component {
   componentWillMount(){

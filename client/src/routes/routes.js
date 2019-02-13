@@ -8,7 +8,7 @@ import Profile from '../components/Profile/Profile';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import PrivateRoute from '../hoc/privateRoute';
-import ErrorComponent from './ErrorComponent';
+import ErrorComponent from '../components/ErrorComponent/ErrorComponent';
 import VerifyEmailPage from '../components/VerifyEmailPage/VerifyEmailPage';
 
 class Routes extends Component {
