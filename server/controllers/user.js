@@ -126,66 +126,43 @@ exports.user_signup = (req, res, next) => {
 exports.user_active = (req, res, next) => {
   const verify_code = req.body.verify_code;  
 
-  UserVerify.findOne({ code:  verify_code})
-    .exec()
-    .then(result => {
-
-      if (result.length < 1) {
-        return res.status(401).json({
-          message: "Verify code not exist"
-        });        
-      }
-      //// update verify doc
-      const verify_id = result._id;
-      console.log('VERIFY ID', verify_id);
-
-      UserVerify.update({_id: verify_id},
-        {                
-          code: null     
-        }) 
-        .exec()
-        .then(resUpdate => {
-          
-          const user_id = resUpdate.user_id  
-          console.log('USER ID', user_id);
-
-          User.findOneAndUpdate({_id: user_id}, 
-            {
-              active: true      
-            }, 
-            {
-              new: true
-            })    
-            .then((updatedDoc) => {    
-              if (!updatedDoc){
-                console.log(updatedDoc);
-                res.status(200).json({        
-                  message: 'This user not exist'
-                });
-              }
-              res.status(200).json({
-                user: updatedDoc,
-                message: 'Successfuly verify accountl user'
-              });      
-            });
-          
-        })
-        .catch(err => {
-          console.log(err);
-          res.status(500).json({
-            message: 'Update error',
-            error: err
-          });
-        });      
-
+  UserVerify.findOneAndUpdate({ code:  verify_code},
+    {
+      code: null
+    },
+    {
+      new: true
     })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        message: 'Verify code not exist',
-        error: err
-      });
-    });  
+    .then((updatedDoc) => {    
+      if (!updatedDoc){
+        console.log(updatedDoc);
+        res.status(200).json({        
+          message: 'This user not exist'
+        });
+      }
+
+      const user_id = updatedDoc.user_id;
+
+      User.findOneAndUpdate({_id: user_id}, 
+        {
+          active: true      
+        }, 
+        {
+          new: true
+        })    
+        .then((updatedDoc) => {    
+          if (!updatedDoc){
+            console.log(updatedDoc);
+            res.status(200).json({        
+              message: 'This user not exist'
+            });
+          }
+          res.status(200).json({
+            user: updatedDoc,
+            message: 'Successfuly verify accountl user'
+          });      
+        });            
+    });   
 
 }
 
