@@ -7,6 +7,7 @@ import loginAdmin from './adminReducers/loginReducer';
 import categories from './adminReducers/categoriesReducer';
 import subcategories from './adminReducers/subCategoriesReducer';
 import themes from './adminReducers/themesReducer';
+import verifyEmail from '../reducers/verifyReducer';
 
 export default combineReducers({
   form: formReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
   loginAdmin,
   categories,
   subcategories,
-  themes
+  themes,
+  verifyEmail
 })
