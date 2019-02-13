@@ -9,6 +9,7 @@ import Profile from '../components/Profile/Profile';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import PrivateRoute from '../hoc/privateRoute';
+import ErrorPage from './ErrorPage';
 class Routes extends Component {
 
  componentDidMount(){
@@ -26,7 +27,9 @@ render(){
           <PrivateRoute path='/profile' redir='/home/login' component={Profile} />   
           <PrivateRoute path='/schools' redir='/home/login' component={SchoolsContainer} /> 
           <Route path='/' component={HomeContainer}/>
+          <Route component={ErrorPage} />
         </Switch>
+        
       <Footer />
     </div>
     )

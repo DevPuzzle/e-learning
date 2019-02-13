@@ -149,7 +149,6 @@ class AdminContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  
   return {
     login: state.loginAdmin.token
   }

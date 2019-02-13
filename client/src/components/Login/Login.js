@@ -4,6 +4,7 @@ import './Login.scss';
 import LoginForm from './LoginForm/LoginForm';
 import * as actions from '../../actions/loginActions';
 import Spinner from '../UI/Spinner/Spinner';
+import { withRouter } from 'react-router';
 
 class Login extends Component {
 
@@ -13,10 +14,8 @@ class Login extends Component {
   }
 
   render(){ 
-
     let loginForm = <LoginForm 
     onSubmit={this.submit}/>;
-
     if(this.props.loading){
       loginForm = <Spinner />
     }
@@ -45,4 +44,4 @@ const mapDispatchToProps = (dispatch) => {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));
