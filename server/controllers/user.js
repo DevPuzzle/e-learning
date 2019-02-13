@@ -126,22 +126,21 @@ exports.user_signup = (req, res, next) => {
 exports.user_active = (req, res, next) => {
   const verify_code = req.body.verify_code;  
 
-  UserVerify.findOneAndUpdate({ code:  verify_code},
+  UserVerify.findOneAndRemove({ code:  verify_code},    
     {
-      code: null
-    },
-    {
-      new: true
+      rawResult: true
     })
-    .then((updatedDoc) => {    
-      if (!updatedDoc){
-        console.log(updatedDoc);
-        res.status(200).json({        
-          message: 'This user not exist'
+    .then((removedDoc) => {  
+      console.log('REMOVE DOC', removedDoc)  
+      if (!removedDoc){
+        console.log(removedDoc);
+        res.status(500).json({        
+          error: 'Wrong find document with code'
         });
       }
 
-      const user_id = updatedDoc.user_id;
+      const user_id = removedDoc.value.user_id;
+      console.log('USER ID', user_id)
 
       User.findOneAndUpdate({_id: user_id}, 
         {
@@ -153,13 +152,12 @@ exports.user_active = (req, res, next) => {
         .then((updatedDoc) => {    
           if (!updatedDoc){
             console.log(updatedDoc);
-            res.status(200).json({        
-              message: 'This user not exist'
+            res.status(500).json({  
+              error: 'Wrong code'              
             });
           }
-          res.status(200).json({
-            user: updatedDoc,
-            message: 'Successfuly verify accountl user'
+          res.status(200).json({            
+            message: 'Successfuly verify account user'
           });      
         });            
     });   
