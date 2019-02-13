@@ -122,7 +122,7 @@ class Header extends Component {
       </div>
       
       <div className='header__logo'>
-          <NavLink to='/'><p>eLearning</p></NavLink>
+          <NavLink to='/home'><p>eLearning</p></NavLink>
         </div>
         <nav className='header__nav'>
           <div className='header__courses'>

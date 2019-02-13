@@ -4,17 +4,22 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/signupActions';
 
 class SignUp extends Component {
+  state = {
+    showConfirm: false
+  } 
 
   submit = (values) => {
     this.props.onSignUpUser(values)
+    
+    this.setState({showConfirm : true})
   }
 
-  render(){
-    
+  render(){   
     
     return(
       <SignUpForm
       loading={this.props.loading}
+      showConfirm={this.state.showConfirm}
       onSubmit={this.submit}/>
     )
   }

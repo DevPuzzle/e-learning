@@ -5,13 +5,19 @@ import { Route, NavLink, Switch } from 'react-router-dom';
 import Info from '../../components/Info/Info';
 import SignUp from '../../components/SignUp/SignUp';
 import { connect } from 'react-redux';
+import ErrorComponent from '../../routes/ErrorComponent';
 
 class HomeContainer extends Component {
+  componentWillMount(){
+   
 
+    
+      console.log('OTRABOTAL HOME')
+    }
+    
 
 
   render() {
-    
     return (
       <section className='home'>       
         <div className='home__banner'>
@@ -25,7 +31,7 @@ class HomeContainer extends Component {
             For free. For everyone. Forever
           </h3>
           <div className='home__tabs'>
-          <NavLink activeClassName='home__active' exact to={'/'}><i className="fas fa-info"></i></NavLink>
+          <NavLink activeClassName='home__active' exact to={'/home'}><i className="fas fa-info"></i></NavLink>
           {this.props.login && !this.props.login.token ? 
            
           <React.Fragment>
@@ -36,9 +42,10 @@ class HomeContainer extends Component {
           </div>
           <div className="home__tab">
             <Switch>              
-              <Route path={`/home/signup`} component={SignUp} />
-              <Route path={`/home/login`} component={Login} />
-              <Route path={`/`}  component={Info} />
+              <Route path={`/home/signup`} exact component={SignUp} />
+              <Route path={`/home/login`} exact component={Login} />
+              <Route path={`/home`} exact component={Info} />
+              <Route component={ErrorComponent} />
             </Switch>
           </div>
          
