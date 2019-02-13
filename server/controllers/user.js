@@ -39,6 +39,10 @@ exports.user_signup = (req, res, next) => {
 
         // Flag the account as inactive
         const active = false;
+        const verify_code = generator.generate({
+          length: 10,
+          numbers: true
+          });
 
         if (req.body.password !== req.body.confirm_password) {
           // passwords do not match...
@@ -61,7 +65,8 @@ exports.user_signup = (req, res, next) => {
               email: email,
               password: hash,
               active: active,
-              status: req.body.status
+              status: req.body.status,
+              verify_code: verify_code
               //status: status
             });
             user
@@ -78,8 +83,8 @@ exports.user_signup = (req, res, next) => {
                   <br/>
                   Please verify your email ${email}
                   <br/>
-                  on this link<a href="http://localhost:3000/user/verify">
-                    http://localhost:3000/user/verify<a/>
+                  on this link <a href="http://localhost:3000/user/verify/${verify_code}">
+                    VERIFY ACCOUNT<a/>
                   <br/>
                   Have a pleasant day!`
                 };
@@ -110,9 +115,9 @@ exports.user_signup = (req, res, next) => {
 }
 
 exports.user_active = (req, res, next) => {
-  const email = req.body.email;
+  const verify_code = req.body.verify_code;  
 
-  User.findOneAndUpdate({email: email}, 
+  User.findOneAndUpdate({verify_code: verify_code}, 
     {
       active: true      
     }, 
@@ -123,7 +128,7 @@ exports.user_active = (req, res, next) => {
       if (!updatedDoc){
         console.log(updatedDoc);
         res.status(200).json({        
-          message: 'This email not exist'
+          message: 'This verify_code not exist'
         });
       }
       res.status(200).json({

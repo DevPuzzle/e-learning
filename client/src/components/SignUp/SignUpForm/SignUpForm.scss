@@ -17,6 +17,15 @@
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
 }
+&__message {
+  font-size: 13px;
+  line-height: 18px;
+  text-align: left;
+  background:#69f0ae;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
 &__name {
   display: flex;
   input {
