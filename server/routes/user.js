@@ -38,7 +38,7 @@ const upload = multer({
 });
 
 router.post("/signup", UserController.user_signup);
-router.post("/verify", UserController.user_active);
+router.post("/verifyEmail", UserController.user_active);
 router.post("/login", UserController.user_login);
 router.get("/profile", checkAuth, UserController.user_get);
 router.patch("/avatar/uploads", checkAuth, upload.single('userImage'), UserController.user_avatar_upload);
