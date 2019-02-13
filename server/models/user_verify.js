@@ -5,11 +5,11 @@ const userSchema = new Schema({
   _id: mongoose.Schema.Types.ObjectId,  
   code: {
     type: String, 
-    required: true, 
+    required: false, 
     unique: true
   },  
   user_id: {
-    type: Number,
+    type: String,
     require: true,
     unique: true
   },

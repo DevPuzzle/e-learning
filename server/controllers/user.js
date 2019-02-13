@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User  = require('../models/user');
+const UserVerify = require('../models/user_verify');
 const fs = require('fs');
 const nodemailer = require('nodemailer');
 const config = require('../config/mailer');
@@ -36,7 +37,6 @@ exports.user_signup = (req, res, next) => {
           message: "Mail exists"
         });
       } else {
-
         // Flag the account as inactive
         const active = false;
         const verify_code = generator.generate({
@@ -65,8 +65,7 @@ exports.user_signup = (req, res, next) => {
               email: email,
               password: hash,
               active: active,
-              status: req.body.status,
-              verify_code: verify_code
+              status: req.body.status,              
               //status: status
             });
             user
@@ -83,7 +82,7 @@ exports.user_signup = (req, res, next) => {
                   <br/>
                   Please verify your email ${email}
                   <br/>
-                  on this link <a href="http://localhost:3000/user/verify/${verify_code}">
+                  on this link <a href="http://localhost:3000/verifyEmail/${verify_code}">
                     VERIFY ACCOUNT<a/>
                   <br/>
                   Have a pleasant day!`
@@ -96,6 +95,16 @@ exports.user_signup = (req, res, next) => {
                     console.log('Email sent: ' + info.response);
                   }
                 });
+
+                // save in doc verify code  
+                const user_id = result._id;      
+                console.log('USER ID', user_id); 
+                const userVerify = new UserVerify({
+                  _id: new mongoose.Types.ObjectId(),
+                  user_id: user_id,
+                  code: verify_code
+                })
+                .save()                
                 
                 console.log(result);
                 res.status(201).json({
@@ -107,7 +116,7 @@ exports.user_signup = (req, res, next) => {
                 res.status(500).json({
                   error: err
                 });
-              });            
+              });
           }
         });
       }
@@ -117,25 +126,43 @@ exports.user_signup = (req, res, next) => {
 exports.user_active = (req, res, next) => {
   const verify_code = req.body.verify_code;  
 
-  User.findOneAndUpdate({verify_code: verify_code}, 
+  UserVerify.findOneAndUpdate({ code:  verify_code},
     {
-      active: true      
-    }, 
+      code: null
+    },
     {
       new: true
-    })    
+    })
     .then((updatedDoc) => {    
       if (!updatedDoc){
         console.log(updatedDoc);
         res.status(200).json({        
-          message: 'This verify_code not exist'
+          message: 'This user not exist'
         });
       }
-      res.status(200).json({
-        user: updatedDoc,
-        message: 'Successfuly verify user'
-      });      
-    });    
+
+      const user_id = updatedDoc.user_id;
+
+      User.findOneAndUpdate({_id: user_id}, 
+        {
+          active: true      
+        }, 
+        {
+          new: true
+        })    
+        .then((updatedDoc) => {    
+          if (!updatedDoc){
+            console.log(updatedDoc);
+            res.status(200).json({        
+              message: 'This user not exist'
+            });
+          }
+          res.status(200).json({
+            user: updatedDoc,
+            message: 'Successfuly verify accountl user'
+          });      
+        });            
+    });   
 
 }
 
