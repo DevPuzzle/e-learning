@@ -1,8 +1,8 @@
 module.exports = (req, res, next) => {  
   
-  console.log('STATUS', req.userData.status)
+  console.log('ROLE', req.userData.role)
 
-  if (req.userData.status === 'student'){
+  if (req.userData.role === 'student'){
     next();
   } else {
     return res.status(401).json({

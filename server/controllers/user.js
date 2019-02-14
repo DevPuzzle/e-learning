@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport({
 
 exports.user_signup = (req, res, next) => {
   req.check('email', 'Invalid email address').isEmail();
-  req.check('password', 'Password is invalid').isLength({min: 4}).equals(req.body.confirm_password);
+  req.check('password', 'Password is invalid').isLength({min: 6}).equals(req.body.confirm_password);
 
   var errors = req.validationErrors();
   if (errors) {    
@@ -27,7 +27,8 @@ exports.user_signup = (req, res, next) => {
     });
   }
 
-  const email = req.body.email
+  const email = req.body.email;
+  const username = req.body.name;
 
   User.find({ email: email })
     .exec()
@@ -56,36 +57,68 @@ exports.user_signup = (req, res, next) => {
               error: err
             });
           } else {
-            //const status = 'admin'
+            //const role = 'admin'
             const user = new User({
               _id: new mongoose.Types.ObjectId(),
               first_name: req.body.first_name,
               last_name: req.body.last_name,
-              name: req.body.name,
+              name: username,
               email: email,
               password: hash,
               active: active,
-              status: req.body.status,              
-              //status: status
+              role: req.body.role,              
+              //role: role
             });
             user
               .save()
-              .then(result => {               
+              .then(result => {        
 
                 const mailOptions = {
                   from: config.MAIL_USER,
                   to: email,
-                  subject: 'Verify your e-learning account',
-                  html:`Hi, there,
-                  <br/>
-                  Thank you for registering!
-                  <br/>
-                  Please verify your email ${email}
-                  <br/>
-                  on this link <a href="http://localhost:3000/verifyEmail/${verify_code}">
-                    VERIFY ACCOUNT<a/>
-                  <br/>
-                  Have a pleasant day!`
+                  subject: 'Confirm your account',
+                  html:`<div style="background:#fff;font:14px sans-serif;color:#686f7a;border-top:4px solid #0277bd;margin-bottom:20px">                    
+                  <div style="border-bottom:1px solid #f2f3f5;padding:20px 30px">              
+                    <p style="color:#0277bd;font-size: 20px; solid">
+                      eLearning
+                    </p>             
+                  </div>
+        
+                  <div style="padding:20px 30px">
+                      <div style="font-size:16px;line-height:1.5em;border-bottom:1px solid #f2f3f5;padding-bottom:10px;margin-bottom:20px">                  
+                        <p>
+                          <a style="text-decoration:none;color:#000">
+                            Hi ${username},                          
+                          </a>
+                        </p> 
+                        <p>
+                          <a style="text-decoration:none;color:#000">
+                            Thank you for registering!
+                          </a>
+                        </p>
+                        
+                        <p>
+                          <a style="text-decoration:none;color:#000">
+                            Please click the button below to confirm your email.  
+                          </a>               
+                        </p>    
+        
+                        <p>
+                          <a style="text-decoration:none;color:#000">
+                            Have a pleasant day!
+                          </a>
+                        </p>
+        
+                        <p>
+                          <a style="background:#0277bd;padding:7px;border-radius:2px;color:#fff;text-decoration:none"
+                          href="http://localhost:3000/verifyEmail/${verify_code}">
+                              CONFIRM
+                          </a>
+                        </p>
+        
+                    </div>              
+                  </div>
+                </div>`
                 };
 
                 transporter.sendMail(mailOptions, function(error, info){
@@ -120,6 +153,74 @@ exports.user_signup = (req, res, next) => {
           }
         });
       }
+    });
+}
+
+exports.user_login = (req, res, next) => {
+  req.check('email', 'Invalid email address').isEmail();
+  req.check('password', 'Password is invalid').isLength({min: 6});
+
+  var errors = req.validationErrors();
+  if (errors) {    
+    return res.status(500).json({
+      errors: errors
+    });
+  }
+
+  User.find({ email: req.body.email })
+    .exec()
+    .then(user => {
+      if (user.length < 1) {
+        return res.status(500).json({
+          message: "Auth failed"
+        });
+      }
+
+      // Check if the account has been active
+      if (!user[0].active) {
+        console.log('ACTIVE = ', user[0].active);
+        return res.status(500).json({
+          message: 'You need to verify email first'
+        });
+      }
+
+      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+        if (err) {
+          return res.status(401).json({
+            message: "Bcrypt compare failed"
+          });
+        }       
+
+        if (result) {          
+
+          const username = user[0].name;
+          const token = jwt.sign(
+            {
+              email: user[0].email,
+              userId: user[0]._id,
+              role: user[0].role
+            },
+            'secretkey',
+            {
+                expiresIn: "1h"
+            }
+          );
+          return res.status(200).json({
+            message: "Auth successfuly",
+            username: username,
+            token: token
+          });
+        }
+        res.status(401).json({
+          message: "Result Auth failed"
+        });
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
     });
 }
 
@@ -164,74 +265,6 @@ exports.user_active = (req, res, next) => {
 
 }
 
-exports.user_login = (req, res, next) => {
-  req.check('email', 'Invalid email address').isEmail();
-  req.check('password', 'Password is invalid').isLength({min: 4});
-
-  var errors = req.validationErrors();
-  if (errors) {    
-    return res.status(500).json({
-      errors: errors
-    });
-  }
-
-  User.find({ email: req.body.email })
-    .exec()
-    .then(user => {
-      if (user.length < 1) {
-        return res.status(401).json({
-          message: "Auth failed"
-        });
-      }
-
-      // Check if the account has been active
-      if (!user[0].active) {
-        console.log('ACTIVE = ', user[0].active);
-        return res.status(500).json({
-          message: 'You need to verify email first'
-        });
-      }
-
-      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
-        if (err) {
-          return res.status(401).json({
-            message: "Auth failed"
-          });
-        }       
-
-        if (result) {          
-
-          const username = user[0].name;
-          const token = jwt.sign(
-            {
-              email: user[0].email,
-              userId: user[0]._id,
-              status: user[0].status
-            },
-            'secretkey',
-            {
-                expiresIn: "1h"
-            }
-          );
-          return res.status(200).json({
-            message: "Auth successful",
-            username: username,
-            token: token
-          });
-        }
-        res.status(401).json({
-          message: "Auth failed"
-        });
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
-}
-
 exports.user_forgotten_pass = (req, res, next) => {
   const email = req.body.email;
   const password = generator.generate({
@@ -260,34 +293,72 @@ exports.user_forgotten_pass = (req, res, next) => {
             message: 'This user not exist'
           });
         }
+
+        // Send Mail with new password //
+        const username = updatedDoc.name;
+        console.log('USERNAME', username);        
+
+        const mailOptions = {
+          from: config.MAIL_USER,
+          to: email,
+          subject: 'Reset Password',
+          html:`<div style="background:#fff;font:14px sans-serif;color:#686f7a;border-top:4px solid #0277bd;margin-bottom:20px">                    
+          <div style="border-bottom:1px solid #f2f3f5;padding:20px 30px">              
+            <p style="color:#0277bd;font-size: 20px; solid">
+              eLearning
+            </p>             
+          </div>
+
+          <div style="padding:20px 30px">
+              <div style="font-size:16px;line-height:1.5em;border-bottom:1px solid #f2f3f5;padding-bottom:10px;margin-bottom:20px">                  
+                <p>
+                  <a style="text-decoration:none;color:#000">
+                    Hi ${username},                          
+                  </a>
+                </p> 
+                <p>
+                  <a style="text-decoration:none;color:#000">
+                    Your new password: ${password}
+                  </a>
+                </p>
+                
+                <p>
+                  <a style="text-decoration:none;color:#000">
+                  Please click the button below to login.  
+                  </a>               
+                </p>    
+
+                <p>
+                  <a style="text-decoration:none;color:#000">
+                    Have a pleasant day!
+                  </a>
+                </p>
+
+                <p>
+                  <a style="background:#0277bd;padding:7px;border-radius:2px;color:#fff;text-decoration:none"
+                    href="http://localhost:3000/home/login">
+                      LOGIN
+                  </a>
+                </p>
+
+            </div>              
+          </div>
+        </div>`
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
+
         res.status(200).json({
           user: updatedDoc,
           message: 'Successfuly created new password'
         });      
-      });  
-
-      // Send Mail with new password //
-      const mailOptions = {
-        from: config.MAIL_USER,
-        to: email,
-        subject: 'Generate your new e-learning password',
-        html:`Hi, there,
-        <br/>
-        Your new password ${password}
-        <br/>
-        You can Login on this link <a href="http://localhost:3000/home/login">
-        http://localhost:3000/home/login<a/>
-        <br/>
-        Have a pleasant day!`
-      };
-
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      });
+      });       
 
     } 
   }) 
@@ -352,56 +423,6 @@ exports.user_avatar_upload = (req, res, next) => {
         message: "No valid provided name",
         error: err });
     });  
-}
-
-exports.user_avatar_delete = (req, res, next) => {
-  const userId = req.userData.userId;
-
-  User.findOne({_id: userId})    
-    .exec()
-    .then(doc => {      
-      if (doc) {
-        const path = doc.userImage; 
-        if(path && path !== null){
-          fs.unlink(path, (err) => {
-            if (err) return console.log(err);
-            console.log('successfully deleted user image', path);          
-          });
-
-          User.update({_id: userId},
-            {                
-              userImage: null     
-            }) 
-            .exec()
-            .then(result => {
-              res.status(200).json({
-                  message: 'Successfully deleted user image!!!',
-                  userImage: null
-              });
-            })
-            .catch(err => {
-              console.log(err);
-              res.status(500).json({
-                message: 'Update error',
-                error: err
-              });
-            });
-
-        } else {
-          res.status(404).json({
-            message: 'User dont have avatar'
-          });
-        }
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ 
-        message: "No valid provided name",
-        error: err 
-      });
-    });  
-
 }
 
 exports.user_edit = (req, res, next) => {
@@ -525,13 +546,13 @@ exports.user_edit_password = (req, res, next) => {
 exports.user_get = (req, res, next) => {
 
   const userId = req.userData.userId;  
-  const status = req.userData.status;
-  console.log('REQ USER STATUS', status);
+  const role = req.userData.role;
+  console.log('REQ USER ROLE', role);
   //console.log('REQ USER111', req.userData);
   console.log('ID', userId);
 
   User.findOne({_id: userId})
-    .select('first_name last_name email name password userImage status')
+    .select('first_name last_name email name password userImage role')
     .exec()
     .then(doc => {
 
@@ -547,7 +568,7 @@ exports.user_get = (req, res, next) => {
             password: doc.password,
             confirm_password: doc.password,
             userImage: doc.userImage,
-            status: doc.status                                   
+            role: doc.role                                   
         });
       } else {
         res.status(404)
