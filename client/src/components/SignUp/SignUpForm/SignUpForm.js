@@ -12,7 +12,6 @@ class SignUpForm extends Component {
 
 
   handleChange = name => event => {
-    console.log(name)
     this.setState({ [name]: event.target.value });
   };
 
@@ -20,12 +19,11 @@ class SignUpForm extends Component {
     const className = `signUp__form-input ${field.meta.touched 
     && field.meta.error 
     ? 'has-error' : ''}`
-
     return(
       <FormControl className={className} margin="normal" required fullWidth>
-        <InputLabel htmlFor={field.name} >{field.label}</InputLabel>
-        <Input id={field.name} className="signUp__inp" name={field.name} type={field.type} {...field.input} />
-        <div className='error'>
+        <InputLabel htmlFor={field.name} className='signUp__label'>{field.label}</InputLabel>
+        <Input id={field.input.name} className={field.input.name === 'first_name' || field.input.name === 'password' ? 'signUp__inp mr-4' : 'signUp__inp'} name={field.name} type={field.type} {...field.input} />
+        <div className='signUp__error'>
           {field.meta.touched ? field.meta.error : ''}
         </div>
       </FormControl>
@@ -33,12 +31,12 @@ class SignUpForm extends Component {
   } 
 
   renderSelectField = (field) => {
-    const className = `signUp__form-input ${field.meta.touched
+    const className = `signUp__form-input status ${field.meta.touched
     && field.meta.error
     ? 'has-error' : ''}` 
     return(
       <FormControl className={className}>
-      <InputLabel htmlFor={field.name}>Status</InputLabel>
+      <InputLabel htmlFor={field.name} className='signUp__label'>Status</InputLabel>
       <Select        
         native
         onChange={this.handleChange('status')}
@@ -52,6 +50,9 @@ class SignUpForm extends Component {
       <option value={'student'}>Student</option>
       <option value={'teacher'}>Teacher</option>
       </Select>
+      <div className='signUp__error'>
+        {field.meta.touched ? field.meta.error : ''}
+      </div>
     </FormControl>
     )
 
@@ -84,18 +85,18 @@ class SignUpForm extends Component {
       </div>
       <Field 
         type='text'
-        label='Enter your username'
+        label='Enter username'
         name='name'
         component={this.renderInputField}/>
       <Field 
         type='email'
-        label='Enter your email'
+        label='Enter email'
         name='email'
         component={this.renderInputField}/>
       <div className='signUp__pass'>
       <Field 
         type='password'
-        label='Enter your password'
+        label='Enter password'
         name='password'
         component={this.renderInputField}/>
       <Field 
@@ -140,28 +141,31 @@ function validate(values){
 
   const errors = {};
   if(!values.first_name){
-    errors.first_name = 'The firstname is empty'
+    errors.first_name = 'Empty firstname'
   }
   if(!values.last_name){
-    errors.last_name = 'The lastname is empty'
+    errors.last_name = 'Empty lastname'
   }
   if(!values.name){
-   errors.name = 'The name is empty'
+   errors.name = 'Empty name'
   }
   if(!values.email){
-    errors.email = 'The email is empty'
+    errors.email = 'Empty email'
   }
   if(!values.password){
-    errors.password = 'The password is empty'
+    errors.password = 'Empty password'
   }
   if(!values.confirm_password){
-    errors.confirm_password = 'The confirm is empty'
+    errors.confirm_password = 'Empty confirm'
   }
   if(values.confirm_password !== values.password){
     errors.confirm_password = 'Passwords dont match!'
   }
-  if(values.password && values.password.length < 4 ){
-    errors.password = 'Passwords must be more than 4 symbols!'
+  if(values.password && values.password.length < 6 ){
+    errors.password = 'Passwords must at least 6 symbols!'
+  }
+  if(!values.status){
+    errors.status = 'Select status'
   }
   
   return errors;

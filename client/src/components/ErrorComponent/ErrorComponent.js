@@ -11,25 +11,25 @@ import Button from '@material-ui/core/Button';
   }
 
   redirectToHome = () => {
-    this.props.history.push('/home')
+    this.props.history.push('/')
   }
 
   render() {
     return (
-      <section className='error'>
-        <div className='container error__container'>
-          <div className='row error__row'>
-            <div className='col-md-12 error__content'>
-              <h1 className='error__title'>
+      <section className='errorComponent'>
+        <div className='container errorComponent__container'>
+          <div className='row errorComponent__row'>
+            <div className='col-md-12 errorComponent__content'>
+              <h1 className='errorComponent__title'>
                 404
               </h1>
-              <p className='error__subTitle'>
+              <p className='errorComponent__subTitle'>
                 Oops, sorry we can`t find this page!
               </p>
-              <p className='error__text'>Either something went wrong or the page doesn`t exist anymore</p>
+              <p className='errorComponent__text'>Either something went wrong or the page doesn`t exist anymore</p>
               <Button
                 onClick={this.redirectToHome}
-                className='error__btn'
+                className='errorComponent__btn'
                 variant="contained" 
                 color="primary">
                 Home Page

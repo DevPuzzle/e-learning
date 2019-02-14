@@ -16,9 +16,9 @@ class LoginForm extends Component {
 
     return(
       <FormControl className={className} margin="normal" required fullWidth>
-        <InputLabel htmlFor={field.name} >{field.mylabel}</InputLabel>
+        <InputLabel htmlFor={field.name} className='login__label'>{field.mylabel}</InputLabel>
         <Input id={field.name} name={field.name} type={field.type} {...field.input} />
-        <div className='error'>
+        <div className='login__error'>
           {field.meta.touched ? field.meta.error : ''}
         </div>
       </FormControl>
@@ -33,16 +33,19 @@ class LoginForm extends Component {
     let renderform = <form 
     onSubmit={handleSubmit} 
     className='login__form'>
+      {this.props.userError ? 
+        <div className='login__userError'>Wrong data, try again</div> : null}
           <Field 
             type='email'
-            mylabel='Enter your email'
+            mylabel='Enter email'
             name='email'
             component={this.renderInputField}/>
           <Field 
             type='password'
-            mylabel='Enter your password'
+            mylabel='Enter password'
             name='password'
             component={this.renderInputField}/>
+          <div className='login__forgot' onClick={this.props.openModal}>Forgot password?</div>
           <div className='login__btnCont'>
             <Button
             className='login__btn'
@@ -74,10 +77,10 @@ function validate(values){
   const errors = {};
   
   if(!values.email){
-    errors.email = 'The email is empty'
+    errors.email = 'Empty email'
    }
-   if(!values.password){
-    errors.password = 'The password is empty'
+   if(!values.password ){
+    errors.password = 'Empty password'
    }
 
   return errors;

@@ -8,7 +8,6 @@ const initialState = {
 }
 
 const verifyReducer = ( state = initialState, action) => {
-  console.log(action.type)
   switch(action.type){
     case actionTypes.VERIFY_EMAIL_START:
       return {
@@ -29,7 +28,6 @@ const verifyReducer = ( state = initialState, action) => {
         loading: false,
         error: action.payload
       }
-      
       default: 
         return state;
   }

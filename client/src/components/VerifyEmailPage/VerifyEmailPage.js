@@ -15,7 +15,6 @@ import VerifySuccess from './VerifySuccess/VerifySuccess';
 
 
   render() {
-    console.log(this.props.error)
     let verifyRender = <VerifySuccess />
    if(this.props.loading){
      verifyRender = 

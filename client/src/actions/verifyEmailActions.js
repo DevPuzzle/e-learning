@@ -6,16 +6,13 @@ const URL = 'http://localhost:5000/user/verifyEmail';
 export const verifyEmail = (verify_code) => {
   return dispatch => {
     dispatch(verifyEmailStart());
-    setTimeout(()=>{
     axios.post(`${URL}`, {verify_code})
     .then(response => {
       dispatch(verifyEmailSuccess(response.data));
     })
     .catch(err => {
       dispatch(verifyEmailFail(err));
-      
     })
-  },2000)
   }
 }
 

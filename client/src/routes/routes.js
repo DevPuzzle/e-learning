@@ -26,12 +26,12 @@ render(){
       <Header />
         <Switch>  
         {/*   <PrivateRoute path='/user/verify' component={Verify} /> */}
-          <Redirect from='/' exact to='/home' />
-          <Route path='/home' component={HomeContainer}/>
+          {/* <Redirect from='/' exact to='/home' /> */}
+          <PrivateRoute path='/schools' exact redir='/login' component={SchoolsContainer} /> 
+          <PrivateRoute path='/profile' exact redir='/login' component={Profile} />  
           <Route path='/verifyEmail/:code' exact component={VerifyEmailPage}/>
-          <PrivateRoute path='/profile' exact redir='/home/login' component={Profile} />   
-          <PrivateRoute path='/schools' exact redir='/home/login' component={SchoolsContainer} /> 
-          <Route component={ErrorComponent} />
+          <Route path='/errorPage' exact component={ErrorComponent}/>
+          <Route path='/' component={HomeContainer}/>
         </Switch>
         
       <Footer />

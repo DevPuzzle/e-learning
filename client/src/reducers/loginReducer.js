@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
   loading: false,
   token: null,
-  username: null
+  username: null,
+  error: false
 }
 
 
@@ -13,13 +14,23 @@ const loginReducer = (state = initialState, action) => {
       return{
         ...state,
         loading: true,
+        error: false
       }
     case actionTypes.LOGIN_SUCCESS:
       return{
         ...state,
         loading: false,
         token: action.payload.token,
-        username: action.payload.username
+        username: action.payload.username,
+        error: false
+      }
+    case actionTypes.LOGIN_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: true,
+        token: null,
+        username: null
       }
     case actionTypes.LOGOUT_SUCCESS:
       return{
