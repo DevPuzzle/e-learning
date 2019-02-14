@@ -25,7 +25,7 @@ const userSchema = new Schema({
   active: {
     type: Boolean
   },  
-  status: {
+  role: {
     type: String, required: true
   },
   userImage: { type: String, required: false},

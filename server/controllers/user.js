@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport({
 
 exports.user_signup = (req, res, next) => {
   req.check('email', 'Invalid email address').isEmail();
-  req.check('password', 'Password is invalid').isLength({min: 4}).equals(req.body.confirm_password);
+  req.check('password', 'Password is invalid').isLength({min: 6}).equals(req.body.confirm_password);
 
   var errors = req.validationErrors();
   if (errors) {    
@@ -56,7 +56,7 @@ exports.user_signup = (req, res, next) => {
               error: err
             });
           } else {
-            //const status = 'admin'
+            //const role = 'admin'
             const user = new User({
               _id: new mongoose.Types.ObjectId(),
               first_name: req.body.first_name,
@@ -65,8 +65,8 @@ exports.user_signup = (req, res, next) => {
               email: email,
               password: hash,
               active: active,
-              status: req.body.status,              
-              //status: status
+              role: req.body.role,              
+              //role: role
             });
             user
               .save()
@@ -123,6 +123,74 @@ exports.user_signup = (req, res, next) => {
     });
 }
 
+exports.user_login = (req, res, next) => {
+  req.check('email', 'Invalid email address').isEmail();
+  req.check('password', 'Password is invalid').isLength({min: 6});
+
+  var errors = req.validationErrors();
+  if (errors) {    
+    return res.status(500).json({
+      errors: errors
+    });
+  }
+
+  User.find({ email: req.body.email })
+    .exec()
+    .then(user => {
+      if (user.length < 1) {
+        return res.status(500).json({
+          message: "Auth failed"
+        });
+      }
+
+      // Check if the account has been active
+      if (!user[0].active) {
+        console.log('ACTIVE = ', user[0].active);
+        return res.status(500).json({
+          message: 'You need to verify email first'
+        });
+      }
+
+      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+        if (err) {
+          return res.status(401).json({
+            message: "Bcrypt compare failed"
+          });
+        }       
+
+        if (result) {          
+
+          const username = user[0].name;
+          const token = jwt.sign(
+            {
+              email: user[0].email,
+              userId: user[0]._id,
+              role: user[0].role
+            },
+            'secretkey',
+            {
+                expiresIn: "1h"
+            }
+          );
+          return res.status(200).json({
+            message: "Auth successfuly",
+            username: username,
+            token: token
+          });
+        }
+        res.status(401).json({
+          message: "Result Auth failed"
+        });
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+}
+
 exports.user_active = (req, res, next) => {
   const verify_code = req.body.verify_code;  
 
@@ -162,74 +230,6 @@ exports.user_active = (req, res, next) => {
         });            
     });   
 
-}
-
-exports.user_login = (req, res, next) => {
-  req.check('email', 'Invalid email address').isEmail();
-  req.check('password', 'Password is invalid').isLength({min: 4});
-
-  var errors = req.validationErrors();
-  if (errors) {    
-    return res.status(500).json({
-      errors: errors
-    });
-  }
-
-  User.find({ email: req.body.email })
-    .exec()
-    .then(user => {
-      if (user.length < 1) {
-        return res.status(401).json({
-          message: "Auth failed"
-        });
-      }
-
-      // Check if the account has been active
-      if (!user[0].active) {
-        console.log('ACTIVE = ', user[0].active);
-        return res.status(500).json({
-          message: 'You need to verify email first'
-        });
-      }
-
-      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
-        if (err) {
-          return res.status(401).json({
-            message: "Auth failed"
-          });
-        }       
-
-        if (result) {          
-
-          const username = user[0].name;
-          const token = jwt.sign(
-            {
-              email: user[0].email,
-              userId: user[0]._id,
-              status: user[0].status
-            },
-            'secretkey',
-            {
-                expiresIn: "1h"
-            }
-          );
-          return res.status(200).json({
-            message: "Auth successful",
-            username: username,
-            token: token
-          });
-        }
-        res.status(401).json({
-          message: "Auth failed"
-        });
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
 }
 
 exports.user_forgotten_pass = (req, res, next) => {
@@ -354,56 +354,6 @@ exports.user_avatar_upload = (req, res, next) => {
     });  
 }
 
-exports.user_avatar_delete = (req, res, next) => {
-  const userId = req.userData.userId;
-
-  User.findOne({_id: userId})    
-    .exec()
-    .then(doc => {      
-      if (doc) {
-        const path = doc.userImage; 
-        if(path && path !== null){
-          fs.unlink(path, (err) => {
-            if (err) return console.log(err);
-            console.log('successfully deleted user image', path);          
-          });
-
-          User.update({_id: userId},
-            {                
-              userImage: null     
-            }) 
-            .exec()
-            .then(result => {
-              res.status(200).json({
-                  message: 'Successfully deleted user image!!!',
-                  userImage: null
-              });
-            })
-            .catch(err => {
-              console.log(err);
-              res.status(500).json({
-                message: 'Update error',
-                error: err
-              });
-            });
-
-        } else {
-          res.status(404).json({
-            message: 'User dont have avatar'
-          });
-        }
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ 
-        message: "No valid provided name",
-        error: err 
-      });
-    });  
-
-}
-
 exports.user_edit = (req, res, next) => {
   const userId = req.userData.userId;
 
@@ -525,13 +475,13 @@ exports.user_edit_password = (req, res, next) => {
 exports.user_get = (req, res, next) => {
 
   const userId = req.userData.userId;  
-  const status = req.userData.status;
-  console.log('REQ USER STATUS', status);
+  const role = req.userData.role;
+  console.log('REQ USER ROLE', role);
   //console.log('REQ USER111', req.userData);
   console.log('ID', userId);
 
   User.findOne({_id: userId})
-    .select('first_name last_name email name password userImage status')
+    .select('first_name last_name email name password userImage role')
     .exec()
     .then(doc => {
 
@@ -547,7 +497,7 @@ exports.user_get = (req, res, next) => {
             password: doc.password,
             confirm_password: doc.password,
             userImage: doc.userImage,
-            status: doc.status                                   
+            role: doc.role                                   
         });
       } else {
         res.status(404)
