@@ -27,7 +27,8 @@ exports.user_signup = (req, res, next) => {
     });
   }
 
-  const email = req.body.email
+  const email = req.body.email;
+  const username = req.body.name;
 
   User.find({ email: email })
     .exec()
@@ -61,7 +62,7 @@ exports.user_signup = (req, res, next) => {
               _id: new mongoose.Types.ObjectId(),
               first_name: req.body.first_name,
               last_name: req.body.last_name,
-              name: req.body.name,
+              name: username,
               email: email,
               password: hash,
               active: active,
@@ -70,22 +71,54 @@ exports.user_signup = (req, res, next) => {
             });
             user
               .save()
-              .then(result => {               
+              .then(result => {        
 
                 const mailOptions = {
                   from: config.MAIL_USER,
                   to: email,
-                  subject: 'Verify your e-learning account',
-                  html:`Hi, there,
-                  <br/>
-                  Thank you for registering!
-                  <br/>
-                  Please verify your email ${email}
-                  <br/>
-                  on this link <a href="http://localhost:3000/verifyEmail/${verify_code}">
-                    VERIFY ACCOUNT<a/>
-                  <br/>
-                  Have a pleasant day!`
+                  subject: 'Confirm your account',
+                  html:`<div style="background:#fff;font:14px sans-serif;color:#686f7a;border-top:4px solid #0277bd;margin-bottom:20px">                    
+                  <div style="border-bottom:1px solid #f2f3f5;padding:20px 30px">              
+                    <p style="color:#0277bd;font-size: 20px; solid">
+                      eLearning
+                    </p>             
+                  </div>
+        
+                  <div style="padding:20px 30px">
+                      <div style="font-size:16px;line-height:1.5em;border-bottom:1px solid #f2f3f5;padding-bottom:10px;margin-bottom:20px">                  
+                        <p>
+                          <a style="text-decoration:none;color:#000">
+                            Hi ${username},                          
+                          </a>
+                        </p> 
+                        <p>
+                          <a style="text-decoration:none;color:#000">
+                            Thank you for registering!
+                          </a>
+                        </p>
+                        
+                        <p>
+                          <a style="text-decoration:none;color:#000">
+                            Please click the button below to confirm your email.  
+                          </a>               
+                        </p>    
+        
+                        <p>
+                          <a style="text-decoration:none;color:#000">
+                            Have a pleasant day!
+                          </a>
+                        </p>
+        
+                        <p>
+                          <a style="background:#0277bd;padding:7px;border-radius:2px;color:#fff;text-decoration:none"
+                          href="http://localhost:3000/verifyEmail/${verify_code}">
+                              CONFIRM
+                          </a>
+                        </p>
+        
+                    </div>              
+                  </div>
+                </div>`
                 };
 
                 transporter.sendMail(mailOptions, function(error, info){
@@ -260,34 +293,72 @@ exports.user_forgotten_pass = (req, res, next) => {
             message: 'This user not exist'
           });
         }
+
+        // Send Mail with new password //
+        const username = updatedDoc.name;
+        console.log('USERNAME', username);        
+
+        const mailOptions = {
+          from: config.MAIL_USER,
+          to: email,
+          subject: 'Reset Password',
+          html:`<div style="background:#fff;font:14px sans-serif;color:#686f7a;border-top:4px solid #0277bd;margin-bottom:20px">                    
+          <div style="border-bottom:1px solid #f2f3f5;padding:20px 30px">              
+            <p style="color:#0277bd;font-size: 20px; solid">
+              eLearning
+            </p>             
+          </div>
+
+          <div style="padding:20px 30px">
+              <div style="font-size:16px;line-height:1.5em;border-bottom:1px solid #f2f3f5;padding-bottom:10px;margin-bottom:20px">                  
+                <p>
+                  <a style="text-decoration:none;color:#000">
+                    Hi ${username},                          
+                  </a>
+                </p> 
+                <p>
+                  <a style="text-decoration:none;color:#000">
+                    Your new password: ${password}
+                  </a>
+                </p>
+                
+                <p>
+                  <a style="text-decoration:none;color:#000">
+                  Please click the button below to login.  
+                  </a>               
+                </p>    
+
+                <p>
+                  <a style="text-decoration:none;color:#000">
+                    Have a pleasant day!
+                  </a>
+                </p>
+
+                <p>
+                  <a style="background:#0277bd;padding:7px;border-radius:2px;color:#fff;text-decoration:none"
+                    href="http://localhost:3000/home/login">
+                      LOGIN
+                  </a>
+                </p>
+
+            </div>              
+          </div>
+        </div>`
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
+
         res.status(200).json({
           user: updatedDoc,
           message: 'Successfuly created new password'
         });      
-      });  
-
-      // Send Mail with new password //
-      const mailOptions = {
-        from: config.MAIL_USER,
-        to: email,
-        subject: 'Generate your new e-learning password',
-        html:`Hi, there,
-        <br/>
-        Your new password ${password}
-        <br/>
-        You can Login on this link <a href="http://localhost:3000/home/login">
-        http://localhost:3000/home/login<a/>
-        <br/>
-        Have a pleasant day!`
-      };
-
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      });
+      });       
 
     } 
   }) 
