@@ -16,8 +16,9 @@ class LoginForm extends Component {
 
     return(
       <FormControl className={className} margin="normal" required fullWidth>
-        <InputLabel htmlFor={field.name} className='login__label'>{field.mylabel}</InputLabel>
-        <Input id={field.name} name={field.name} type={field.type} {...field.input} />
+        <InputLabel htmlFor={field.input.name} className='login__label'>{field.mylabel}</InputLabel>
+        <Input 
+          id={field.input.name} name={field.input.name} type={field.type} {...field.input} />
         <div className='login__error'>
           {field.meta.touched ? field.meta.error : ''}
         </div>

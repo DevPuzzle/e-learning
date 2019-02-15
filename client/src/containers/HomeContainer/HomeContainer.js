@@ -29,7 +29,6 @@ class HomeContainer extends Component {
                 <div className='home__tabs'>
                 <NavLink activeClassName='home__active' exact to={'/'}><i className="fas fa-info"></i></NavLink>
                 {this.props.login && !this.props.login.token ? 
-                
                 <React.Fragment>
                   <NavLink activeClassName='home__active' to={'/login'}><i className="fas fa-lock"></i></NavLink>
                   <NavLink activeClassName='home__active' to={'/signup'}><i className="fas fa-user-plus"></i></NavLink>

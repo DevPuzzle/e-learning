@@ -106,19 +106,3 @@ export const avatarUploadSuccess = (data) => {
   }
 }
 
-export const deleteAvatar = () => {
-  return dispatch => {
-    const username = localStorage.getItem('username');
-    axios.delete(`${URL}/avatar/delete`)
-    .then(response => {
-      dispatch(deleteAvatarSuccess(response.data));
-    })
-  }
-}
-
-export const deleteAvatarSuccess = (data) => {
-  return {
-    type: actionTypes.DELETE_AVATAR_SUCCESS,
-    payload: data
-  }
-}

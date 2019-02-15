@@ -5,13 +5,8 @@ import LoginForm from './LoginForm/LoginForm';
 import * as actions from '../../actions/loginActions';
 import Spinner from '../UI/Spinner/Spinner';
 import { withRouter } from 'react-router';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
-
+import ForgotPassword from './ForgotPassword/ForgotPassword';
+import { forgot, reset } from '../../actions/forgotActions';
 class Login extends Component {
 
   state = {
@@ -23,6 +18,7 @@ class Login extends Component {
   };
   handleClose = () => {
     this.setState({ openForgotPasswordModal: false });
+    this.props.onReset();
   };
 
   submit = (values) => {
@@ -31,6 +27,10 @@ class Login extends Component {
       password: values.password
     }
     this.props.onLoginUser(data, this.props.history);
+  }
+  changePasswordHandler = (values) => {
+    this.props.onForgotPassword(values);
+
   }
 
   render(){ 
@@ -41,31 +41,13 @@ class Login extends Component {
     if(this.props.loading){
       loginForm = <Spinner />
     }
-    
-
   return(
     <div className='login'>
-      <Dialog
-        open={this.state.openForgotPasswordModal}
-        onClose={this.handleClose}>
-        <DialogContent>
-          <DialogContentText>
-            Please, enter your email and we will send you new password.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth/>
-            <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            </DialogActions>
-        </DialogContent>
-      </Dialog>
+     <ForgotPassword 
+      forgotPassword={this.props.forgotPassword}
+      changePasswordHandler={this.changePasswordHandler}
+      open={this.state.openForgotPasswordModal}
+      onClose={this.handleClose}/>
       {loginForm}
     </div>
   )
@@ -77,13 +59,17 @@ class Login extends Component {
 const mapStateToProps = (state) => {
   return {
     loading: state.login.loading,
-    error: state.login.error
+    error: state.login.error,
+    forgotPassword: state.forgotPassword
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLoginUser: (values, history) => dispatch(actions.login(values, history))
+    onLoginUser: (values, history) => dispatch(actions.login(values, history)),
+    onForgotPassword: (values) => dispatch(forgot(values)),
+    onReset: () => dispatch(reset())
+
   }
 }
 

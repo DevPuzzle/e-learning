@@ -75,9 +75,7 @@ class Profile extends Component {
               defaultImage={defaultImage}
               selectedImage={this.state.selectedImage}
               changes={this.changes} 
-              onSubmit={this.changeUserImage}
-              deleteAvatar={this.deleteAvatar}
-              showDeleteButton={this.props.showDeleteButton}/>
+              onSubmit={this.changeUserImage}/>
             </div>
             <h3 className='profile__nickName'>
               {this.props.userData ? this.props.userData.username : null}
@@ -119,9 +117,8 @@ const mapDispatchToProps = (dispatch) => {
     onGetUserData: () => {dispatch(actions.getUserData())
     },
     onUpdateUserImage: (image) => {dispatch(actions.avatarUpload(image))
-    },
-    onDeleteUserImage: () => dispatch(actions.deleteAvatar())
-  }
+    }
+}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
