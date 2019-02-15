@@ -79,7 +79,7 @@ exports.user_signup = (req, res, next) => {
                   subject: 'Confirm your account',
                   html:`<div style="background:#fff;font:14px sans-serif;color:#686f7a;border-top:4px solid #0277bd;margin-bottom:20px">                    
                   <div style="border-bottom:1px solid #f2f3f5;padding:20px 30px">              
-                    <p style="color:#0277bd;font-size: 20px; solid">
+                    <p style="color:#0277bd;font-size: 20px;font-weight: bold;">
                       eLearning
                     </p>             
                   </div>
@@ -304,7 +304,7 @@ exports.user_forgotten_pass = (req, res, next) => {
           subject: 'Reset Password',
           html:`<div style="background:#fff;font:14px sans-serif;color:#686f7a;border-top:4px solid #0277bd;margin-bottom:20px">                    
           <div style="border-bottom:1px solid #f2f3f5;padding:20px 30px">              
-            <p style="color:#0277bd;font-size: 20px; solid">
+            <p style="color:#0277bd;font-size:20px;font-weight: bold;">
               eLearning
             </p>             
           </div>
@@ -336,7 +336,7 @@ exports.user_forgotten_pass = (req, res, next) => {
 
                 <p>
                   <a style="background:#0277bd;padding:7px;border-radius:2px;color:#fff;text-decoration:none"
-                    href="http://localhost:3000/home/login">
+                    href="http://localhost:3000/login">
                       LOGIN
                   </a>
                 </p>

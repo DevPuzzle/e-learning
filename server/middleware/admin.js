@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
     next();
   } else {
     return res.status(401).json({
-      message: 'You are not ADMIN'
+      error: 'You are not ADMIN'
     })
   }  
      
