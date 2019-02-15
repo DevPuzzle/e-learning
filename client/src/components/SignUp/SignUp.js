@@ -16,7 +16,7 @@ class SignUp extends Component {
       email: values.email,
       password: values.password,
       confirm_password: values.confirm_password,
-      status: values.status
+      role: values.role
     }
     this.props.onSignUpUser(data)
     

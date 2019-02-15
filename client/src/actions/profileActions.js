@@ -55,11 +55,9 @@ export const changeUserDataSuccess = (data) => {
 
 export const getUserData = () => {
   return dispatch => {
-    const username = localStorage.getItem('username');
     dispatch(getUserDataStart());
     axios.get(`${URL}/profile`)
     .then(response => {
-      console.log('USER DATA ПОЛУЧЕНЫ')
       dispatch(getUserDataSuccess(response.data))
     })
   }

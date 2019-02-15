@@ -47,6 +47,7 @@ class Profile extends Component {
   }
 
   render() {
+
      let avatar = defaultImage;
     if(this.props.avatar && this.props.avatar.userImage ){
       avatar = `http://localhost:5000/${this.props.avatar.userImage}`;
@@ -68,8 +69,6 @@ class Profile extends Component {
               <div className='profile__image'>
                 <img src={avatar} alt=""/>
               </div>
-         
-            
             <ProfileImageChange
               avatar={avatar}
               defaultImage={defaultImage}
@@ -98,7 +97,6 @@ class Profile extends Component {
 }
 
 const mapStateToProps = (state) => {
-   
   return {
     userData: state.profile.userData,
     avatar: state.profile.avatar,

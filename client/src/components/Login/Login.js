@@ -34,6 +34,7 @@ class Login extends Component {
   }
 
   render(){ 
+    console.log(this.props)
     let loginForm = <LoginForm
     openModal={this.handleClickOpenForgotPasswordModal}
     userError={this.props.error} 

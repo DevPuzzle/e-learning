@@ -18,7 +18,7 @@ class HomeContainer extends Component {
               <div 
                 className='col-md-6' 
                 style={{
-                    top: '-70px'
+                    top: '-80px'
                 }}>
                 <h1 className='home__title'>
                   You can learn anything

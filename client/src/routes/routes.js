@@ -10,6 +10,7 @@ import Footer from '../components/Footer/Footer';
 import PrivateRoute from '../hoc/privateRoute';
 import ErrorComponent from '../components/ErrorComponent/ErrorComponent';
 import VerifyEmailPage from '../components/VerifyEmailPage/VerifyEmailPage';
+import AdminContaner from '../containers/AdminContainer/AdminContaner';
 
 class Routes extends Component {
 
@@ -25,10 +26,9 @@ render(){
     }: {display: 'block'}}>
       <Header />
         <Switch>  
-        {/*   <PrivateRoute path='/user/verify' component={Verify} /> */}
-          {/* <Redirect from='/' exact to='/home' /> */}
-          <PrivateRoute path='/schools' exact redir='/login' component={SchoolsContainer} /> 
-          <PrivateRoute path='/profile' exact redir='/login' component={Profile} />  
+          <PrivateRoute redir='/' exact path='/admin' component={AdminContaner} />
+          <PrivateRoute path='/schools' exact redir='/' component={SchoolsContainer} /> 
+          <PrivateRoute path='/profile' exact redir='/' component={Profile} />  
           <Route path='/verifyEmail/:code' exact component={VerifyEmailPage}/>
           <Route path='/errorPage' exact component={ErrorComponent}/>
           <Route path='/' component={HomeContainer}/>

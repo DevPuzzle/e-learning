@@ -36,10 +36,10 @@ class SignUpForm extends Component {
     ? 'has-error' : ''}` 
     return(
       <FormControl className={className}>
-      <InputLabel htmlFor={field.name} className='signUp__label'>Status</InputLabel>
+      <InputLabel htmlFor={field.name} className='signUp__label'>Role</InputLabel>
       <Select        
         native
-        onChange={this.handleChange('status')}
+        onChange={this.handleChange('role')}
         inputProps={{
           name: field.name,
           id: field.name,
@@ -66,7 +66,7 @@ class SignUpForm extends Component {
     className='signUp__form'>
       {this.props.showConfirm ? 
       <div className='signUp__message' >
-        Please, check your email and activate your e-learning accont! 
+        Please check your email and activate account. 
       </div>
       : null}
       
@@ -107,7 +107,7 @@ class SignUpForm extends Component {
       </div>
       <div className='signUp__select'>
         <Field
-          name='status'
+          name='role'
           component={this.renderSelectField} />
       </div>
       <div className='signUp__btnCont'>
@@ -164,8 +164,8 @@ function validate(values){
   if(values.password && values.password.length < 6 ){
     errors.password = 'Passwords must at least 6 symbols!'
   }
-  if(!values.status){
-    errors.status = 'Select status'
+  if(!values.role){
+    errors.role = 'Select role'
   }
   
   return errors;
