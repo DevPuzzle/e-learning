@@ -4,7 +4,8 @@ const initialState = {
   loading: false,
   token: null,
   username: null,
-  error: false
+  error: false,
+  role: null
 }
 
 
@@ -22,6 +23,7 @@ const loginReducer = (state = initialState, action) => {
         loading: false,
         token: action.payload.token,
         username: action.payload.username,
+        role: action.payload.role,
         error: false
       }
     case actionTypes.LOGIN_FAIL:

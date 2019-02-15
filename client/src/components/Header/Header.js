@@ -16,6 +16,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import MenuIcon from '@material-ui/icons/Menu';
 import { withStyles } from '@material-ui/core';
+import { getUserData } from '../../actions/profileActions';
 
 
 
@@ -71,7 +72,6 @@ const styles = theme => ({
 
 
 class Header extends Component {
-
   state = {
     anchorEl: null,
     coursesEl: null,
@@ -79,6 +79,12 @@ class Header extends Component {
     left: false
   }
 
+  componentDidMount(){
+    if(this.props.auth){
+      this.props.onGetUserData()
+    }
+    
+  }
 
   toggleDrawer = (side, open) => () => {
     this.setState({
@@ -109,8 +115,9 @@ class Header extends Component {
   };
 
   logout = () => {
+    this.handleClose();
     this.props.onLogout();
-    this.props.history.push('/login');
+    this.props.history.push('/');
   }
 
 
@@ -152,6 +159,17 @@ class Header extends Component {
         </List>
     );
 
+    const avatar = () => {
+      if(this.props.profile.avatar && this.props.profile.avatar.userImage){
+        return <img className='header__profileImage' src={`http://localhost:5000/${this.props.profile.avatar.userImage}`}/>
+      }else if(!this.props.profile.avatar && this.props.profile.userData && this.props.profile.userData.userImage){
+        return <img className='header__profileImage' src={`http://localhost:5000/${this.props.profile.userData.userImage}`} />;
+      }else {
+        return <i className="fas fa-user-circle header__usericon"></i>
+      }
+    }
+
+   
 
   return(   
     <AppBar 
@@ -251,7 +269,9 @@ class Header extends Component {
             aria-haspopup="true"
             onClick={this.handleMenu}
             color="inherit">
-            <i className="fas fa-user-circle header__usericon"></i>
+            {avatar()}
+            {/* this.props.profile.userData && this.props.profile.userData.userImage 
+              ? <img className='header__profileImage'src={avatar}/> : <i className="fas fa-user-circle header__usericon"></i>  */}
           </IconButton>
           <Menu
           id="menu-appbar"
@@ -264,13 +284,15 @@ class Header extends Component {
             vertical: 'top',
             horizontal: 'right',
           }}
-          open={open}
+          open={Boolean(open)}
           onClose={this.handleClose}
         >
-          <NavLink className='header__dropnav' to='/myCourses'><MenuItem >My Courses</MenuItem></NavLink>
+          <NavLink onClick={this.handleClose} className='header__dropnav' to='/myCourses'><MenuItem >My Courses</MenuItem></NavLink>
           
-          <NavLink className='header__dropnav' to='/mySchool'><MenuItem >My School</MenuItem></NavLink>
-          <NavLink className='header__dropnav' to='/profile'><MenuItem ><span><i className="fas fa-user-cog"></i></span>Profile</MenuItem></NavLink>
+          <NavLink onClick={this.handleClose} className='header__dropnav' to='/mySchool'><MenuItem >My School</MenuItem></NavLink>
+          <NavLink onClick={this.handleClose} className='header__dropnav' to='/profile'><MenuItem ><span><i className="fas fa-user-cog"></i></span>Profile</MenuItem></NavLink>
+          {this.props.login.role === 'admin' ?
+            <NavLink onClick={this.handleClose} className='header__dropnav' to='/admin'><MenuItem><span><i className="fas fa-cog"></i></span>Admin Area</MenuItem></NavLink> : null}
           <button onClick={this.logout} className='header__dropnav'><MenuItem ><span><i className="fas fa-sign-out-alt"></i></span>Logout</MenuItem></button>
         </Menu>
         </React.Fragment>}
@@ -289,13 +311,15 @@ class Header extends Component {
 const mapStateToProps = (state) => {
   return {
     auth: state.login.token,
-    login: state.login
+    login: state.login,
+    profile: state.profile
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLogout: () => dispatch(actions.logout())
+    onLogout: () => dispatch(actions.logout()),
+    onGetUserData: () => dispatch(getUserData())
     }
   }
 

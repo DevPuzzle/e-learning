@@ -14,7 +14,7 @@ const VerifySuccess = () => {
               </p>
               <Button 
                 component={Link}
-                to='/home/login'
+                to='/login'
                 className='verifySuccess__btn'
                 variant="contained">
                 To Login

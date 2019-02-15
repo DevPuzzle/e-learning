@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 import setAuthToken from '../setAuthToken/setAuthToken';
-
+import { getUserData} from './profileActions';
 
 const URL = 'http://localhost:5000/user/login';
 
@@ -12,7 +12,9 @@ export const login = (values, history) => {
     .then(response => {      
       const token = response.data.token;
       const username = response.data.username;
-      dispatch(loginSuccess(token, username));
+      const role = response.data.role;
+      dispatch(loginSuccess(token, username, role));
+      dispatch(getUserData())
       history.push('/')
     })
     .catch(err => {
@@ -27,10 +29,11 @@ export const loginStart = () => {
   }
 }
 
-export const loginSuccess = (token, username) => {
+export const loginSuccess = (token, username, role) => {
   localStorage.setItem('jwt', token);
   localStorage.setItem('username', username);
-  const data = {token: token, username: username}
+  localStorage.setItem('role', role)
+  const data = {token: token, username: username, role: role}
   setAuthToken(token);
   return{
     type: actionTypes.LOGIN_SUCCESS,
@@ -48,8 +51,10 @@ export const authCheckState = () => {
   return dispatch => {
     const token = localStorage.getItem('jwt');
     const username = localStorage.getItem('username');
+    const role = localStorage.getItem('role')
     if(token){
-        dispatch(loginSuccess(token, username));
+        dispatch(loginSuccess(token, username, role));
+        dispatch(getUserData())
       }
       
     }
@@ -65,6 +70,7 @@ export const logout = () => {
 export const logoutSuccess = () => {
   localStorage.removeItem('jwt');
   localStorage.removeItem('username');
+  localStorage.removeItem('role')
   return{
     type: actionTypes.LOGOUT_SUCCESS
   }

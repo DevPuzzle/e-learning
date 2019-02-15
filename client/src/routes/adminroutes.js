@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/adminActions/loginActions';
 import AdminContaner from '../containers/AdminContainer/AdminContaner';
 import PrivateRoute from '../hoc/privateRoute';
+import AdminComponent from '../components/AdminComponents/AdminComponent';
+import ErrorComponent from '../components/ErrorComponent/ErrorComponent';
 
 
 class AdminRoutes extends Component {
@@ -19,9 +21,7 @@ render(){
     <div style={ !this.props.location.pathname.includes('admin') ? {
       display: 'none'
     }: {display: 'block'}}>
-    <Switch>
-      <PrivateRoute exact redir='/loginadmin' path='/admin' component={AdminContaner} />
-    </Switch>
+      <AdminContaner />
     </div>
     )
   }

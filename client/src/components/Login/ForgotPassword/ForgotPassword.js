@@ -19,12 +19,12 @@ import Spinner from '../../UI/Spinner/Spinner';
         onClose={props.onClose}>
         <DialogContent>
           <DialogContentText>
-            Please, enter your email and we will send you new password.
+            Please enter your email and we will send you a new password.
           </DialogContentText>
           {props.forgotPassword.error ? <p className='forgot-error'>We cannot find your account, please sign up first</p> : null}
           {props.forgotPassword.message ? <p className='forgot-success'>We send you new password, check your email</p> : null}
             {renderForm}
-            <DialogActions>
+            <DialogActions className='cancelButtonCont'>
             <Button onClick={props.onClose} className='cancelButton' color="primary">
               Cancel
             </Button>

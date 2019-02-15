@@ -71,7 +71,6 @@ class AdminContainer extends React.Component {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-        
             <ListItem button className='adminListItem'>
               <NavLink 
                 exact
@@ -80,9 +79,7 @@ class AdminContainer extends React.Component {
               <ListItemIcon className='adminListItemIcon'><InboxIcon /></ListItemIcon>
                 Categories
               </NavLink>
-             
             </ListItem>
-         
         </List>
         <Divider />
       </div>

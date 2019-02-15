@@ -12,7 +12,6 @@ export const signup = (values) => {
     axios.post(`${URL}`, values)
     .then(response => {
       dispatch(signUpSuccess(response.data));
-      /* window.location.replace(`http://localhost:3000/home/login`) */;
     })
     .catch(err =>{
       console.log(err)
