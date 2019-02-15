@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink, Link, withRouter } from 'react-router-dom';
 import './Header.scss';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -15,6 +15,60 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import MenuIcon from '@material-ui/icons/Menu';
+import { withStyles } from '@material-ui/core';
+
+
+
+const styles = theme => ({
+  grow: {
+    flexGrow: 1,
+  },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: 'rgba(225, 245, 254, 1)',
+    '&:hover': {
+      backgroundColor: 'rgba(225, 245, 254, 0.7)',
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing.unit,
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    width: theme.spacing.unit * 9,
+    height: '100%',
+    color: '#01579b',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: '#01579b',
+    width: '100%',
+  },
+  inputInput: {
+    paddingTop: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit * 10,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: 120,
+      '&:focus': {
+        width: 200,
+      },
+    },
+  },
+});
+
+
+
 
 class Header extends Component {
 
@@ -56,7 +110,7 @@ class Header extends Component {
 
   logout = () => {
     this.props.onLogout();
-    this.props.history.push('/home/login');
+    this.props.history.push('/login');
   }
 
 
@@ -65,64 +119,66 @@ class Header extends Component {
   render(){
     const { anchorEl, coursesEl, schoolsEl } = this.state;
     const open = Boolean(anchorEl);
-
+    const { classes } = this.props;
     const sideList = (
-      <div>
-        <List>
-            <ListItem button>
-              <NavLink to='/courses'>Courses</NavLink>
-            </ListItem>
-            <ListItem button>
-              <NavLink to='/schools'>Schools</NavLink>
-            </ListItem>
-        <Divider />
-            <ListItem button>
-              <NavLink to='/myschools'>My Schools</NavLink>
-            </ListItem>
-            <ListItem button>
-              <NavLink to='/mycourses'>My Courses</NavLink>
-            </ListItem>
-
-        <Divider />
-            <ListItem button>
-              <NavLink to='/profile'>Profile</NavLink>
-            </ListItem>
-         
+        <List className='drawer'>
+          <ListItem className='drawer__link' component={Link} to='/courses' button>
+            <i className="fas fa-book"></i> Courses
+          </ListItem>
+          <ListItem className='drawer__link' component={Link} to='/schools' button>
+            <i className="fas fa-graduation-cap"></i> Schools
+          </ListItem>
+          {!this.props.auth ?
+          <React.Fragment>
+          <Divider />
+          <ListItem className='drawer__link' component={Link} to='/login' button>
+            <i className="fas fa-lock"></i> Login
+          </ListItem>
+          <ListItem className='drawer__link' component={Link} to='/signUp' button>
+            <i className="fas fa-user-plus"></i> Sign Up
+          </ListItem>
+          </React.Fragment>
+          :
+          <React.Fragment>
+          <Divider />
+          <ListItem component={Link} to='/profile' className='drawer__link' button>
+            <i className="fas fa-user-cog"></i> Profile
+          </ListItem>
+          <ListItem className='drawer__link' onClick={this.logout} button>
+            <i className="fas fa-sign-out-alt"></i> Logout
+          </ListItem>
+          </React.Fragment>
+          }
         </List>
-        
-      </div>
     );
 
 
   return(   
     <AppBar 
-      
       color='default'>
       <div className='container'>
       <div className='row'>
       <Toolbar className='header'>
       <div className='header__left'>
-
       {/* SIDE DRAWER */}
-
       <div className='header__responseDrawer'>
       <IconButton onClick={this.toggleDrawer('left', true)} color="inherit" aria-label="Menu">
-            <MenuIcon />
+        <MenuIcon />
       </IconButton>
       <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
       <div
-            tabIndex={0}
-            role="button"
-            onClick={this.toggleDrawer('left', false)}
-            onKeyDown={this.toggleDrawer('left', false)}
-          >
+        tabIndex={0}
+        role="button"
+        onClick={this.toggleDrawer('left', false)}
+        onKeyDown={this.toggleDrawer('left', false)}
+      >
             {sideList}
           </div>
           </Drawer>
       </div>
       
       <div className='header__logo'>
-          <NavLink to='/home'><p>eLearning</p></NavLink>
+          <NavLink to='/'><p>eLearning</p></NavLink>
         </div>
         <nav className='header__nav'>
           <div className='header__courses'>
@@ -164,15 +220,16 @@ class Header extends Component {
           </div>
           
         </nav>
-        <div className='header__search'>
-              <div className='header__searchIcon'>
-                <SearchIcon />
-              </div>
+        <div className={classes.grow} />
+        <div className={`${classes.search} header__search`}>
+        <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
               <InputBase
                 placeholder="Search…"
                 classes={{
-                  root: 'header__inputRoot',
-                  input: 'header__inputInput',
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
                 }}
               />
             </div>
@@ -180,16 +237,15 @@ class Header extends Component {
         <div className='header__log'>
         {!this.props.auth ? 
         <React.Fragment>
-        <NavLink to='/home/login'>
+        <NavLink to='/login'>
             LogIn
           </NavLink>
-          <NavLink to='/home/signup'>
+          <NavLink to='/signup'>
             SignUp
           </NavLink> 
           </React.Fragment>
           : 
-          <div>
-            <div>Hеллоу {this.props.login.username} вы зашли как: </div>
+          <React.Fragment>
           <IconButton
             aria-owns={open ? 'menu-appbar' : undefined}
             aria-haspopup="true"
@@ -215,9 +271,9 @@ class Header extends Component {
           
           <NavLink className='header__dropnav' to='/mySchool'><MenuItem >My School</MenuItem></NavLink>
           <NavLink className='header__dropnav' to='/profile'><MenuItem ><span><i className="fas fa-user-cog"></i></span>Profile</MenuItem></NavLink>
-          <button onClick={this.logout} className='header__dropnav' to='/logout'><MenuItem ><span><i className="fas fa-sign-out-alt"></i></span>Logout</MenuItem></button>
+          <button onClick={this.logout} className='header__dropnav'><MenuItem ><span><i className="fas fa-sign-out-alt"></i></span>Logout</MenuItem></button>
         </Menu>
-        </div>}
+        </React.Fragment>}
         
         </div>
       </Toolbar>
@@ -245,4 +301,4 @@ const mapDispatchToProps = (dispatch) => {
 
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Header)));

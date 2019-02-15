@@ -5,7 +5,7 @@ import setAuthToken from '../setAuthToken/setAuthToken';
 
 const URL = 'http://localhost:5000/user/login';
 
-export const login = (values) => {
+export const login = (values, history) => {
   return dispatch => {    
     dispatch(loginStart());
     axios.post(`${URL}`, values)
@@ -13,9 +13,10 @@ export const login = (values) => {
       const token = response.data.token;
       const username = response.data.username;
       dispatch(loginSuccess(token, username));
+      history.push('/')
     })
     .catch(err => {
-      console.log(err)
+      dispatch(loginFail())
     })
   }
 }
@@ -37,6 +38,11 @@ export const loginSuccess = (token, username) => {
   }
 }
 
+export const loginFail = () => {
+  return {
+    type: actionTypes.LOGIN_FAIL
+  }
+} 
 
 export const authCheckState = () => {
   return dispatch => {

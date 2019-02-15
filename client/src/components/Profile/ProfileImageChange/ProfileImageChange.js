@@ -71,15 +71,7 @@ export class ProfileImageChange extends Component {
        type='submit' >
          Save
        </Button>
-       : this.props.avatar !== this.props.defaultImage ? 
-       <Button
-       className='profile__deleteImage'
-       variant="contained" 
-       color="primary"
-       type='button' 
-       onClick={this.props.deleteAvatar}>
-         Delete image
-       </Button>  : null}
+       : null}
        
         
       </div>

@@ -90,9 +90,6 @@ class AdminContainer extends React.Component {
 
     return (
       <React.Fragment>    
-{/*        { !this.props.login ? 
-        <Redirect to='/loginadmin' />  : */}
-      
         <div className={classes.root}>
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar + ' headerAdmin'}>
@@ -111,7 +108,6 @@ class AdminContainer extends React.Component {
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Hidden smUp implementation="css">
             <Drawer
               container={this.props.container}
@@ -149,7 +145,6 @@ class AdminContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  
   return {
     login: state.loginAdmin.token
   }

@@ -65,7 +65,7 @@
   
 }
 
-.error{
+&__error{
   position: absolute;
   left: 0;
   bottom: -20px;
@@ -86,6 +86,9 @@
         border: none !important;
       }
     }   
+  }
+  &__form-input.status {
+    width: 100%; 
   }
 }
 
@@ -125,10 +128,13 @@
 }
 
 @keyframes sk-cubemove {
-  25% { 
+  25% {
     transform: translateX(42px) rotate(-90deg) scale(0.5);
     -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
-  } 50% { 
+    -moz-transform: translateX(42px) rotate(-90deg) scale(0.5);
+    -ms-transform: translateX(42px) rotate(-90deg) scale(0.5);
+    -o-transform: translateX(42px) rotate(-90deg) scale(0.5);
+} 50% { 
     transform: translateX(42px) translateY(42px) rotate(-179deg);
     -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);
   } 50.1% { 
@@ -142,3 +148,32 @@
     -webkit-transform: rotate(-360deg);
   }
 }
+
+
+@media (max-width: 575.98px) { 
+  .signUp {
+    
+   &__label {
+     font-size: 12px !important;
+   }
+   &__error {
+     font-size: 12px;
+   }
+  }
+ }
+
+ @media (min-width: 576px) and (max-width: 767.98px) { 
+  
+  }
+
+ @media (min-width: 768px) and (max-width: 991.98px) { 
+ 
+  }
+
+ @media (min-width: 992px) and (max-width: 1199.98px) { 
+  
+  }
+
+ @media (min-width: 1200px) { 
+  
+  }

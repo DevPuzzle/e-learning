@@ -9,7 +9,16 @@ class SignUp extends Component {
   } 
 
   submit = (values) => {
-    this.props.onSignUpUser(values)
+    const data = {
+      first_name: values.first_name.trim(),
+      last_name: values.last_name.trim(),
+      name: values.name.trim(),
+      email: values.email,
+      password: values.password,
+      confirm_password: values.confirm_password,
+      status: values.status
+    }
+    this.props.onSignUpUser(data)
     
     this.setState({showConfirm : true})
   }
