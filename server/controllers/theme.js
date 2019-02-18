@@ -60,7 +60,7 @@ exports.theme_list = (req, res, next) => {
         });        
       } else {
         res.status(500).json({
-          message: 'Not exist doc fuck it'
+          message: 'Not exist doc'
         });
       }
     })
@@ -103,24 +103,24 @@ exports.theme_delete = (req, res, next) => {
     .exec()
     .then(doc => {
       if(doc) {
-        const theme_id = doc._id;
+        
         const subcat_id = doc.subcategory
 
         Subcategory.update({_id: subcat_id},
           {
-            $pull: {theme: {$in: [theme_id] }}
+            $pull: {theme: {$in: [id] }}
           })
           .exec()
           .then(result => {
             console.log(result);
             res.status(200).json({
-              message: "Successfuly theme delete  and subcategory update"
+              message: "Successfuly theme delete and subcategory update"
             });
           })
           .catch(err => {
             console.log(err);
             res.status(500).json({
-              message: "Error find subcategory fuck",
+              message: "Error find subcategory",
               error: err
             });
           });    

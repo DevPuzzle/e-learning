@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
   loading: false,
   error: null,
-  message: null
+  email: null
 
 }
 
@@ -20,7 +20,7 @@ const signupReducer = ( state = initialState, action) => {
         ...state,
         error: null,
         loading: false,
-        message: action.payload
+        email: action.payload
       }
       default: 
         return state;

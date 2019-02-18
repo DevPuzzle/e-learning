@@ -63,13 +63,7 @@ class SignUpForm extends Component {
     const { handleSubmit } = this.props;
     let renderform = <form
     onSubmit={handleSubmit} 
-    className='signUp__form'>
-      {this.props.showConfirm ? 
-      <div className='signUp__message' >
-        Please check your email and activate account. 
-      </div>
-      : null}
-      
+    className='signUp__form'>    
       <div className='signUp__name'>
       <Field 
             type='text'

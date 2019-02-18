@@ -12,6 +12,7 @@ import ErrorComponent from '../components/ErrorComponent/ErrorComponent';
 import VerifyEmailPage from '../components/VerifyEmailPage/VerifyEmailPage';
 import AdminContaner from '../containers/AdminContainer/AdminContaner';
 import AdminPrivateRoute from '../hoc/adminPrivateRoute';
+import SignUpConfirmEmail from '../components/SignUp/SignUpConfirmEmail/SignUpConfirmEmail';
 
 class Routes extends Component {
 
@@ -25,15 +26,15 @@ render(){
       display: 'none'
     }: {display: 'block'}}>
       <Header />
-        <Switch>  
+        <Switch>          
           <AdminPrivateRoute redir='/' exact path='/admin' component={AdminContaner} />
+          <Route path='/confirmEmail' exact component={SignUpConfirmEmail}/>
           <PrivateRoute path='/schools' exact redir='/' component={SchoolsContainer} /> 
           <PrivateRoute path='/profile' exact redir='/' component={Profile} />  
           <Route path='/verifyEmail/:code' exact component={VerifyEmailPage}/>
           <Route path='/errorPage' exact component={ErrorComponent}/>
           <Route path='/' component={HomeContainer}/>
         </Switch>
-        
       <Footer />
     </div>
     )
