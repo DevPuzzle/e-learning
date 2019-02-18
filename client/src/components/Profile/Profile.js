@@ -87,7 +87,6 @@ class Profile extends Component {
               onSubmit={this.changePasswordHandler}/> 
           </div>        
         </div>       
-
         </div>
       </section>      
       

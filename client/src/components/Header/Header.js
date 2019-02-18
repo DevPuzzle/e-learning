@@ -19,7 +19,6 @@ import { withStyles } from '@material-ui/core';
 import { getUserData } from '../../actions/profileActions';
 
 
-
 const styles = theme => ({
   grow: {
     flexGrow: 1,
@@ -68,9 +67,6 @@ const styles = theme => ({
   },
 });
 
-
-
-
 class Header extends Component {
   state = {
     anchorEl: null,
@@ -83,7 +79,6 @@ class Header extends Component {
     if(this.props.auth){
       this.props.onGetUserData()
     }
-    
   }
 
   toggleDrawer = (side, open) => () => {
@@ -119,9 +114,6 @@ class Header extends Component {
     this.props.onLogout();
     this.props.history.push('/');
   }
-
-
-
 
   render(){
     const { anchorEl, coursesEl, schoolsEl } = this.state;
@@ -169,8 +161,6 @@ class Header extends Component {
       }
     }
 
-   
-
   return(   
     <AppBar 
       color='default'>
@@ -188,13 +178,11 @@ class Header extends Component {
         tabIndex={0}
         role="button"
         onClick={this.toggleDrawer('left', false)}
-        onKeyDown={this.toggleDrawer('left', false)}
-      >
-            {sideList}
-          </div>
-          </Drawer>
+        onKeyDown={this.toggleDrawer('left', false)}>
+          {sideList}
       </div>
-      
+        </Drawer>
+      </div>
       <div className='header__logo'>
           <NavLink to='/'><p>eLearning</p></NavLink>
         </div>
@@ -210,14 +198,11 @@ class Header extends Component {
           id="courses-menu"
           anchorEl={coursesEl}
           open={Boolean(coursesEl)}
-          onClose={this.coursesClose}
-        >
+          onClose={this.coursesClose}>
           <MenuItem onClick={this.coursesClose}>All courses</MenuItem>
           <MenuItem onClick={this.coursesClose}>Not all courses</MenuItem>
         </Menu>
-
           </div>
-          
           <div className='header__schools'>
           <p 
             aria-owns={coursesEl ? 'schools-menu' : undefined}
@@ -229,28 +214,25 @@ class Header extends Component {
           id="schools-menu"
           anchorEl={schoolsEl}
           open={Boolean(schoolsEl)}
-          onClose={this.schoolsClose}
-        >
+          onClose={this.schoolsClose}>
           <MenuItem onClick={this.schoolsClose}>All schools</MenuItem>
           <MenuItem onClick={this.schoolsClose}>Not all schools</MenuItem>
         </Menu>
-
           </div>
-          
         </nav>
         <div className={classes.grow} />
         <div className={`${classes.search} header__search`}>
         <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-              />
-            </div>
+          <SearchIcon />
+        </div>
+          <InputBase
+            placeholder="Search…"
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+          />
+        </div>
       </div>
         <div className='header__log'>
         {!this.props.auth ? 
@@ -270,8 +252,6 @@ class Header extends Component {
             onClick={this.handleMenu}
             color="inherit">
             {avatar()}
-            {/* this.props.profile.userData && this.props.profile.userData.userImage 
-              ? <img className='header__profileImage'src={avatar}/> : <i className="fas fa-user-circle header__usericon"></i>  */}
           </IconButton>
           <Menu
           id="menu-appbar"
@@ -285,10 +265,8 @@ class Header extends Component {
             horizontal: 'right',
           }}
           open={Boolean(open)}
-          onClose={this.handleClose}
-        >
+          onClose={this.handleClose}>
           <NavLink onClick={this.handleClose} className='header__dropnav' to='/myCourses'><MenuItem >My Courses</MenuItem></NavLink>
-          
           <NavLink onClick={this.handleClose} className='header__dropnav' to='/mySchool'><MenuItem >My School</MenuItem></NavLink>
           <NavLink onClick={this.handleClose} className='header__dropnav' to='/profile'><MenuItem ><span><i className="fas fa-user-cog"></i></span>Profile</MenuItem></NavLink>
           {this.props.login.role === 'admin' ?
@@ -296,13 +274,10 @@ class Header extends Component {
           <button onClick={this.logout} className='header__dropnav'><MenuItem ><span><i className="fas fa-sign-out-alt"></i></span>Logout</MenuItem></button>
         </Menu>
         </React.Fragment>}
-        
         </div>
       </Toolbar>
-
       </div>
       </div>
-      
     </AppBar>
   )
 } 

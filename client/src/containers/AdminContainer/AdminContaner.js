@@ -15,9 +15,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import AdminComponent from '../../components/AdminComponents/AdminComponent';
+import { withRouter } from 'react-router';
 import './AdminContainer.scss';
+import axios from 'axios';
+import * as actions from '../../actions/loginActions';
 
 
 const drawerWidth = 240;
@@ -59,6 +62,18 @@ class AdminContainer extends React.Component {
     mobileOpen: false,
     
   };
+
+  componentWillMount(){
+    this.props.onTryAutoLogin();
+    if(this.props.location.pathname.includes('/admin'))
+    axios.get('http://localhost:5000/admin/area')
+    .then(response =>{
+
+    })
+    .catch(err => {
+      this.props.history.push('/errorPage')
+    })
+  }
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -147,7 +162,11 @@ const mapStateToProps = (state) => {
   }
 }
 
-
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onTryAutoLogin: () => dispatch(actions.authCheckState())
+  }
+}
 
 AdminContainer.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -155,4 +174,4 @@ AdminContainer.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(AdminContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(withRouter(AdminContainer)));

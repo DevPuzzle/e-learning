@@ -1,4 +1,4 @@
-import * as actionTypes from '../actionTypes';
+/* import * as actionTypes from '../actionTypes';
 import axios from 'axios';
 import setAuthToken from '../../setAuthToken/setAuthToken';
 
@@ -48,3 +48,4 @@ export const authCheckState = (props) => {
       }      
     }
   }
+ */

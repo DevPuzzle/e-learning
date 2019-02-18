@@ -11,22 +11,22 @@ import PrivateRoute from '../hoc/privateRoute';
 import ErrorComponent from '../components/ErrorComponent/ErrorComponent';
 import VerifyEmailPage from '../components/VerifyEmailPage/VerifyEmailPage';
 import AdminContaner from '../containers/AdminContainer/AdminContaner';
+import AdminPrivateRoute from '../hoc/adminPrivateRoute';
 
 class Routes extends Component {
 
-componentDidMount(){
+componentWillMount(){
    this.props.onTryAutoLogin();
  }
 
 render(){  
-
   return(
     <div style={ this.props.location.pathname.includes('admin') ? {
       display: 'none'
     }: {display: 'block'}}>
       <Header />
         <Switch>  
-          <PrivateRoute redir='/' exact path='/admin' component={AdminContaner} />
+          <AdminPrivateRoute redir='/' exact path='/admin' component={AdminContaner} />
           <PrivateRoute path='/schools' exact redir='/' component={SchoolsContainer} /> 
           <PrivateRoute path='/profile' exact redir='/' component={Profile} />  
           <Route path='/verifyEmail/:code' exact component={VerifyEmailPage}/>
@@ -40,6 +40,12 @@ render(){
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+   profile: state.profile.userData
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onTryAutoLogin: () => dispatch(actions.authCheckState())
@@ -47,4 +53,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default withRouter(connect(null, mapDispatchToProps)(Routes));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Routes));
