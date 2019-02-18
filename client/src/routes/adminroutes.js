@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as actions from '../actions/adminActions/loginActions';
+import * as actions from '../actions/loginActions';
 import AdminContaner from '../containers/AdminContainer/AdminContaner';
-import PrivateRoute from '../hoc/privateRoute';
-import AdminComponent from '../components/AdminComponents/AdminComponent';
-import ErrorComponent from '../components/ErrorComponent/ErrorComponent';
 
 
 class AdminRoutes extends Component {

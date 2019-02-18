@@ -4,7 +4,7 @@ const initialState = {
   loading: false,
   token: null,
   username: null,
-  error: false,
+  error: false, 
   role: null
 }
 
@@ -23,8 +23,8 @@ const loginReducer = (state = initialState, action) => {
         loading: false,
         token: action.payload.token,
         username: action.payload.username,
-        role: action.payload.role,
-        error: false
+        error: false,
+        role: action.payload.role
       }
     case actionTypes.LOGIN_FAIL:
       return {
@@ -32,13 +32,15 @@ const loginReducer = (state = initialState, action) => {
         loading: false,
         error: true,
         token: null,
-        username: null
+        username: null,
+        role: null
       }
     case actionTypes.LOGOUT_SUCCESS:
       return{
         ...state,
         token: null,
-        username: null
+        username: null,
+        role: null
       }
     default: 
       return state
