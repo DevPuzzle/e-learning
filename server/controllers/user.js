@@ -208,6 +208,7 @@ exports.user_login = (req, res, next) => {
           return res.status(200).json({
             message: "Auth successfuly",
             username: username,
+            role: user[0].role,
             token: token
           });
         }
@@ -289,8 +290,8 @@ exports.user_forgotten_pass = (req, res, next) => {
       .then((updatedDoc) => {    
         if (!updatedDoc){
           console.log(updatedDoc);
-          res.status(200).json({        
-            message: 'This user not exist'
+          res.status(500).json({        
+            error: 'This user not exist'
           });
         }
 
