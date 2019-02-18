@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import SignUpForm from './SignUpForm/SignUpForm';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/signupActions';
+import { withRouter } from 'react-router';
 
 class SignUp extends Component {
   state = {
@@ -18,8 +19,7 @@ class SignUp extends Component {
       confirm_password: values.confirm_password,
       role: values.role
     }
-    this.props.onSignUpUser(data)
-    
+    this.props.onSignUpUser(data, this.props.history)
     this.setState({showConfirm : true})
   }
 
@@ -44,9 +44,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSignUpUser: (values) => dispatch(actions.signup(values))
+    onSignUpUser: (values, history) => dispatch(actions.signup(values, history))
   }
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps )(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps )(withRouter(SignUp));

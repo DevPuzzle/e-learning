@@ -61,7 +61,7 @@ exports.subcategory_list = (req, res, next) => {
         });        
       } else {
         res.status(500).json({
-          message: 'Not exist doc fuck it'
+          message: 'Not exist doc'
         });
       }
     })
@@ -124,14 +124,12 @@ exports.subcategory_delete = (req, res, next) => {
   Subcategory.findOneAndDelete({_id: id})
     .exec()
     .then(doc => {
-      if(doc) {
-        const subcat_id = doc._id;
+      if(doc) {        
         const cat_id = doc.category;
-        // console.log('SUBB', subcat_id)
-        // console.log('CAT', cat_id)
+        
         Category.update({ _id: cat_id },
           {
-            $pull: {subcategory: { $in: [subcat_id] }}
+            $pull: {subcategory: { $in: [id] }}
           })          
           .exec()
           .then(result => {

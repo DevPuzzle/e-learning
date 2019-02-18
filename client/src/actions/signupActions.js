@@ -6,12 +6,13 @@ const URL = 'http://localhost:5000/user/signup';
 
 
 
-export const signup = (values) => {
+export const signup = (values, history) => {
   return dispatch => {
     dispatch(signupStart());
     axios.post(`${URL}`, values)
     .then(response => {
-      dispatch(signUpSuccess(response.data));
+      dispatch(signUpSuccess(values.email));
+      history.push('/confirmEmail');
     })
     .catch(err =>{
       console.log(err)
