@@ -14,6 +14,7 @@ const categoryRoutes = require('./server/routes/category');
 const subcategoryRoutes = require('./server/routes/subcategory');
 const themeRoutes = require('./server/routes/theme');
 const commentRoutes = require('./server/routes/comment');
+const courseRoutes = require('./server/routes/course');
 
 mongoose.connect('mongodb://vitaliy:qa123123@ds261114.mlab.com:61114/e-learning');
 mongoose.connection.once('open', () => console.log('Connected to MongoDB'));
@@ -46,6 +47,7 @@ app.use("/teacher", teacherRoutes);
 app.use("/category", categoryRoutes);
 app.use("/subcategory", subcategoryRoutes);
 app.use("/theme", themeRoutes);
+app.use("/course", courseRoutes);
 
 app.use((req, res, next) => {
   const error = new Error('Not found');
