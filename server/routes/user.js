@@ -45,6 +45,10 @@ router.patch("/avatar/uploads", checkAuth, upload.single('userImage'), UserContr
 router.patch("/edit", checkAuth, UserController.user_edit);
 router.patch("/edit/password", checkAuth, UserController.user_edit_password);
 router.patch("/forgotten/password", UserController.user_forgotten_pass)
+
+// users courses
+router.get("/course", checkAuth, UserController.user_course);
+
 //router.delete("/:username", checkAuth, UserController.user_delete);
 
 module.exports = router;
