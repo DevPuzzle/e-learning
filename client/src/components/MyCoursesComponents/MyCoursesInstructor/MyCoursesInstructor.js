@@ -4,6 +4,8 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { Dialog, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import MyCoursesInstructorForm from './MyCoursesInstructorForm/MyCoursesInstructorForm';
+import { connect } from 'react-redux';
+import * as action from '../../../actions/courseListActions';
 
 const styles = theme => ({
   fab: {
@@ -25,6 +27,10 @@ class MyCoursesInstructor extends Component{
     showCreateInstructor: false,
   }
   
+  componentWillMount(){
+    this.props.onGetCourseList()
+  }
+
   openCreateInstrucor = () => {
     this.setState({
       showCreateInstructor: true
@@ -38,7 +44,7 @@ class MyCoursesInstructor extends Component{
   }
 
   render(){
-    const { classes } = this.props;
+    const { classes, courseList } = this.props;
     return (
       <React.Fragment>
           <div className='instructor__listItem col-md-3'>
@@ -56,7 +62,7 @@ class MyCoursesInstructor extends Component{
                 Creator
               </DialogTitle>
             <DialogContent>              
-              <MyCoursesInstructorForm />
+              <MyCoursesInstructorForm courseList={courseList}/>
             </DialogContent>
           </Dialog>
       </React.Fragment>       
@@ -64,4 +70,18 @@ class MyCoursesInstructor extends Component{
     )
   }  
 }
-export default withStyles(styles)(MyCoursesInstructor);
+
+const mapStateToProps = (state) => {
+  
+  return {
+    courseList: state.courseList.courseList
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onGetCourseList: () => dispatch(action.getCourseList())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MyCoursesInstructor));

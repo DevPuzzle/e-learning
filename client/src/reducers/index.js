@@ -9,6 +9,7 @@ import subcategories from './adminReducers/subCategoriesReducer';
 import themes from './adminReducers/themesReducer';
 import verifyEmail from './verifyReducer';
 import forgotPassword from './forgotPasswordReducer';
+import courseList from './courseListReducer';
 
 export default combineReducers({
   form: formReducer,
@@ -20,5 +21,6 @@ export default combineReducers({
   subcategories,
   themes,
   verifyEmail,
-  forgotPassword
+  forgotPassword,
+  courseList
 })

@@ -5,7 +5,10 @@ import MyCoursesInstructor from '../../components/MyCoursesComponents/MyCoursesI
 import ErrorComponent from '../../components/ErrorComponent/ErrorComponent';
 import MyCoursesCollection from '../../components/MyCoursesComponents/MyCoursesCollection/MyCoursesCollection';
 
+
 class MyCoursesContainer extends Component {
+
+
   render() {
     return (
       <React.Fragment>
@@ -39,7 +42,7 @@ class MyCoursesContainer extends Component {
          <div className='instructor row py-5'>
           <Switch>
             <Route path='/myCourses' exact component={MyCoursesCollection} />
-            <Route path='/myCourses/instructor' exact component={MyCoursesInstructor}/>
+            <Route path='/myCourses/instructor' exact component={(props) => <MyCoursesInstructor {...this.props} courseList={this.props.courseList} />}/>
             <Route component={ErrorComponent} /> 
           </Switch>
           </div>
@@ -50,4 +53,5 @@ class MyCoursesContainer extends Component {
   }
 }
 
-export default MyCoursesContainer;
+
+export default (MyCoursesContainer);
