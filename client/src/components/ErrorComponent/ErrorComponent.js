@@ -5,9 +5,7 @@ import Button from '@material-ui/core/Button';
 
  class ErrorComponent extends Component {
   componentWillMount(){
-   /*  if(this.props.location.pathname === '/admin'){
-      this.props.history.push('/admin')
-    }else */ if(this.props.location.pathname !== '/errorPage'){
+    if(this.props.location.pathname !== '/errorPage'){
       this.props.history.push('/errorPage');
     }
   }
