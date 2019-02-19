@@ -70,10 +70,7 @@ exports.course_list = (req, res, next) => {
       select: '_id name',
       populate: {
         path: 'theme',
-        select: '_id name',
-        populate: {
-          path: 'course'          
-        }
+        select: '_id name'        
       }
     })
     .exec()

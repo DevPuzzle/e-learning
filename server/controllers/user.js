@@ -545,7 +545,6 @@ exports.user_edit_password = (req, res, next) => {
 }
 
 exports.user_get = (req, res, next) => {
-
   const userId = req.userData.userId;  
   const role = req.userData.role;
   console.log('REQ USER ROLE', role);
@@ -581,4 +580,26 @@ exports.user_get = (req, res, next) => {
       res.status(500).json({ error: err });
     });
   
+}
+
+exports.user_course = (req, res, next) => {
+  const userId = req.userData.userId; 
+
+  User.findOne({_id: userId})
+    .select('_id')
+    .populate({
+      path: 'course'
+    })
+    .exec()
+    .then(doc => {
+      if (doc) {
+        res.status(200).json({
+          user_courses: doc
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    }); 
 }
