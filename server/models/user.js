@@ -31,7 +31,7 @@ const userSchema = new Schema({
   userImage: { type: String, required: false},
   password: { type: String, required: true },  
   
-  courses: [{
+  course: [{
     type: Schema.Types.ObjectId,
     ref: 'Course'
   }],
