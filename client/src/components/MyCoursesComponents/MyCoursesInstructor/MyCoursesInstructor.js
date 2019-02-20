@@ -5,7 +5,8 @@ import AddIcon from '@material-ui/icons/Add';
 import { Dialog, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import MyCoursesInstructorForm from './MyCoursesInstructorForm/MyCoursesInstructorForm';
 import { connect } from 'react-redux';
-import * as action from '../../../actions/courseListActions';
+import * as action from '../../../actions/courseCoverActions';
+import Spinner from '../../UI/Spinner/Spinner';
 
 const styles = theme => ({
   fab: {
@@ -28,7 +29,7 @@ class MyCoursesInstructor extends Component{
   }
   
   componentWillMount(){
-    this.props.onGetCourseList()
+    this.props.onGetCourseCovers()
   }
 
   openCreateInstrucor = () => {
@@ -57,7 +58,9 @@ class MyCoursesInstructor extends Component{
     const { classes, courseList } = this.props;
     return (
       <React.Fragment>
-          <div className='instructor__listItem col-md-3'>
+       {/*  {courseList ?  */}
+          <React.Fragment>
+             <div className='instructor__listItem col-md-3'>
             <Fab onClick={this.openCreateInstrucor} className={classes.fab}>
               <AddIcon />
             </Fab>
@@ -76,6 +79,10 @@ class MyCoursesInstructor extends Component{
                 courseList={courseList}/>
             </DialogContent>
           </Dialog>
+          </React.Fragment> {/* : 
+          <Spinner />  
+        } */}
+         
       </React.Fragment>       
   
     )
@@ -85,13 +92,14 @@ class MyCoursesInstructor extends Component{
 const mapStateToProps = (state) => {
   
   return {
-    courseList: state.courseList.courseList
+    /* courseList: state.courseList.courseList */
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onGetCourseList: () => dispatch(action.getCourseList())
+    /* onGetCourseList: () => dispatch(action.getCourseList()), */
+    onGetCourseCovers: () => dispatch(action.getCourseCovers())
   }
 }
 
