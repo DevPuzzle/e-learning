@@ -13,9 +13,7 @@ exports.course_cover_create = (req, res, next) => {
   const path = req.file.path;
   const author_id = req.userData.userId;
   const theme_id = req.body.theme_id;
-  // console.log("Author_id", author_id);
-  // console.log('Path', path);
-
+  
   course = new Course({
     _id: new mongoose.Types.ObjectId(),
     name: coursename,
@@ -59,6 +57,13 @@ exports.course_cover_create = (req, res, next) => {
         message: 'Successfuly create course cover'
       });
     })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+        message: 'Error create course'
+      });
+    });  
 
 }
 
