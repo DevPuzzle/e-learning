@@ -42,6 +42,16 @@ class MyCoursesInstructor extends Component{
       showCreateInstructor: false
     })
   }
+  
+  openPopperHandler = e => {
+    const { currentTarget } = e;
+    this.setState(state => ({
+      selectedCategoryEl: currentTarget,
+      openSubcategoriesList: false,
+      openThemesList: false,
+      openCategoriesList: !state.openCategoriesList,
+    }));
+  }
 
   render(){
     const { classes, courseList } = this.props;
@@ -62,7 +72,8 @@ class MyCoursesInstructor extends Component{
                 Creator
               </DialogTitle>
             <DialogContent>              
-              <MyCoursesInstructorForm courseList={courseList}/>
+              <MyCoursesInstructorForm
+                courseList={courseList}/>
             </DialogContent>
           </Dialog>
       </React.Fragment>       

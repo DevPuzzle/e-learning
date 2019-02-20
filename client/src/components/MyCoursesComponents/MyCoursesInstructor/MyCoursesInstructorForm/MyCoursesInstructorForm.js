@@ -1,6 +1,20 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Button, FormControl, InputLabel, Input, Popper,List, ListItem, IconButton, Paper, Typography, Fade } from '@material-ui/core';
+import { 
+  Button, 
+  FormControl, 
+  InputLabel, 
+  Input, 
+  Popper,
+  List, 
+  ListItem, 
+  IconButton, 
+  Paper,
+  TextField,
+  Fade } from '@material-ui/core';
+import PopperSubcategoriesList from './PopperSubcategoriesList/PopperSubcategoriesList';
+import Dropzone from 'react-dropzone';
+import StyledDropArea from 'react-dropzone';
 
 
 const renderInputField = (field) => {
@@ -16,156 +30,180 @@ const renderInputField = (field) => {
       </div>
     </FormControl>
   )
-} 
+}
 
+const renderTextareaField = (field) => {
+  const className = `instructor__form-input ${field.meta.touched
+  && field.meta.error 
+  ? 'has-error' : ''}` 
+  return (
+    <FormControl className={className} margin="normal" required fullWidth>
+      <TextField
+        label='Description'
+        placeholder="Enter your description here"
+        multiline={true}
+        rows={3}
+        />
+    </FormControl>
+  )
+}
+/* 
+const renderDropzoneField = function({ input, name,meta: { touched, error } }) {
+  return (
+    <div>
+      <Dropzone
+        name={name}
+        onDrop={filesToUpload => input.onChange(filesToUpload)}
+      >
+        Import image to upload
+        {touched && error && <span>{error}</span>}
+      </Dropzone>
+    </div>
+  );
+}
+ */
 class MyCoursesInstructorForm extends Component {
 
   state = {
-    anchorEl: null,
-    open: false,
-    anchorEl2: null,
-    opensub: false,
+    selectedCategoryEl: null,
+    selectedSubcategoryEl: null,
+    selectedThemeEl: null,
+    openCategoriesList: false,
+    openSubcategoriesList: false,
+    openThemesList: false,
     subcategories: null,
     themes: null,
-    opentheme: false,
-    anchorEl3: null
+    selectedThemeItem: null
+    
   }
 
-  handleClick = e => {
+  openPopperHandler = e => {
     const { currentTarget } = e;
     this.setState(state => ({
-      anchorEl: currentTarget,
-      opensub: false,
-      open: !state.open,
+      selectedCategoryEl: currentTarget,
+      openSubcategoriesList: false,
+      openThemesList: false,
+      openCategoriesList: !state.openCategoriesList,
     }));
   }
 
-  handleOver = (e, id) => {
+  showSubcategoriesHandler = (e, id) => {
     const category = this.props.courseList.list.find(category => category._id === id);
-  
     const { currentTarget } = e;
     this.setState(state => ({
-      anchorEl2: currentTarget,
+      selectedSubcategoryEl: currentTarget,
       subcategories: null,
-      opensub: false,
-      opentheme: false
+      openSubcategoriesList: false,
+      openThemesList: false
       
     }))
     this.setState(state => ({
-      anchorEl2: currentTarget,
-      opensub: true,
+      selectedSubcategoryEl: currentTarget,
+      openSubcategoriesList: true,
       subcategories: category.subcategory
     }))
     
   }
 
-  handleOverThemes = (e, id) => {
+  showThemesHandler = (e, id) => {
     const subcategory = this.state.subcategories.find(subcategory => subcategory._id === id);
     const { currentTarget } = e;
     this.setState({
-      opentheme: true,
-      anchorEl3: currentTarget,
+      openThemesList: true,
+      selectedThemeEl: currentTarget,
       themes: subcategory.theme
     })
   }
 
+  selectedThemeItem = (name) => {
+    this.setState({
+      selectedThemeItem: name,
+      openCategoriesList: false,
+      openSubcategoriesList: false,
+      openThemesList: false
+    })
+  }
+
+  handleSubmit = (values) => {
+
+  }
+
   render(){
-    const { handleSubmit, courseList } = this.props;
-    const { anchorEl, open, opensub, anchorEl2,anchorEl3, opentheme } = this.state;    
+    const { courseList } = this.props;
+    const { 
+      selectedCategoryEl, 
+      openCategoriesList, 
+      openSubcategoriesList, 
+      selectedSubcategoryEl,
+      selectedThemeEl, 
+      openThemesList,
+      subcategories,
+      themes } = this.state;    
     let renderform = <form
-    onSubmit={handleSubmit} 
+    onSubmit={this.handleSubmit} 
     className='instructorForm'>    
-      <IconButton onClick={this.handleClick} >
+     <div className='instructorForm__select'>
+      <IconButton onClick={this.openPopperHandler} >
         <i className="fas fa-th"></i>
       </IconButton>
+     {this.state.selectedThemeItem}
+     </div>
       <Popper 
         placement='right-start' 
         style={{zIndex: '100000'}} 
-        open={open} 
-        anchorEl={anchorEl} 
+        open={openCategoriesList} 
+        anchorEl={selectedCategoryEl} 
         transition>
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={350}>
               <Paper>
                 <List>
-                  {this.props.courseList ? this.props.courseList.list.map(category => (
-                    
+                  {courseList ? courseList.list.map(category => (
                     <React.Fragment key={category._id} >
                     <ListItem 
-                      onMouseOver={(e) => this.handleOver(e,category._id)}
-                      button 
-                      /* id={category._id} */>
+                      onMouseOver={(e) => this.showSubcategoriesHandler(e,category._id)}
+                      button>
+                      
                       {category.name}
                     </ListItem>
                     </React.Fragment>
                   )) : null}
-                  <Popper
-                    placement='right-start'
-                    style={{zIndex: '100100'}}
-                    open={opensub}
-                    anchorEl={anchorEl2}
-                    transition>
-                      {({TransitionProps}) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                          <Paper>
-                            <List>
-                              {this.state.subcategories.map(subcategory => (
-                                <ListItem 
-                                  onMouseOver={(e) => this.handleOverThemes(e, subcategory._id)}
-                                  key={subcategory._id}
-                                  button>
-                                  {subcategory.name}
-                                </ListItem>
-                              ))}
-                              <Popper
-                                placement='right-start'
-                                style={{zIndex: '100200'}}
-                                open={opentheme}
-                                anchorEl={anchorEl3}
-                                transition>
-                                {({TransitionProps}) => (
-                                  <Fade {...TransitionProps} timeout={350}>
-                                    <Paper>
-                                      <List>
-                                        {this.state.themes.map(theme => (
-                                          <ListItem
-                                            key={theme._id}>
-                                              {theme.name}
-                                          </ListItem>
-                                        ))}
-                                      </List>
-                                    </Paper>
-                                  </Fade>
-                                )}
-                              </Popper>
-                              
-                            </List>
-                          </Paper>
-                        </Fade>
-                      )}
-                  </Popper>
+                  <PopperSubcategoriesList 
+                    openSubcategoriesList={openSubcategoriesList}
+                    selectedSubcategoryEl={selectedSubcategoryEl}
+                    subcategories={subcategories}
+                    showThemesHandler={this.showThemesHandler}
+                    openThemesList={openThemesList}
+                    selectedThemeEl={selectedThemeEl}
+                    themes={themes}
+                    selectedThemeItem={this.selectedThemeItem}/>
                 </List>
               </Paper>
             </Fade>
           )}
         </Popper>
       <Field 
-            type='text'
-            label='First name'
-            name='first_name'
-            component={renderInputField}/>
+        type='text'
+        label='Title'
+        name='name'
+        component={renderInputField}/>
       <Field 
-            className='instructor__right'
-            type='text'
-            label='Last name'
-            name='last_name'
-            component={renderInputField}/>
+        className='instructor__right'
+        type='text'
+        label='Information'
+        name='info'
+        component={renderInputField}/>
+      <Field 
+        type='text'
+        label='Description'
+        name='description'
+        component={renderTextareaField}/>
       <div className='instructor__btnCont'>
         <Button
-        className='instructor__btn'
-        variant="contained" 
-        color="primary"
-        type='submit' >
+          className='instructor__btn'
+          variant="contained" 
+          color="primary"
+          type='submit'>
           Sign Up
         </Button>     
       </div>
