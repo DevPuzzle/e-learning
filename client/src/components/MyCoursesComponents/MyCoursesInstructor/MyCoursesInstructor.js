@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogContentText, DialogTitle } from '@material
 import MyCoursesInstructorForm from './MyCoursesInstructorForm/MyCoursesInstructorForm';
 import { connect } from 'react-redux';
 import * as action from '../../../actions/courseCoverActions';
+import * as actionCourse from '../../../actions/courseListActions';
 import Spinner from '../../UI/Spinner/Spinner';
 
 const styles = theme => ({
@@ -23,16 +24,15 @@ const styles = theme => ({
 });
 
 class MyCoursesInstructor extends Component{
-
   state = {
     showCreateInstructor: false,
   }
-  
-  componentWillMount(){
-    this.props.onGetCourseCovers()
+  componentDidMount(){
+    this.props.onGetCourseCovers();
   }
 
   openCreateInstrucor = () => {
+    this.props.onGetCourseList();
     this.setState({
       showCreateInstructor: true
     })
@@ -45,6 +45,7 @@ class MyCoursesInstructor extends Component{
   }
   
   openPopperHandler = e => {
+    
     const { currentTarget } = e;
     this.setState(state => ({
       selectedCategoryEl: currentTarget,
@@ -57,17 +58,21 @@ class MyCoursesInstructor extends Component{
   render(){
     const { classes, courseList } = this.props;
     return (
-      <React.Fragment>
-       {/*  {courseList ?  */}
-          <React.Fragment>
+         <React.Fragment>
              <div className='instructor__listItem col-md-3'>
             <Fab onClick={this.openCreateInstrucor} className={classes.fab}>
               <AddIcon />
             </Fab>
           </div>
-          <div className='instructor__listItem col-md-3'>
-            ALREADY CREATED
-          </div>
+         { this.props.userCoursesCovers && this.props.userCoursesCovers.user_courses
+          ? this.props.userCoursesCovers.user_courses.course.map(course => (
+            <div 
+              key={course._id}
+              className='instructor__listItem col-md-3'>
+              {course.name}
+            </div>
+          )): null }
+          
           <Dialog
             open={this.state.showCreateInstructor}
             onClose={this.closeCreateInstructor}>
@@ -79,26 +84,22 @@ class MyCoursesInstructor extends Component{
                 courseList={courseList}/>
             </DialogContent>
           </Dialog>
-          </React.Fragment> {/* : 
-          <Spinner />  
-        } */}
-         
-      </React.Fragment>       
+          </React.Fragment>    
   
     )
   }  
 }
 
 const mapStateToProps = (state) => {
-  
   return {
-    /* courseList: state.courseList.courseList */
+    userCoursesCovers: state.courseCovers.courseCovers,
+    courseList: state.courseList.courseList
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    /* onGetCourseList: () => dispatch(action.getCourseList()), */
+    onGetCourseList: () => dispatch(actionCourse.getCourseList()),
     onGetCourseCovers: () => dispatch(action.getCourseCovers())
   }
 }

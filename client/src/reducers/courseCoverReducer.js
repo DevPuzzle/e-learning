@@ -34,7 +34,7 @@ const courseCoverReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: false,
-        courseCovers: action.payload
+        courseCovers: [...state.courseCovers, action.payload]
       }
     case actionTypes.ADD_COURSECOVER_FAIL:
       return {

@@ -14,6 +14,8 @@ import {
   Fade } from '@material-ui/core';
 import './MyCoursesInstructorForm.scss';
 import PopperSubcategoriesList from './PopperSubcategoriesList/PopperSubcategoriesList';
+import { connect } from 'react-redux';
+import * as action from '../../../../actions/courseCoverActions';
 
 
 
@@ -69,6 +71,7 @@ class MyCoursesInstructorForm extends Component {
     imagePreviewUrl: ''
     
   }
+  
 
  
 
@@ -110,9 +113,9 @@ class MyCoursesInstructorForm extends Component {
     })
   }
 
-  selectedThemeItem = (name) => {
+  selectedThemeItem = (theme) => {
     this.setState({
-      selectedThemeItem: name,
+      selectedThemeItem: theme,
       openCategoriesList: false,
       openSubcategoriesList: false,
       openThemesList: false
@@ -153,12 +156,17 @@ class MyCoursesInstructorForm extends Component {
 
 
   handleSubmit = (values) => {
-    console.log(values, this.state.selectedImage)
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('info', values.info);
+    formData.append('description', values.description);
+    formData.append('image', this.state.selectedImage);
+    formData.append('theme_id', this.state.selectedThemeItem._id)
+    this.props.onAddCoursecover(formData);
   }
 
   render(){
     const { courseList, handleSubmit } = this.props;
-    
     const { 
       selectedCategoryEl, 
       openCategoriesList, 
@@ -186,7 +194,7 @@ class MyCoursesInstructorForm extends Component {
         <i className="fas fa-th"></i>
       </IconButton>
      {this.state.selectedThemeItem ? 
-      this.state.selectedThemeItem 
+      this.state.selectedThemeItem.name 
       : <h3>Select theme</h3> }
      </div>
       <Popper 
@@ -274,6 +282,18 @@ class MyCoursesInstructorForm extends Component {
     )
   }
   }
+
+
+const mapDispatchToProps = (dispatch)  => {
+  return {
+    onAddCoursecover: (data) => dispatch(action.addCourseCover(data))
+  }
+}
+
+MyCoursesInstructorForm = connect(
+  null,
+  mapDispatchToProps
+)(MyCoursesInstructorForm);
  
 
 export default reduxForm({

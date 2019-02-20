@@ -40,7 +40,7 @@ const PopperSubcategoriesList = (props) => {
                             <ListItem
                               key={theme._id}
                               button
-                              onClick={() => props.selectedThemeItem(theme.name)}>
+                              onClick={() => props.selectedThemeItem(theme)}>
                                 {theme.name}
                             </ListItem>
                           ))}

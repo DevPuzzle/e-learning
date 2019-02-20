@@ -42,7 +42,7 @@ class MyCoursesContainer extends Component {
          <div className='instructor row py-5'>
           <Switch>
             <Route path='/myCourses' exact component={MyCoursesCollection} />
-            <Route path='/myCourses/instructor' exact component={(props) => <MyCoursesInstructor {...this.props} courseList={this.props.courseList} />}/>
+            <Route path='/myCourses/instructor' exact component={MyCoursesInstructor}/>
             <Route component={ErrorComponent} /> 
           </Switch>
           </div>
