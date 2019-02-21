@@ -104,7 +104,7 @@ exports.course_list = (req, res, next) => {
   .then(doc => {
     if (doc) {
       res.status(200).json({
-        courseList: doc.course
+        courseList: doc
       });
       //return doc;
     } else {

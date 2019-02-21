@@ -603,3 +603,25 @@ exports.user_course_cover = (req, res, next) => {
       res.status(500).json({ error: err });
     }); 
 }
+
+exports.user_school = (req, res, next) => {
+  const userId = req.userData.userId; 
+
+  User.findOne({_id: userId})
+    .select('_id')
+    .populate({
+      path: 'school'
+    })
+    .exec()
+    .then(doc => {
+      if (doc) {
+        res.status(200).json({          
+          user_school: doc.school
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    }); 
+}

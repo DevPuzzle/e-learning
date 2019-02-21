@@ -49,7 +49,7 @@ exports.school_create = (req, res, next) => {
 
       console.log(doc);
       res.status(200).json({
-        school: doc.school,
+        school: doc,
         creator_name: creator_name,        
         message: 'Successfuly create school'
       });
