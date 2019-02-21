@@ -1,8 +1,6 @@
 .myCourses {
- 
   &__nav {
     background: #0277bd;
- 
   }
   &__title {
     font-size: 24px;
@@ -23,6 +21,9 @@
   }
   &__navActive {
     border-bottom: 6px solid #fff;
+  }
+  &__content{
+    min-height: calc(100vh - 244px);
   }
   
 }

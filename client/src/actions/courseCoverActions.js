@@ -1,8 +1,9 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-const URL = 'http://localhost:5000/course/cover/create';
-const fetchUrl = 'http://localhost:5000/user/course';
+const URL = 'http://localhost:5000/course';
+const fetchUrl = 'http://localhost:5000/user/course_cover';
+
 
 
 export const getCourseCovers = () => {
@@ -10,7 +11,7 @@ export const getCourseCovers = () => {
     dispatch(getCourseCoversStart());
     axios.get(`${fetchUrl}`)
     .then(response => {
-      dispatch(getCourseCoversSuccess(response.data.user_courses.course));
+      dispatch(getCourseCoversSuccess(response.data.user_courses_covers));
     })
     .catch(err => {
       console.log(err)
@@ -34,7 +35,7 @@ export const getCourseCoversSuccess = (data) => {
 export const addCourseCover = (data) => {
   return dispatch => {
     dispatch(addCourseCoverStart());
-    axios.post(`${URL}`, data)
+    axios.post(`${URL}/cover/create`, data)
     .then(response => {
       dispatch(addCourseCoverSuccess(response.data.course_cover))
     })
@@ -54,5 +55,18 @@ export const addCourseCoverSuccess = (data) => {
   return {
     type: actionTypes.ADD_COURSECOVER_SUCCESS,
     payload: data
+  }
+}
+
+export const updateCourseCover = (values, courseCoverId) => {
+  return dispatch => {
+   /*  dispatch(updateCourseCoverStart()); */
+    axios.patch(`${URL}/edit/${courseCoverId}`, values)
+    .then(response => {
+      console.log(response.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 }

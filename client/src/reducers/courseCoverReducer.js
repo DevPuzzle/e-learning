@@ -29,7 +29,6 @@ const courseCoverReducer = (state = initialState, action) => {
         error: false
       }
     case actionTypes.ADD_COURSECOVER_SUCCESS:
-    console.log('STATE', state.courseCovers)
       return {
         ...state,
         loading: false,
@@ -42,6 +41,20 @@ const courseCoverReducer = (state = initialState, action) => {
         loading: false,
         error: true,
         courseCovers: null
+      }
+    case actionTypes.UPDATE_COURSECOVER_START:
+      return {
+        ...state,
+        loading: true,
+        error: false
+      }
+    case actionTypes.UPDATE_COURSECOVER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        courseCovers: state.courseCovers.map(courseCover => courseCover._id === action.payload._id ?
+          {...courseCover, courseCover: action.payload} : courseCover)
       }
     default:
       return state

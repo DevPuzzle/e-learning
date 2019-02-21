@@ -14,10 +14,6 @@ import {
   Fade } from '@material-ui/core';
 import './MyCoursesInstructorForm.scss';
 import PopperSubcategoriesList from './PopperSubcategoriesList/PopperSubcategoriesList';
-import { connect } from 'react-redux';
-import * as action from '../../../../actions/courseCoverActions';
-
-
 
 const renderInputField = (field) => {
   const className = `instructorForm__form-input ${field.meta.touched 
@@ -60,82 +56,6 @@ const renderTextareaField = (field) => {
 
 class MyCoursesInstructorForm extends Component {
 
-  state = {
-    selectedCategoryEl: null,
-    selectedSubcategoryEl: null,
-    selectedThemeEl: null,
-    openCategoriesList: false,
-    openSubcategoriesList: false,
-    openThemesList: false,
-    subcategories: null,
-    themes: null,
-    selectedThemeItem: null,
-    selectedImage: null,
-    imagePreviewUrl: ''
-    
-  }
-  openPopperHandler = e => {
-    const { currentTarget } = e;
-    this.setState(state => ({
-      selectedCategoryEl: currentTarget,
-      openSubcategoriesList: false,
-      openThemesList: false,
-      openCategoriesList: !state.openCategoriesList,
-    }));
-  }
-
-  showSubcategoriesHandler = (e, id) => {
-    const category = this.props.courseList.list.find(category => category._id === id);
-    const { currentTarget } = e;
-    this.setState({
-      selectedSubcategoryEl: currentTarget,
-      subcategories: null,
-      openSubcategoriesList: false,
-      openThemesList: false
-      
-    })
-    this.setState({
-      selectedSubcategoryEl: currentTarget,
-      openSubcategoriesList: true,
-      subcategories: category.subcategory
-    })
-    
-  }
-
-  showThemesHandler = (e, id) => {
-    const subcategory = this.state.subcategories.find(subcategory => subcategory._id === id);
-    const { currentTarget } = e;
-    this.setState({
-      openThemesList: true,
-      selectedThemeEl: currentTarget,
-      themes: subcategory.theme
-    })
-  }
-
-  selectedThemeItem = (theme) => {
-    this.setState({
-      selectedThemeItem: theme,
-      openCategoriesList: false,
-      openSubcategoriesList: false,
-      openThemesList: false
-    })
-  }
-
-  selectImage = (e) => {
-    let reader = new FileReader();
-    let file = e.target.files[0];
-    reader.onloadend = () => {
-      this.setState({
-      imagePreviewUrl: reader.result,
-      selectedImage: file
-      }); 
-    }
-    if(e.target.files[0]){
-      reader.readAsDataURL(file);
-    }
-    
-  }
-
   renderFileField = (field) => {
     const className = `instructorForm__form-input ${field.meta.touched
       && field.meta.error 
@@ -146,7 +66,7 @@ class MyCoursesInstructorForm extends Component {
         type={field.type} 
         {...field.input} 
         name={field.name}
-        onChange={this.selectImage}
+        onChange={this.props.selectImage}
         ref={fileInput => this.fileInput = fileInput}/>
       <Button 
         className='profile__changeImageBtn'
@@ -160,47 +80,38 @@ class MyCoursesInstructorForm extends Component {
     )
   }
 
-
-  handleSubmit = (values) => {
-    const formData = new FormData();
-    formData.append('name', values.name);
-    formData.append('info', values.info);
-    formData.append('description', values.description);
-    formData.append('image', this.state.selectedImage);
-    formData.append('theme_id', this.state.selectedThemeItem._id)
-    this.props.onAddCoursecover(formData);
-  }
-
   render(){
-    const { courseList, handleSubmit } = this.props;
-    const { 
-      selectedCategoryEl, 
-      openCategoriesList, 
-      openSubcategoriesList, 
-      selectedSubcategoryEl,
-      selectedThemeEl, 
-      openThemesList,
-      subcategories,
-      themes } = this.state;  
+      console.log(this.props.selectedThemeItem)
+    const { courseList, 
+            handleSubmit,
+            selectedCategoryEl, 
+            openCategoriesList, 
+            openSubcategoriesList, 
+            selectedSubcategoryEl,
+            selectedThemeEl, 
+            openThemesList,
+            subcategories,
+            themes } = this.props;
+    
       let $imagePreview = null;
 
-      if(this.state.imagePreviewUrl){
+      if(this.props.imagePreviewUrl){
         $imagePreview = (<img style={{width: '100%',
         height: '100%',
-        objectFit: 'cover'}}src={this.state.imagePreviewUrl}/>); 
+        objectFit: 'cover'}}src={this.props.imagePreviewUrl}/>); 
       }  
 
     let renderform = <form
-    onSubmit={handleSubmit(this.handleSubmit)} 
+    onSubmit={handleSubmit} 
     className='instructorForm'>    
      <div className='instructorForm__select'>
       <IconButton 
       className='instructorFrom__selectButton'
-      onClick={this.openPopperHandler} >
+      onClick={this.props.openPopperHandler} >
         <i className="fas fa-th"></i>
       </IconButton>
-     {this.state.selectedThemeItem ? 
-      this.state.selectedThemeItem.name 
+     {this.props.selectedThemeItem ? 
+      this.props.selectedThemeItem.name 
       : <h3>Select theme</h3> }
      </div>
       <Popper 
@@ -216,7 +127,7 @@ class MyCoursesInstructorForm extends Component {
                   {courseList ? courseList.list.map(category => (
                     <React.Fragment key={category._id} >
                     <ListItem 
-                      onMouseOver={(e) => this.showSubcategoriesHandler(e,category._id)}
+                      onMouseOver={(e) => this.props.showSubcategoriesHandler(e,category._id)}
                       button>
                         {category.name}
                     </ListItem>
@@ -226,11 +137,11 @@ class MyCoursesInstructorForm extends Component {
                     openSubcategoriesList={openSubcategoriesList}
                     selectedSubcategoryEl={selectedSubcategoryEl}
                     subcategories={subcategories}
-                    showThemesHandler={this.showThemesHandler}
+                    showThemesHandler={this.props.showThemesHandler}
                     openThemesList={openThemesList}
                     selectedThemeEl={selectedThemeEl}
                     themes={themes}
-                    selectedThemeItem={this.selectedThemeItem}/>
+                    selectedThemeItemHandler={this.props.selectedThemeItemHandler}/>
                 </List>
               </Paper>
             </Fade>
@@ -260,7 +171,7 @@ class MyCoursesInstructorForm extends Component {
         name='image'
         component={this.renderFileField}/>
         <div className='instructorForm__imageCont'>
-          {this.state.selectedImage ? 
+          {this.props.selectedImage ? 
           $imagePreview 
           : <h3 className='instructorForm__imageText'>
               Image will be here
@@ -273,7 +184,7 @@ class MyCoursesInstructorForm extends Component {
           variant="contained" 
           color="primary"
           type='submit'
-          disabled={!this.state.selectedThemeItem || !this.state.selectedImage}>
+          disabled={!this.props.selectedThemeItem || !this.props.selectedImage}>
           Create
         </Button>
       </div>
@@ -299,22 +210,8 @@ const validate = (values) => {
     errors.description = 'Required field'
   }
   return errors;
-}
-
-
-const mapDispatchToProps = (dispatch)  => {
-  return {
-    onAddCoursecover: (data) => dispatch(action.addCourseCover(data))
-  }
-}
-
-MyCoursesInstructorForm = connect(
-  null,
-  mapDispatchToProps
-)(MyCoursesInstructorForm);
- 
+} 
 
 export default reduxForm({
-  validate,
-  form: 'createInstructor'
+  validate
 })(MyCoursesInstructorForm);

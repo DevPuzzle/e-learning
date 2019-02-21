@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import { Dialog, DialogContent, DialogContentText, DialogTitle, Card, CardActionArea, CardMedia, CardContent, Typography } from '@material-ui/core';
+import { Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 import MyCoursesInstructorForm from './MyCoursesInstructorForm/MyCoursesInstructorForm';
 import { connect } from 'react-redux';
 import * as action from '../../../actions/courseCoverActions';
 import * as actionCourse from '../../../actions/courseListActions';
 import Spinner from '../../UI/Spinner/Spinner';
+import CourseCover from './CourseCover/CourseCover';
 
 const styles = theme => ({
   fab: {
@@ -33,7 +34,20 @@ const styles = theme => ({
 class MyCoursesInstructor extends Component{
   state = {
     showCreateInstructor: false,
+    selectedCategoryEl: null,
+    selectedSubcategoryEl: null,
+    selectedThemeEl: null,
+    openCategoriesList: false,
+    openSubcategoriesList: false,
+    openThemesList: false,
+    subcategories: null,
+    themes: null,
+    selectedThemeItem: null,
+    selectedImage: null,
+    imagePreviewUrl: '',
+    editeTheme: null
   }
+  
   componentDidMount(){
     this.props.onGetCourseCovers();
   }
@@ -51,8 +65,8 @@ class MyCoursesInstructor extends Component{
     })
   }
   
+  
   openPopperHandler = e => {
-    
     const { currentTarget } = e;
     this.setState(state => ({
       selectedCategoryEl: currentTarget,
@@ -62,67 +76,123 @@ class MyCoursesInstructor extends Component{
     }));
   }
 
+  showSubcategoriesHandler = (e, id) => {
+    const category = this.props.courseList.list.find(category => category._id === id);
+    const { currentTarget } = e;
+    this.setState({
+      selectedSubcategoryEl: currentTarget,
+      subcategories: null,
+      openSubcategoriesList: false,
+      openThemesList: false
+      
+    })
+    this.setState({
+      selectedSubcategoryEl: currentTarget,
+      openSubcategoriesList: true,
+      subcategories: category.subcategory
+    })
+  }
+
+  showThemesHandler = (e, id) => {
+    const subcategory = this.state.subcategories.find(subcategory => subcategory._id === id);
+    const { currentTarget } = e;
+    this.setState({
+      openThemesList: true,
+      selectedThemeEl: currentTarget,
+      themes: subcategory.theme
+    })
+  }
+
+  selectedThemeItemHandler = (theme) => {
+    this.setState({
+      selectedThemeItem: theme,
+      openCategoriesList: false,
+      openSubcategoriesList: false,
+      openThemesList: false
+    })
+  }
+
+  selectImage = (e) => {
+    console.log(e.target.files[0])
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      this.setState({
+      imagePreviewUrl: reader.result,
+      selectedImage: file
+      }); 
+    }
+    if(e.target.files[0]){
+      reader.readAsDataURL(file);
+    }
+  }
+
+  handleCreateCourse = (values) => {
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('info', values.info);
+    formData.append('description', values.description);
+    formData.append('image', this.state.selectedImage);
+    formData.append('theme_id', this.state.selectedThemeItem._id);
+    formData.append('author_name', localStorage.getItem('username'));
+    formData.append('theme_name', this.state.selectedThemeItem);
+    this.props.onAddCoursecover(formData);
+  }
+
+  editCourseCoverHandler = (theme) => {
+    console.log(theme)
+  }
+
   render(){
     const { classes, courseList } = this.props;
-    return (
-      
-         <React.Fragment>
-           {this.props.userCoursesCovers ?
-           <React.Fragment>
-             <div className='instructor__listItem col-md-3 mb-4 d-flex justify-content-center align-items-center'>
+    return (      
+      <React.Fragment>
+        {this.props.userCoursesCovers ?
+        <React.Fragment>
+          <div className='instructor__listItem col-md-3 mb-4 d-flex justify-content-center align-items-center'>
             <Fab onClick={this.openCreateInstrucor} className={classes.fab}>
               <AddIcon />
             </Fab>
           </div>
-        {this.props.userCoursesCovers.map(course => (
-            <div 
-              className='col-md-3 mb-4'  
-              key={course._id}>
-              <Card 
-                className={classes.card}>
-                <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image={`http://localhost:5000/${course.image}`}
-                  title={course.name}/>
-                  <CardContent>
-                    <Typography 
-                      gutterBottom 
-                      component="h2"
-                      style={{
-                        fontSize: '18px',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden'
-                      }}>
-                        {course.name}
-                    </Typography>
-                    {/* <Typography 
-                      component="p">
-                      {course.theme}
-                    </Typography> */}
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </div>
-          ))}
-          
+          {this.props.userCoursesCovers.map(course => (
+              <CourseCover
+                key={course._id} 
+                course={course}
+                classes={classes}
+                editCourseCover={this.editCourseCoverHandler}/>
+            ))}      
           <Dialog
             open={this.state.showCreateInstructor}
             onClose={this.closeCreateInstructor}>
             <DialogTitle>
-                Creator
-              </DialogTitle>
+              Creator
+            </DialogTitle>
             <DialogContent>              
               <MyCoursesInstructorForm
-                courseList={courseList}/>
+                form='createInstructor'
+                courseList={courseList}
+                selectedCategoryEl={this.state.selectedCategoryEl}
+                selectedSubcategoryEl={this.state.selectedSubcategoryEl}
+                selectedThemeEl={this.state.selectedThemeEl}
+                openCategoriesList={this.state.openCategoriesList}
+                openSubcategoriesList={this.state.openSubcategoriesList}
+                openThemesList={this.state.openThemesList}
+                subcategories={this.state.subcategories}
+                themes={this.state.themes}
+                selectedThemeItem={this.state.selectedThemeItem}
+                selectedImage={this.state.selectedImage}
+                imagePreviewUrl={this.state.imagePreviewUrl}
+                openPopperHandler={this.openPopperHandler}
+                showSubcategoriesHandler={this.showSubcategoriesHandler}
+                showThemesHandler={this.showThemesHandler}
+                selectedThemeItemHandler={this.selectedThemeItemHandler}
+                selectImage={this.selectImage}
+                onSubmit={this.handleCreateCourse}/>
             </DialogContent>
-          </Dialog>
-          
-           
-          </React.Fragment> 
-           : <Spinner /> } 
-           </React.Fragment>
+          </Dialog>  
+        </React.Fragment> 
+        : <Spinner /> } 
+      </React.Fragment>
 
   
     )
@@ -140,7 +210,8 @@ const mapDispatchToProps = (dispatch) => {
   
   return {
     onGetCourseList: () => dispatch(actionCourse.getCourseList()),
-    onGetCourseCovers: () => dispatch(action.getCourseCovers())
+    onGetCourseCovers: () => dispatch(action.getCourseCovers()),
+    onAddCoursecover: (data) => dispatch(action.addCourseCover(data))
   }
 }
 
