@@ -153,7 +153,7 @@ exports.theme_edit = (req, res, next) => {
     .then((updatedDoc) => {    
       if (!updatedDoc){
         console.log(updatedDoc);
-        res.status(200).json({        
+        res.status(500).json({        
           message: 'This theme not exist'
         });
       }
