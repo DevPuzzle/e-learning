@@ -34,7 +34,7 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Course'
   }],
-  collections: [{
+  course_collection: [{
     type: Schema.Types.ObjectId,
     ref: 'Course'
   }],
@@ -42,6 +42,10 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'School'
   }], 
+  school_collection: [{
+    type: Schema.Types.ObjectId,
+    ref: 'School'
+  }]
   }, 
   { 
     versionKey: false 
