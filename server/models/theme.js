@@ -21,6 +21,9 @@ const themeSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Course'
   }]
+},
+{
+  timestamps: true
 });
 
 module.exports = mongoose.model('Theme', themeSchema);
