@@ -151,7 +151,9 @@ exports.course_cover_edit = (req, res, next) => {
         });
       }
       res.status(200).json({
-        theme: updatedDoc,
+        course: updatedDoc,
+        author_name: author_name,
+        theme_name: theme_name,
         message: 'Successfuly edit course'
       }); 
     });   
