@@ -13,6 +13,9 @@ exports.course_cover_create = (req, res, next) => {
   const path = req.file.path;
   const author_id = req.userData.userId;
   const theme_id = req.body.theme_id;
+
+  const author_name = req.body.author_name;
+  const theme_name = req.body.theme_name;
   
   course = new Course({
     _id: new mongoose.Types.ObjectId(),
@@ -54,6 +57,8 @@ exports.course_cover_create = (req, res, next) => {
       console.log(doc);
       res.status(200).json({
         course_cover: doc,
+        author_name: author_name,
+        theme_name: theme_name,
         message: 'Successfuly create course cover'
       });
     })
@@ -67,7 +72,7 @@ exports.course_cover_create = (req, res, next) => {
 
 }
 
-exports.course_list = (req, res, next) => {
+exports.catalog_list = (req, res, next) => {
   Category.find({})
     .select('_id name')
     .populate({
@@ -91,4 +96,25 @@ exports.course_list = (req, res, next) => {
       res.status(500).json({ error: err });
     }); 
 
+}
+
+exports.course_list = (req, res, next) => {
+  Course.find({})    
+  .exec()
+  .then(doc => {
+    if (doc) {
+      res.status(200).json({
+        courseList: doc.course
+      });
+      //return doc;
+    } else {
+      res.status(500).json({
+        message: 'Not exist doc'
+      });
+    }
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({ error: err });
+  });
 }

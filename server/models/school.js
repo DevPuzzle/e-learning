@@ -34,6 +34,9 @@ const courseSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Comment'
   }],
+},
+{
+  timestamps: true
 });
 
 module.exports = mongoose.model('School', courseSchema);

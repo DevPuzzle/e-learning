@@ -47,7 +47,7 @@ router.patch("/edit/password", checkAuth, UserController.user_edit_password);
 router.patch("/forgotten/password", UserController.user_forgotten_pass)
 
 // users courses
-router.get("/course", checkAuth, UserController.user_course);
+router.get("/course_cover", checkAuth, UserController.user_course_cover);
 
 //router.delete("/:username", checkAuth, UserController.user_delete);
 
