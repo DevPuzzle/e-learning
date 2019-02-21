@@ -20,14 +20,14 @@ import * as action from '../../../../actions/courseCoverActions';
 
 
 const renderInputField = (field) => {
-  const className = `instructor__form-input ${field.meta.touched 
+  const className = `instructorForm__form-input ${field.meta.touched 
   && field.meta.error 
   ? 'has-error' : ''}`
   return(
     <FormControl className={className} margin="normal" required fullWidth>
-      <InputLabel htmlFor={field.name} className='instructor__label'>{field.label}</InputLabel>
+      <InputLabel htmlFor={field.name} className='instructorForm__label'>{field.label}</InputLabel>
       <Input id={field.input.name} className={field.input.name === 'first_name' || field.input.name === 'password' ? 'instructor__inp mr-4' : 'instructor__inp'} name={field.name} type={field.type} {...field.input} />
-      <div className='instructor__error'>
+      <div className='instructorForm__error'>
         {field.meta.touched ? field.meta.error : ''}
       </div>
     </FormControl>
@@ -35,7 +35,7 @@ const renderInputField = (field) => {
 }
 
 const renderTextareaField = (field) => {
-  const className = `instructor__form-input ${field.meta.touched
+  const className = `instructorForm__form-input ${field.meta.touched
   && field.meta.error 
   ? 'has-error' : ''}` 
   return (
@@ -49,6 +49,9 @@ const renderTextareaField = (field) => {
         multiline={true}
         rows={3}
         />
+         <div className='instructorForm__error'>
+          {field.meta.touched ? field.meta.error : ''}
+        </div>
     </FormControl>
   )
 }
@@ -71,10 +74,6 @@ class MyCoursesInstructorForm extends Component {
     imagePreviewUrl: ''
     
   }
-  
-
- 
-
   openPopperHandler = e => {
     const { currentTarget } = e;
     this.setState(state => ({
@@ -88,18 +87,18 @@ class MyCoursesInstructorForm extends Component {
   showSubcategoriesHandler = (e, id) => {
     const category = this.props.courseList.list.find(category => category._id === id);
     const { currentTarget } = e;
-    this.setState(state => ({
+    this.setState({
       selectedSubcategoryEl: currentTarget,
       subcategories: null,
       openSubcategoriesList: false,
       openThemesList: false
       
-    }))
-    this.setState(state => ({
+    })
+    this.setState({
       selectedSubcategoryEl: currentTarget,
       openSubcategoriesList: true,
       subcategories: category.subcategory
-    }))
+    })
     
   }
 
@@ -125,20 +124,24 @@ class MyCoursesInstructorForm extends Component {
   selectImage = (e) => {
     let reader = new FileReader();
     let file = e.target.files[0];
-    
     reader.onloadend = () => {
       this.setState({
       imagePreviewUrl: reader.result,
       selectedImage: file
-      });
-      
+      }); 
     }
-    reader.readAsDataURL(file);
+    if(e.target.files[0]){
+      reader.readAsDataURL(file);
+    }
+    
   }
 
   renderFileField = (field) => {
+    const className = `instructorForm__form-input ${field.meta.touched
+      && field.meta.error 
+      ? 'has-error' : ''}` 
     return(
-      <React.Fragment>
+      <FormControl className={className} margin="normal" required fullWidth>
       <input style={{display: 'none'}} 
         type={field.type} 
         {...field.input} 
@@ -150,7 +153,10 @@ class MyCoursesInstructorForm extends Component {
         variant="contained" 
         color="primary"
         onClick={() => this.fileInput.click()}>Choose image</Button>
-   </React.Fragment>
+        <div className='instructorForm__error'>
+        {field.meta.touched ? field.meta.error : ''}
+      </div>
+   </FormControl>
     )
   }
 
@@ -180,8 +186,8 @@ class MyCoursesInstructorForm extends Component {
 
       if(this.state.imagePreviewUrl){
         $imagePreview = (<img style={{width: '100%',
-      height: '100%',
-    objectFit: 'cover'}}src={this.state.imagePreviewUrl}/>); 
+        height: '100%',
+        objectFit: 'cover'}}src={this.state.imagePreviewUrl}/>); 
       }  
 
     let renderform = <form
@@ -236,7 +242,7 @@ class MyCoursesInstructorForm extends Component {
         name='name'
         component={renderInputField}/>
       <Field 
-        className='instructor__right'
+        className='instructorForm__right'
         type='text'
         label='Information'
         name='info'
@@ -259,21 +265,19 @@ class MyCoursesInstructorForm extends Component {
           : <h3 className='instructorForm__imageText'>
               Image will be here
             </h3>}
-         
         </div>
-        
       </div>
       <div className='instructor__btnCont'>
         <Button
-          className='instructor__btn'
+          className='instructorForm__btn'
           variant="contained" 
           color="primary"
-          type='submit'>
+          type='submit'
+          disabled={!this.state.selectedThemeItem || !this.state.selectedImage}>
           Create
-        </Button>     
+        </Button>
       </div>
       </form>
-  
     return (
      <React.Fragment>
        {renderform}
@@ -282,6 +286,20 @@ class MyCoursesInstructorForm extends Component {
     )
   }
   }
+
+const validate = (values) => {
+  const errors = {};
+  if(!values.name){
+    errors.name = 'Required field'
+  }
+  if(!values.info){
+    errors.info = 'Required field'
+  }
+  if(!values.description){
+    errors.description = 'Required field'
+  }
+  return errors;
+}
 
 
 const mapDispatchToProps = (dispatch)  => {
@@ -297,5 +315,6 @@ MyCoursesInstructorForm = connect(
  
 
 export default reduxForm({
+  validate,
   form: 'createInstructor'
 })(MyCoursesInstructorForm);

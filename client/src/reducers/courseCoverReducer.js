@@ -26,10 +26,10 @@ const courseCoverReducer = (state = initialState, action) => {
       return{
         ...state,
         loading: true,
-        error: false,
-        courseCovers: null
+        error: false
       }
     case actionTypes.ADD_COURSECOVER_SUCCESS:
+    console.log('STATE', state.courseCovers)
       return {
         ...state,
         loading: false,

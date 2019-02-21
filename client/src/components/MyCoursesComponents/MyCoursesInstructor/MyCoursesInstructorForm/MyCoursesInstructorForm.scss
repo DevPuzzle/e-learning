@@ -11,6 +11,16 @@
       }
     }
   }
+  &__form-input {
+    position: relative;
+  }
+  &__error{
+      color: red;
+      position: absolute;
+      left: 0;
+      bottom: -16px;
+      font-size: 14px;
+  }
   &__image {
     margin-top: 15px;
     margin-bottom: 15px;
@@ -37,5 +47,9 @@
     align-items: center;
     color: #01579b;
     border: 2px dashed #01579b;
+  }
+  &__btn:disabled{
+    cursor: not-allowed !important;
+    pointer-events: all !important;
   }
 }
