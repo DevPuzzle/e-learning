@@ -118,3 +118,42 @@ exports.course_list = (req, res, next) => {
     res.status(500).json({ error: err });
   });
 }
+
+exports.course_cover_edit = (req, res, next) => {
+  const id = req.params.id;
+  const coursename = req.body.name;
+  const info = req.body.info;
+  const description = req.body.description;  
+  const path = req.file.path;
+  const author_id = req.userData.userId;
+  const theme_id = req.body.theme_id;
+
+  const author_name = req.body.author_name;
+  const theme_name = req.body.theme_name;
+
+  Course.findOneAndUpdate({_id: id},
+    {
+      name: coursename,
+      info: info,
+      description: description,
+      image: path,
+      author: author_id,
+      theme: theme_id
+    }, 
+    {
+      new: true
+    })
+    .then((updatedDoc) => {
+      if (!updatedDoc){
+        console.log(updatedDoc);
+        res.status(500).json({        
+          message: 'This course not exist'
+        });
+      }
+      res.status(200).json({
+        theme: updatedDoc,
+        message: 'Successfuly edit course'
+      }); 
+    });   
+    
+}
