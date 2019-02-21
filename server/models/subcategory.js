@@ -21,6 +21,9 @@ const subcategorySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Theme'
   }]
+},
+{
+  timestamps: true
 });
 
 module.exports = mongoose.model('Subcategory', subcategorySchema);

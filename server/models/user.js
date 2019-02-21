@@ -30,14 +30,25 @@ const userSchema = new Schema({
   },
   userImage: { type: String, required: false},
   password: { type: String, required: true },  
-  
   course: [{
     type: Schema.Types.ObjectId,
     ref: 'Course'
   }],
-
-  }, { versionKey: false }
-  
+  collections: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Course'
+  }],
+  school: [{
+    type: Schema.Types.ObjectId,
+    ref: 'School'
+  }], 
+  }, 
+  { 
+    versionKey: false 
+  },
+  {
+    timestamps: true
+  }  
 );
 
 module.exports = mongoose.model('User', userSchema);

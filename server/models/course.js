@@ -8,14 +8,8 @@ const courseSchema = new Schema({
     required: true, 
     unique: true
   },
-  info: {
-    type: String, 
-    required: true,    
-  },
-  description: {
-    type: String, 
-    required: true,    
-  },
+  info: { type: String, required: true },
+  description: { type: String, required: true },
   image: { type: String, required: false},
   video: { type: String, required: false},
   theme: {
@@ -29,7 +23,11 @@ const courseSchema = new Schema({
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User'
-  }
+  }  
+  
+},
+{
+  timestamps: true
 });
 
 module.exports = mongoose.model('Course', courseSchema);

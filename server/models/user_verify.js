@@ -13,7 +13,11 @@ const userSchema = new Schema({
     require: true,
     unique: true
   },
-  }, { versionKey: false }  
-);
+  }, 
+  { versionKey: false 
+  },  
+  {
+    timestamps: true
+  });
 
 module.exports = mongoose.model('UserVerify', userSchema);
