@@ -45,7 +45,9 @@ class MyCoursesInstructor extends Component{
     selectedThemeItem: null,
     selectedImage: null,
     imagePreviewUrl: '',
-    editeTheme: null
+    editeTheme: null,
+    showEditor: false,
+    editedCover: null
   }
   
   componentDidMount(){
@@ -61,7 +63,11 @@ class MyCoursesInstructor extends Component{
 
   closeCreateInstructor = () => {
     this.setState({
-      showCreateInstructor: false
+      showCreateInstructor: false,
+      selectedImage: null,
+      selectedThemeItem: null,
+      openCategoriesList: false
+      
     })
   }
   
@@ -113,7 +119,6 @@ class MyCoursesInstructor extends Component{
   }
 
   selectImage = (e) => {
-    console.log(e.target.files[0])
     let reader = new FileReader();
     let file = e.target.files[0];
     reader.onloadend = () => {
@@ -139,8 +144,38 @@ class MyCoursesInstructor extends Component{
     this.props.onAddCoursecover(formData);
   }
 
+  //EDITOR
+
   editCourseCoverHandler = (theme) => {
-    console.log(theme)
+    this.props.onGetCourseList()
+    this.setState({
+      showEditor: true,
+      editedCover: theme,
+    })
+  }
+
+  closeEditorHandler = () => {
+    this.setState({
+      openCategoriesList: false,
+      showEditor: false,
+      editedCover: null,
+      selectedImage: null,
+      selectedThemeItem: null,
+
+    })
+  }
+
+  handleUpdateCourseCover = (values) => {
+    console.log(values);
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('info', values.info);
+    formData.append('description', values.description);
+    formData.append('image', this.state.selectedImage ? this.state.selectedImage : values.image);
+    formData.append('theme_id', this.state.selectedThemeItem ? this.state.selectedThemeItem._id : values.theme);
+    formData.append('author_name', localStorage.getItem('username'));
+    formData.append('theme_name', this.state.selectedThemeItem ? this.state.selectedThemeItem.name : values.name);
+    this.props.onUpdateCourseCover(formData, values._id)
   }
 
   render(){
@@ -171,6 +206,7 @@ class MyCoursesInstructor extends Component{
               <MyCoursesInstructorForm
                 form='createInstructor'
                 courseList={courseList}
+                editedCover={this.state.editedCover}
                 selectedCategoryEl={this.state.selectedCategoryEl}
                 selectedSubcategoryEl={this.state.selectedSubcategoryEl}
                 selectedThemeEl={this.state.selectedThemeEl}
@@ -191,7 +227,38 @@ class MyCoursesInstructor extends Component{
             </DialogContent>
           </Dialog>  
         </React.Fragment> 
-        : <Spinner /> } 
+        : <Spinner /> }
+        <Dialog
+            open={this.state.showEditor}
+            onClose={this.closeEditorHandler}>
+            <DialogTitle>
+              Editor
+            </DialogTitle>
+            <DialogContent>              
+              <MyCoursesInstructorForm
+                  form='updateCover'
+                  editedCover={this.state.editedCover}
+                  courseList={courseList}
+                  selectImage={this.selectImage}
+                  openCategoriesList={this.state.openCategoriesList}
+                  selectedCategoryEl={this.state.selectedCategoryEl}
+                  selectedSubcategoryEl={this.state.selectedSubcategoryEl}
+                  selectedThemeEl={this.state.selectedThemeEl}
+                  openSubcategoriesList={this.state.openSubcategoriesList}
+                  openThemesList={this.state.openThemesList}
+                  openPopperHandler={this.openPopperHandler}
+                  showSubcategoriesHandler={this.showSubcategoriesHandler}
+                  showThemesHandler={this.showThemesHandler}
+                  subcategories={this.state.subcategories}
+                  themes={this.state.themes}
+                  selectedThemeItem={this.state.selectedThemeItem}
+                  selectedThemeItemHandler={this.selectedThemeItemHandler}
+                  selectedImage={this.state.selectedImage}
+                  imagePreviewUrl={this.state.imagePreviewUrl}
+                  onSubmit={this.handleUpdateCourseCover}
+                  initialValues={this.state.editedCover}/>
+            </DialogContent>
+          </Dialog>  
       </React.Fragment>
 
   
@@ -211,7 +278,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onGetCourseList: () => dispatch(actionCourse.getCourseList()),
     onGetCourseCovers: () => dispatch(action.getCourseCovers()),
-    onAddCoursecover: (data) => dispatch(action.addCourseCover(data))
+    onAddCoursecover: (data) => dispatch(action.addCourseCover(data)),
+    onUpdateCourseCover: (values,courseCoverId) => dispatch(action.updateCourseCover(values, courseCoverId))
   }
 }
 

@@ -57,14 +57,16 @@ const renderTextareaField = (field) => {
 class MyCoursesInstructorForm extends Component {
 
   renderFileField = (field) => {
+    console.log(field)
     const className = `instructorForm__form-input ${field.meta.touched
       && field.meta.error 
-      ? 'has-error' : ''}` 
+      ? 'has-error' : ''}`;
     return(
       <FormControl className={className} margin="normal" required fullWidth>
       <input style={{display: 'none'}} 
         type={field.type} 
-        {...field.input} 
+        {...field.input}
+        value=''
         name={field.name}
         onChange={this.props.selectImage}
         ref={fileInput => this.fileInput = fileInput}/>
@@ -81,7 +83,6 @@ class MyCoursesInstructorForm extends Component {
   }
 
   render(){
-      console.log(this.props.selectedThemeItem)
     const { courseList, 
             handleSubmit,
             selectedCategoryEl, 
@@ -93,14 +94,27 @@ class MyCoursesInstructorForm extends Component {
             subcategories,
             themes } = this.props;
     
-      let $imagePreview = null;
+      const checkTheme = (selectedTheme, apiTheme) => {
+        if(selectedTheme){
+          return <h3>{selectedTheme.name}</h3>
+        }else if(apiTheme){
+          return <h3>{apiTheme.name}</h3>
+        }else{
+          return <h3>Select theme</h3>
+        }
+      }
 
-      if(this.props.imagePreviewUrl){
-        $imagePreview = (<img style={{width: '100%',
-        height: '100%',
-        objectFit: 'cover'}}src={this.props.imagePreviewUrl}/>); 
-      }  
-
+      const checkImage = (selectedImage, apiImage) => {
+        if(selectedImage){
+          return <img src={this.props.imagePreviewUrl}/>
+        }else if(apiImage){
+          return <img src={`http://localhost:5000/${apiImage.image}`} />
+        }else{
+          return <h3 className='instructorForm__imageText'>
+              Image will be here
+            </h3>
+        }
+      }
     let renderform = <form
     onSubmit={handleSubmit} 
     className='instructorForm'>    
@@ -110,9 +124,7 @@ class MyCoursesInstructorForm extends Component {
       onClick={this.props.openPopperHandler} >
         <i className="fas fa-th"></i>
       </IconButton>
-     {this.props.selectedThemeItem ? 
-      this.props.selectedThemeItem.name 
-      : <h3>Select theme</h3> }
+      {checkTheme(this.props.selectedThemeItem, this.props.editedCover)}
      </div>
       <Popper 
         placement='right-start' 
@@ -171,11 +183,7 @@ class MyCoursesInstructorForm extends Component {
         name='image'
         component={this.renderFileField}/>
         <div className='instructorForm__imageCont'>
-          {this.props.selectedImage ? 
-          $imagePreview 
-          : <h3 className='instructorForm__imageText'>
-              Image will be here
-            </h3>}
+          {checkImage(this.props.selectedImage, this.props.editedCover)}
         </div>
       </div>
       <div className='instructor__btnCont'>
