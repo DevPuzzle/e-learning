@@ -179,6 +179,7 @@ class MyCoursesInstructor extends Component{
   }
 
   render(){
+    console.log(this.state)
     const { classes, courseList } = this.props;
     return (      
       <React.Fragment>

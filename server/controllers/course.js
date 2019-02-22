@@ -127,6 +127,7 @@ exports.course_cover_edit = (req, res, next) => {
   const path = req.file.path;
   const author_id = req.userData.userId;
   const theme_id = req.body.theme_id;
+  
 
   const author_name = req.body.author_name;
   const theme_name = req.body.theme_name;

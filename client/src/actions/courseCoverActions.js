@@ -11,6 +11,7 @@ export const getCourseCovers = () => {
     dispatch(getCourseCoversStart());
     axios.get(`${fetchUrl}`)
     .then(response => {
+      console.log(response)
       dispatch(getCourseCoversSuccess(response.data.user_courses_covers));
     })
     .catch(err => {

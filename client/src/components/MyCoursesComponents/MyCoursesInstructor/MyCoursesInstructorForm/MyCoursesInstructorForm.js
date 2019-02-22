@@ -53,11 +53,9 @@ const renderTextareaField = (field) => {
 }
 
 
-
 class MyCoursesInstructorForm extends Component {
 
   renderFileField = (field) => {
-    console.log(field)
     const className = `instructorForm__form-input ${field.meta.touched
       && field.meta.error 
       ? 'has-error' : ''}`;
@@ -92,7 +90,7 @@ class MyCoursesInstructorForm extends Component {
             selectedThemeEl, 
             openThemesList,
             subcategories,
-            themes } = this.props;
+            themes, pristine } = this.props;
     
       const checkTheme = (selectedTheme, apiTheme) => {
         if(selectedTheme){
@@ -192,8 +190,8 @@ class MyCoursesInstructorForm extends Component {
           variant="contained" 
           color="primary"
           type='submit'
-          disabled={!this.props.selectedThemeItem || !this.props.selectedImage}>
-          Create
+          disabled={this.props.editedCover ? pristine : !this.props.selectedThemeItem || !this.props.selectedImage}>
+          {this.props.editedCover ? 'edit' : 'save'}
         </Button>
       </div>
       </form>
