@@ -38,6 +38,6 @@ router.get("/list", checkAuth, CourseController.course_list);
 // router.get("/:id", CategoryController.category_get);
 router.post("/cover/create", checkAuth, roleTeacher, upload.single('image'), CourseController.course_cover_create);
 router.patch("/edit/:id", checkAuth, roleTeacher, CourseController.course_cover_edit);
-// router.delete("/delete/:id", checkAuth, roleTeacher, CourseController.course_cover_delete);
+router.delete("/delete/:id", checkAuth, roleTeacher, CourseController.course_cover_delete);
 
 module.exports = router;
