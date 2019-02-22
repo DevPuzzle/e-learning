@@ -589,7 +589,11 @@ exports.user_course_cover = (req, res, next) => {
   User.findOne({_id: userId})
     .select('_id')
     .populate({
-      path: 'course'
+      path: 'course',
+      populate: {
+        path: 'theme',
+        select: '_id name'        
+      }
     })
     .exec()
     .then(doc => {

@@ -121,30 +121,54 @@ exports.subcategory_get = (req, res, next) => {
 exports.subcategory_delete = (req, res, next) => {
   const id = req.params.id;
 
-  Subcategory.findOneAndDelete({_id: id})
+  Subcategory.findOne({_id: id})
     .exec()
     .then(doc => {
-      if(doc) {        
+      if(doc) { 
+        console.log('Theme', doc.theme);       
         const cat_id = doc.category;
-        
-        Category.update({ _id: cat_id },
-          {
-            $pull: {subcategory: { $in: [id] }}
-          })          
-          .exec()
-          .then(result => {
-            console.log(result);
+
+        if(doc.theme.length < 1){
+
+          Subcategory.remove({ _id: id })
+            .exec()
+            .then(() => {
+              console.log('Subcategory removed')
+            })
+            .catch(err => {
+              console.log(err);
+              res.status(500).json({
+                error: err,
+                message: "Error delete subcategory"
+              });
+            });
+
+            Category.update({ _id: cat_id },
+              {
+                $pull: {subcategory: { $in: [id] }}
+              })          
+              .exec()
+              .then(() => {
+                console.log('Category updated');                
+              })
+              .catch(err => {
+                console.log(err);
+                res.status(500).json({ 
+                  message: "Error find category",
+                  error: err 
+                });
+              }); 
+
             res.status(200).json({
-              message: "Successfuly subcategory delete and category update"
+              message: "Successfuly subcategory deleted"
             });
-          })
-          .catch(err => {
-            console.log(err);
-            res.status(500).json({ 
-              message: "Error find category",
-              error: err 
-            });
+        } else {
+          res.status(500).json({ 
+            message: "Subcategory have theme",
+            error: 'Error delete subcategory'
           });
+        }        
+        
       }
     })    
     .catch(err => {
