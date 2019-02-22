@@ -99,31 +99,54 @@ exports.theme_get = (req, res, next) => {
 exports.theme_delete = (req, res, next) => {
   const id = req.params.id
 
-  Theme.findOneAndDelete({_id: id})
+  Theme.findOne({_id: id})
     .exec()
     .then(doc => {
       if(doc) {
-        
+        console.log('Course', doc.course);
         const subcat_id = doc.subcategory
 
-        Subcategory.update({_id: subcat_id},
-          {
-            $pull: {theme: {$in: [id] }}
-          })
-          .exec()
-          .then(result => {
-            console.log(result);
-            res.status(200).json({
-              message: "Successfuly theme delete and subcategory update"
+        if(doc.course.length < 1){
+          Theme.remove({_id: id})
+            .exec()
+            .then(() => {
+              console.log('Theme removed')
+            })
+            .catch(err => {
+              console.log(err);
+              res.status(500).json({
+                error: err,
+                message: "Error delete theme"
+              });
             });
-          })
-          .catch(err => {
-            console.log(err);
-            res.status(500).json({
-              message: "Error find subcategory",
-              error: err
-            });
-          });    
+
+            Subcategory.update({ _id: subcat_id },
+              {
+                $pull: {theme: { $in: [id] }}
+              })          
+              .exec()
+              .then(() => {
+                console.log('Subcategory updated');                
+              })
+              .catch(err => {
+                console.log(err);
+                res.status(500).json({ 
+                  message: "Error find subcategory",
+                  error: err 
+                });
+              }); 
+
+          res.status(200).json({
+            message: "Successfuly theme deleted"
+          });
+
+        } else {
+          res.status(500).json({ 
+            message: "Theme have course",
+            error: 'Error delete theme'
+          });
+        }
+        
       }
     })
     .catch(err => {
