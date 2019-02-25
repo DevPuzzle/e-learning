@@ -62,10 +62,11 @@ class Profile extends Component {
       <section className='profile'>
       
         <div className='container'>
-        <div className='row justify-content-center'>
-          <div className='col-md-5 profile__container'> 
+        <div className='row justify-content-center align-items-center flex-column'>
+        <div className='col-md-5'>
+          <h3 className='profile__title'>Photo</h3>
+          <div className='profile__container mb-4'> 
             <div className='profile__main'>
-            
               <div className='profile__image'>
                 <img src={avatar} alt=""/>
               </div>
@@ -76,6 +77,11 @@ class Profile extends Component {
               changes={this.changes} 
               onSubmit={this.changeUserImage}/>
             </div>
+            </div>
+        </div>
+        <div className='col-md-5'>
+          <h3 className='profile__title'>Profile</h3>
+            <div className='profile__container mb-4'> 
             <h3 className='profile__nickName'>
               {this.props.userData ? this.props.userData.username : null}
             </h3>
@@ -83,9 +89,16 @@ class Profile extends Component {
               loading={this.props.loading}
               initialValues={this.props.userData}
               onSubmit={this.changeUserDataHandler}/>    
+            </div>
+          </div>
+            <div className='col-md-5'>
+            <h3 className='profile__title'>Password</h3>
+            <div className='profile__container mb-4'> 
             <ProfileChangePassword 
               onSubmit={this.changePasswordHandler}/> 
-          </div>        
+            </div>
+            </div>
+                              
         </div>       
         </div>
       </section>      

@@ -47,8 +47,6 @@ const themesReducer = (state = initialState, action) => {
         themes: null
       }
     case actionTypes.DELETE_THEME_SUCCESS:
-      const new1 = state.themes.filter(theme => console.log(theme._id !== action.payload));
-      console.log(new1)
       return {
         ...state,
         loading: false,

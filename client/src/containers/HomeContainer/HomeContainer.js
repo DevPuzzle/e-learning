@@ -16,7 +16,7 @@ class HomeContainer extends Component {
           <div className='container'>   
             <div className='home__content row align-items-center'>
               <div 
-                className='col-md-6' 
+                className='col-md-5' 
                 style={{
                     top: '-80px'
                 }}>

@@ -9,10 +9,6 @@ import Spinner from '../../UI/Spinner/Spinner';
 
 
 export class ProfileImageChange extends Component {
-
-  
-
-
   renderInputField = (field) => {
     const className = `profile__form-input ${field.meta.touched 
       && field.meta.error 

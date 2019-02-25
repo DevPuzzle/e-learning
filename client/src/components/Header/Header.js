@@ -70,8 +70,6 @@ const styles = theme => ({
 class Header extends Component {
   state = {
     anchorEl: null,
-    coursesEl: null,
-    schoolsEl: null,
     left: false
   }
 
@@ -85,20 +83,6 @@ class Header extends Component {
     this.setState({
       [side]: open,
     });
-  };
-
-  schoolsOpen = event => {
-    this.setState({ coursesEl: event.currentTarget });
-  };
-  schoolsClose = () => {
-    this.setState({ coursesEl: null });
-  };
-
- coursesOpen = event => {
-    this.setState({ coursesEl: event.currentTarget });
-  };
-  coursesClose = () => {
-    this.setState({ coursesEl: null });
   };
 
   handleMenu = event => {
@@ -116,7 +100,7 @@ class Header extends Component {
   }
 
   render(){
-    const { anchorEl, coursesEl, schoolsEl } = this.state;
+    const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
     const { classes } = this.props;
     const sideList = (
@@ -188,36 +172,14 @@ class Header extends Component {
         </div>
         <nav className='header__nav'>
           <div className='header__courses'>
-          <p 
-            aria-owns={coursesEl ? 'courses-menu' : undefined}
-            aria-haspopup="true"
-            onClick={this.coursesOpen}>
+          <p>
             Courses
           </p>
-          <Menu
-          id="courses-menu"
-          anchorEl={coursesEl}
-          open={Boolean(coursesEl)}
-          onClose={this.coursesClose}>
-          <MenuItem onClick={this.coursesClose}>All courses</MenuItem>
-          <MenuItem onClick={this.coursesClose}>Not all courses</MenuItem>
-        </Menu>
           </div>
           <div className='header__schools'>
-          <p 
-            aria-owns={coursesEl ? 'schools-menu' : undefined}
-            aria-haspopup="true"
-            onClick={this.schoolsOpen}>
+          <p>
             Schools
           </p>
-          <Menu
-          id="schools-menu"
-          anchorEl={schoolsEl}
-          open={Boolean(schoolsEl)}
-          onClose={this.schoolsClose}>
-          <MenuItem onClick={this.schoolsClose}>All schools</MenuItem>
-          <MenuItem onClick={this.schoolsClose}>Not all schools</MenuItem>
-        </Menu>
           </div>
         </nav>
         <div className={classes.grow} />
@@ -266,9 +228,9 @@ class Header extends Component {
           }}
           open={Boolean(open)}
           onClose={this.handleClose}>
-          <NavLink onClick={this.handleClose} className='header__dropnav' to='/myCourses'><MenuItem >My Courses</MenuItem></NavLink>
-          <NavLink onClick={this.handleClose} className='header__dropnav' to='/mySchool'><MenuItem >My School</MenuItem></NavLink>
-          <NavLink onClick={this.handleClose} className='header__dropnav' to='/profile'><MenuItem ><span><i className="fas fa-user-cog"></i></span>Profile</MenuItem></NavLink>
+          <NavLink onClick={this.handleClose} className='header__dropnav' to='/myCourses'><MenuItem><span><i className="fas fa-user-graduate"></i></span>My Courses</MenuItem></NavLink>
+          <NavLink onClick={this.handleClose} className='header__dropnav' to='/mySchools'><MenuItem><span><i className="fas fa-school"></i></span>My Schools</MenuItem></NavLink>
+          <NavLink onClick={this.handleClose} className='header__dropnav' to='/profile'><MenuItem><span><i className="fas fa-user-cog"></i></span>Profile</MenuItem></NavLink>
           {this.props.login.role === 'admin' ?
             <NavLink onClick={this.handleClose} className='header__dropnav' to='/admin'><MenuItem><span><i className="fas fa-cog"></i></span>Admin Area</MenuItem></NavLink> : null}
           <button onClick={this.logout} className='header__dropnav'><MenuItem ><span><i className="fas fa-sign-out-alt"></i></span>Logout</MenuItem></button>

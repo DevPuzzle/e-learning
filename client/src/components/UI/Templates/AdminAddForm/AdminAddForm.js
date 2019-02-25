@@ -36,9 +36,9 @@ const renderTextAreaField = (field) => {
 
 
 const AdminAddForm = (props) => {
-    console.log('FORM PROPS', props)
     const { handleSubmit } = props;
-    let renderform = <form className='categoryEditForm'
+    let renderform = <form 
+    className='categoryEditForm'
     onSubmit={handleSubmit}>
           <Field 
             type='text'

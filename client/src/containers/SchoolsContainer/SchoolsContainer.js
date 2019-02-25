@@ -4,7 +4,7 @@ class SchoolsContainer extends Component {
   render() {
     return (
       <div>
-        Schools
+        MySchools
       </div>
     )
   }
