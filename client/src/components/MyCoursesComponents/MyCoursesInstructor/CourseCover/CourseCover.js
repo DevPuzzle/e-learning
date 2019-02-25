@@ -35,7 +35,7 @@ const CourseCover = (props) => {
                 color: 'rgba(0, 0, 0, 0.54)'
               }}
               component="p">
-              {props.course.theme.name}
+              {`${props.course.theme.name}`}
             </Typography> 
           </CardContent>
         </CardActionArea>

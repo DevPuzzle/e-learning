@@ -81,6 +81,7 @@ class MyCoursesInstructorForm extends Component {
   }
 
   render(){
+ 
     const { courseList, 
             handleSubmit,
             selectedCategoryEl, 
@@ -90,13 +91,16 @@ class MyCoursesInstructorForm extends Component {
             selectedThemeEl, 
             openThemesList,
             subcategories,
-            themes, pristine } = this.props;
+            themes, 
+            chosenCategoryName,
+            chosenSubcategoryName,
+            pristine } = this.props;
     
       const checkTheme = (selectedTheme, apiTheme) => {
         if(selectedTheme){
-          return <h3>{selectedTheme.name}</h3>
+          return <h3>{`${chosenCategoryName} > ${chosenSubcategoryName} > ${selectedTheme.name}`}</h3>
         }else if(apiTheme){
-          return <h3>{apiTheme.theme.name}</h3>
+          return <h3>{`${apiTheme.theme.subcategory.name} > ${apiTheme.theme.subcategory.category.name} > ${apiTheme.theme.name}`}</h3>
         }else{
           return <h3>Select theme</h3>
         }
@@ -138,7 +142,7 @@ class MyCoursesInstructorForm extends Component {
                   {courseList ? courseList.list.map(category => (
                     <React.Fragment key={category._id} >
                     <ListItem 
-                      onMouseOver={(e) => this.props.showSubcategoriesHandler(e,category._id)}
+                      onMouseOver={(e) => this.props.showSubcategoriesHandler(e,category._id, category.name)}
                       button>
                         {category.name}
                     </ListItem>

@@ -49,8 +49,6 @@ const courseCoverReducer = (state = initialState, action) => {
         error: false
       }
     case actionTypes.UPDATE_COURSECOVER_SUCCESS:
-      console.log(state.courseCovers);
-      console.log(action.payload)
       return {
         ...state,
         loading: false,

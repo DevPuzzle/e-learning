@@ -49,7 +49,11 @@ class MyCoursesInstructor extends Component{
     showEditor: false,
     editedCover: null,
     confirmDialog: false,
-    courseElToDelete: null
+    courseElToDelete: null,
+    chosenCategoryName: null,
+    chosenSubcategoryName: null,
+    selectedChosenCategory: null,
+    selectedChosenSubcategory: null
   }
   
   componentDidMount(){
@@ -84,14 +88,17 @@ class MyCoursesInstructor extends Component{
     }));
   }
 
-  showSubcategoriesHandler = (e, id) => {
+  showSubcategoriesHandler = (e, id, name) => {
     const category = this.props.courseList.list.find(category => category._id === id);
     const { currentTarget } = e;
+
     this.setState({
       selectedSubcategoryEl: currentTarget,
       subcategories: null,
       openSubcategoriesList: false,
-      openThemesList: false
+      openThemesList: false,
+      chosenCategoryName: name
+
       
     })
     this.setState({
@@ -101,13 +108,15 @@ class MyCoursesInstructor extends Component{
     })
   }
 
-  showThemesHandler = (e, id) => {
+  showThemesHandler = (e, id, name) => {
     const subcategory = this.state.subcategories.find(subcategory => subcategory._id === id);
     const { currentTarget } = e;
     this.setState({
       openThemesList: true,
       selectedThemeEl: currentTarget,
-      themes: subcategory.theme
+      themes: subcategory.theme,
+      chosenSubcategoryName: name
+
     })
   }
 
@@ -116,7 +125,9 @@ class MyCoursesInstructor extends Component{
       selectedThemeItem: theme,
       openCategoriesList: false,
       openSubcategoriesList: false,
-      openThemesList: false
+      openThemesList: false,
+      selectedChosenCategory: this.state.chosenCategoryName,
+      selectedChosenSubcategory: this.state.chosenSubcategoryName
     })
     
   }
@@ -137,12 +148,13 @@ class MyCoursesInstructor extends Component{
 
   handleCreateCourse = (values) => {
     const formData = new FormData();
+    console.log(this.state.selectedThemeItem)
     formData.append('name', values.name);
     formData.append('info', values.info);
     formData.append('description', values.description);
     formData.append('image', this.state.selectedImage);
     formData.append('theme_id', this.state.selectedThemeItem._id);
-    formData.append('theme_name', this.state.selectedThemeItem);
+    formData.append('theme_name', this.state.selectedThemeItem.name);
     this.props.onAddCoursecover(formData);
     this.setState({
       showCreateInstructor: false,
@@ -237,6 +249,8 @@ class MyCoursesInstructor extends Component{
         <React.Fragment>          
           {this.props.userCoursesCovers.map(course => (
               <CourseCover
+                chosenCategory={this.state.selectedChosenCategory}
+                chosenSubcategory={this.state.selectedChosenSubcategory}
                 key={course._id} 
                 openConfirmDialog={this.handleOpenConfirmDialog}
                 course={course}
@@ -271,10 +285,12 @@ class MyCoursesInstructor extends Component{
             <DialogContent>              
               <MyCoursesInstructorForm
                 form='createInstructor'
+                editedCover={this.state.editedCover}
+                chosenCategoryName={this.state.selectedChosenCategory}
+                chosenSubcategoryName={this.state.selectedChosenSubcategory}
                 leaveMouseHandler={this.leaveMouseHandler}
                 courseList={courseList}
                 closeCreateInstructor={this.closeCreateInstructor}
-                editedCover={this.state.editedCover}
                 selectedCategoryEl={this.state.selectedCategoryEl}
                 selectedSubcategoryEl={this.state.selectedSubcategoryEl}
                 selectedThemeEl={this.state.selectedThemeEl}
@@ -306,6 +322,8 @@ class MyCoursesInstructor extends Component{
               <MyCoursesInstructorForm
                   form='updateCover'
                   editedCover={this.state.editedCover}
+                  chosenCategoryName={this.state.selectedChosenCategory}
+                  chosenSubcategoryName={this.state.selectedChosenSubcategory}
                   leaveMouseHandler={this.leaveMouseHandler}
                   courseList={courseList}
                   selectImage={this.selectImage}

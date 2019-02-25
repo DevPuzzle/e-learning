@@ -11,6 +11,7 @@ export const getCourseCovers = () => {
     dispatch(getCourseCoversStart());
     axios.get(`${fetchUrl}`)
     .then(response => {
+      console.log('GET',response.data)
       dispatch(getCourseCoversSuccess(response.data.user_courses_covers));
     })
     .catch(err => {
@@ -37,6 +38,7 @@ export const addCourseCover = (data) => {
     dispatch(addCourseCoverStart());
     axios.post(`${URL}/cover/create`, data)
     .then(response => {
+      console.log('CREATE', response.data)
       dispatch(addCourseCoverSuccess(response.data.course_cover))
     })
     .catch(err => {
@@ -63,7 +65,6 @@ export const updateCourseCover = (values, courseCoverId) => {
     dispatch(updateCourseCoverStart());
     axios.patch(`${URL}/edit/${courseCoverId}`, values)
     .then(response => {
-      console.log(response)
      dispatch(updateCourseCoverSuccess(response.data))
     })
     .catch(err => {

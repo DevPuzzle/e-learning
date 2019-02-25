@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 
-class SchoolsContainer extends Component {
+ class MySchoolsInstructor extends Component {
   render() {
     return (
       <div>
-        MySchools
+        Instructor
       </div>
     )
   }
 }
 
-export default SchoolsContainer;
+export default MySchoolsInstructor;
