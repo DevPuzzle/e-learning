@@ -129,6 +129,7 @@ class MyCoursesInstructorForm extends Component {
         style={{zIndex: '100000'}} 
         open={openCategoriesList} 
         anchorEl={selectedCategoryEl} 
+        onMouseLeave={this.props.leaveMouseHandler}
         transition>
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={350}>

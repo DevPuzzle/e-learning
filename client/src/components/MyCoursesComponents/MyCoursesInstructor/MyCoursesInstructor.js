@@ -144,7 +144,6 @@ class MyCoursesInstructor extends Component{
     formData.append('theme_id', this.state.selectedThemeItem._id);
     formData.append('theme_name', this.state.selectedThemeItem);
     this.props.onAddCoursecover(formData);
-  
     this.setState({
       showCreateInstructor: false,
       selectedThemeItem: null,
@@ -181,8 +180,17 @@ class MyCoursesInstructor extends Component{
     formData.append('theme_id', this.state.selectedThemeItem ? this.state.selectedThemeItem._id : values.theme._id);
     formData.append('author_name', localStorage.getItem('username'));
     formData.append('old_image', !this.state.selectedImage ? values.image : '');
-    formData.append('theme_name', this.state.selectedThemeItem ? this.state.selectedThemeItem.name : values.name);
-    this.props.onUpdateCourseCover(formData, values._id)
+    formData.append('theme_name', this.state.selectedThemeItem ? this.state.selectedThemeItem.name : values.theme.name);
+    this.props.onUpdateCourseCover(formData, values._id);
+
+    this.setState({
+      openCategoriesList: false,
+      showEditor: false,
+      editedCover: null,
+      selectedImage: null,
+      selectedThemeItem: null,
+    
+    })
   }
 
   deleteCourseCover = () => {
@@ -207,12 +215,20 @@ class MyCoursesInstructor extends Component{
     });
   };
 
+  leaveMouseHandler = () => {
+    this.setState({
+      openCategoriesList: false,
+      openSubcategoriesList: false,
+      openThemesList: false
+    })
+  }
+
 
   render(){
     const { classes, courseList } = this.props;
     return (      
       <React.Fragment>
-        <div className='instructor__listItem col-md-2 mb-4 d-flex justify-content-center align-items-center'>
+        <div className='instructor__listItem col-md-3 mb-4 d-flex justify-content-center align-items-center'>
           <Fab onClick={this.openCreateInstrucor} className={classes.fab}>
             <AddIcon />
           </Fab>
@@ -255,6 +271,7 @@ class MyCoursesInstructor extends Component{
             <DialogContent>              
               <MyCoursesInstructorForm
                 form='createInstructor'
+                leaveMouseHandler={this.leaveMouseHandler}
                 courseList={courseList}
                 closeCreateInstructor={this.closeCreateInstructor}
                 editedCover={this.state.editedCover}
@@ -289,6 +306,7 @@ class MyCoursesInstructor extends Component{
               <MyCoursesInstructorForm
                   form='updateCover'
                   editedCover={this.state.editedCover}
+                  leaveMouseHandler={this.leaveMouseHandler}
                   courseList={courseList}
                   selectImage={this.selectImage}
                   openCategoriesList={this.state.openCategoriesList}

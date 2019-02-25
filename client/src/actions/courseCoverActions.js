@@ -11,7 +11,6 @@ export const getCourseCovers = () => {
     dispatch(getCourseCoversStart());
     axios.get(`${fetchUrl}`)
     .then(response => {
-      console.log(response)
       dispatch(getCourseCoversSuccess(response.data.user_courses_covers));
     })
     .catch(err => {
@@ -61,14 +60,28 @@ export const addCourseCoverSuccess = (data) => {
 
 export const updateCourseCover = (values, courseCoverId) => {
   return dispatch => {
-   /*  dispatch(updateCourseCoverStart()); */
+    dispatch(updateCourseCoverStart());
     axios.patch(`${URL}/edit/${courseCoverId}`, values)
     .then(response => {
-      console.log(response.data)
+      console.log(response)
+     dispatch(updateCourseCoverSuccess(response.data))
     })
     .catch(err => {
       console.log(err)
     })
+  }
+}
+
+export const updateCourseCoverStart = () => {
+  return {
+    type: actionTypes.UPDATE_COURSECOVER_START
+  }
+}
+
+export const updateCourseCoverSuccess = (data) => {
+  return {
+    type: actionTypes.UPDATE_COURSECOVER_SUCCESS,
+    payload: data
   }
 }
 
