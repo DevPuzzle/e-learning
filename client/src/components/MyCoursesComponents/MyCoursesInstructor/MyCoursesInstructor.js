@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import { Dialog, DialogContent, DialogTitle } from '@material-ui/core';
+import { Dialog, DialogContent, DialogTitle, Button, DialogActions, DialogContentText } from '@material-ui/core';
 import MyCoursesInstructorForm from './MyCoursesInstructorForm/MyCoursesInstructorForm';
 import { connect } from 'react-redux';
 import * as action from '../../../actions/courseCoverActions';
@@ -47,7 +47,9 @@ class MyCoursesInstructor extends Component{
     imagePreviewUrl: '',
     editeTheme: null,
     showEditor: false,
-    editedCover: null
+    editedCover: null,
+    confirmDialog: false,
+    courseElToDelete: null
   }
   
   componentDidMount(){
@@ -116,6 +118,7 @@ class MyCoursesInstructor extends Component{
       openSubcategoriesList: false,
       openThemesList: false
     })
+    
   }
 
   selectImage = (e) => {
@@ -139,12 +142,13 @@ class MyCoursesInstructor extends Component{
     formData.append('description', values.description);
     formData.append('image', this.state.selectedImage);
     formData.append('theme_id', this.state.selectedThemeItem._id);
-    formData.append('author_name', localStorage.getItem('username'));
     formData.append('theme_name', this.state.selectedThemeItem);
     this.props.onAddCoursecover(formData);
   
     this.setState({
-      showCreateInstructor: false
+      showCreateInstructor: false,
+      selectedThemeItem: null,
+      selectedImage: null
     })
   }
 
@@ -169,42 +173,79 @@ class MyCoursesInstructor extends Component{
   }
 
   handleUpdateCourseCover = (values) => {
-
     const formData = new FormData();
     formData.append('name', values.name);
     formData.append('info', values.info);
     formData.append('description', values.description);
     formData.append('image', this.state.selectedImage ? this.state.selectedImage : '');
-    formData.append('theme_id', this.state.selectedThemeItem ? this.state.selectedThemeItem._id : values.theme);
+    formData.append('theme_id', this.state.selectedThemeItem ? this.state.selectedThemeItem._id : values.theme._id);
     formData.append('author_name', localStorage.getItem('username'));
     formData.append('old_image', !this.state.selectedImage ? values.image : '');
     formData.append('theme_name', this.state.selectedThemeItem ? this.state.selectedThemeItem.name : values.name);
     this.props.onUpdateCourseCover(formData, values._id)
   }
 
-  deleteCourseCover = (id) => {
-    this.props.onDeleteCourseCover(id)
+  deleteCourseCover = () => {
+    this.props.onDeleteCourseCover(this.state.courseElToDelete);
+    this.setState({
+      confirmDialog: false,
+      courseElToDelete: null
+    })
   }
+
+  handleOpenConfirmDialog = (courseId) => {
+    this.setState({ 
+      confirmDialog: true,
+      courseElToDelete: courseId
+    });
+  };
+
+  handleCloseConfirmDialog = () => {
+    this.setState({ 
+      confirmDialog: false,
+      courseElToDelete: null
+    });
+  };
+
 
   render(){
     const { classes, courseList } = this.props;
     return (      
       <React.Fragment>
+        <div className='instructor__listItem col-md-2 mb-4 d-flex justify-content-center align-items-center'>
+          <Fab onClick={this.openCreateInstrucor} className={classes.fab}>
+            <AddIcon />
+          </Fab>
+        </div>
         {this.props.userCoursesCovers ?
-        <React.Fragment>
-          <div className='instructor__listItem col-md-3 mb-4 d-flex justify-content-center align-items-center'>
-            <Fab onClick={this.openCreateInstrucor} className={classes.fab}>
-              <AddIcon />
-            </Fab>
-          </div>
+        <React.Fragment>          
           {this.props.userCoursesCovers.map(course => (
               <CourseCover
-                deleteCourseCover={this.deleteCourseCover}
                 key={course._id} 
+                openConfirmDialog={this.handleOpenConfirmDialog}
                 course={course}
                 classes={classes}
-                editCourseCover={this.editCourseCoverHandler}/>
-            ))}      
+                editCourseCover={this.editCourseCoverHandler}
+                />
+            ))}  
+            <Dialog
+              open={this.state.confirmDialog}
+              onClose={this.handleCloseConfirmDialog}>
+              <DialogTitle>Confirm</DialogTitle>
+              <DialogContent>
+                <DialogContentText >
+                  Are You really shure to delete this course cover with all courses inside ?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleCloseConfirmDialog} color="primary" className='instructorForm__deleteBtn'>
+                  Disagree
+                </Button>
+                <Button onClick={this.deleteCourseCover}  className='instructorForm__cancelButton' color="primary" autoFocus>
+                  Agree
+                </Button>
+              </DialogActions>
+            </Dialog>    
           <Dialog
             open={this.state.showCreateInstructor}
             onClose={this.closeCreateInstructor}>
@@ -280,6 +321,8 @@ class MyCoursesInstructor extends Component{
 const mapStateToProps = (state) => {
   return {
     userCoursesCovers: state.courseCovers.courseCovers,
+    loading: state.courseCovers.loading,
+    error: state.courseCovers.error,
     courseList: state.courseList.courseList
   }
 }

@@ -44,7 +44,7 @@ const CourseCover = (props) => {
           </Button>
           <Button 
             className='instructorForm__deleteBtn'
-            onClick={() => props.deleteCourseCover(props.course._id)}
+            onClick={() => props.openConfirmDialog(props.course._id)}
             size='small'>
             Delete
           </Button>
