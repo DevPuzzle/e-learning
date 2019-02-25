@@ -592,7 +592,15 @@ exports.user_course_cover = (req, res, next) => {
       path: 'course',
       populate: {
         path: 'theme',
-        select: '_id name'        
+        select: '_id name',
+        populate: {
+          path: 'subcategory',
+          select: 'name -_id',
+          populate: {
+            path: 'category',
+            select: 'name -_id'
+          }
+        }        
       }
     })
     .exec()
