@@ -13,9 +13,8 @@ exports.course_cover_create = (req, res, next) => {
   const path = req.file.path;
   const author_id = req.userData.userId;
   const theme_id = req.body.theme_id;
-
-  const author_name = req.body.author_name;
-  const theme_name = req.body.theme_name;
+  //const author_name = req.body.author_name;
+  console.log('THEME NAME', req.body.theme_name) 
   
   course = new Course({
     _id: new mongoose.Types.ObjectId(),
@@ -27,8 +26,8 @@ exports.course_cover_create = (req, res, next) => {
     theme: theme_id
   });
   course
-    .save()
-    .then(doc => {
+    .save()    
+    .then(doc => {      
 
       Theme.update({ _id: theme_id },
         {    
@@ -54,13 +53,30 @@ exports.course_cover_create = (req, res, next) => {
           });
         });
 
-      console.log(doc);
-      res.status(200).json({
-        course_cover: doc,
-        author_name: author_name,
-        theme_name: theme_name,
-        message: 'Successfuly create course cover'
+      Course.populate(doc, {
+        path: 'theme',
+        select: 'name -_id',
+        populate: {
+          path: 'subcategory',
+          select: 'name -_id',
+          populate: {
+            path: 'category',
+            select: 'name -_id'          
+          }        
+        }
+      })
+      .then(() => {
+        console.log(doc);
+        res.status(200).json({
+          course_cover: doc,          
+          message: 'Successfuly create course cover'
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ error: err });
       });
+      
     })
     .catch(err => {
       console.log(err);
@@ -69,7 +85,7 @@ exports.course_cover_create = (req, res, next) => {
         message: 'Error create course'
       });
     });  
-
+    
 }
 
 exports.catalog_list = (req, res, next) => {
@@ -128,36 +144,58 @@ exports.course_cover_edit = (req, res, next) => {
   console.log("path", path);
 
   const id = req.params.id;
-  // const path = req.file.path;
+  // const path = req.file.path;  
+  const author_id = req.userData.userId;
+
   const description = req.body.description;  
   const coursename = req.body.name;
   const info = req.body.info;
-  const theme_id = req.body.theme_id; 
-  const theme_name = req.body.theme_name;
+  const theme_id = req.body.theme_id;
 
   Course.findOneAndUpdate({_id: id},
     {
       name: coursename,
       info: info,
       description: description,
-      image: path,      
+      image: path,
+      author: author_id,
       theme: theme_id
     }, 
     {
       new: true
     })
-    .then((updatedDoc) => {
+    .then(updatedDoc => {
+
       if (!updatedDoc){
         console.log(updatedDoc);
         res.status(500).json({        
           message: 'This course not exist'
         });
       }
-      res.status(200).json({
-        course: updatedDoc,       
-        theme_name: theme_name,
-        message: 'Successfuly edit course'
-      }); 
+
+      Course.populate(updatedDoc, {
+        path: 'theme',
+        select: 'name -_id',
+        populate: {
+          path: 'subcategory',
+          select: 'name -_id',
+          populate: {
+            path: 'category',
+            select: 'name -_id'          
+          }        
+        }
+      })
+      .then(() => {
+        console.log(updatedDoc);
+        res.status(200).json({
+          course_cover: updatedDoc,          
+          message: 'Successfuly create course cover'
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ error: err });
+      });
     });   
     
 }
