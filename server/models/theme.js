@@ -14,7 +14,7 @@ const themeSchema = new Schema({
   },
   subcategory: { 
     type: Schema.Types.ObjectId,
-    ref: 'Subcategories',
+    ref: 'Subcategory',
     required: true
   },
   course: [{
