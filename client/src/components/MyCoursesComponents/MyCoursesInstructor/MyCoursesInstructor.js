@@ -142,6 +142,10 @@ class MyCoursesInstructor extends Component{
     formData.append('author_name', localStorage.getItem('username'));
     formData.append('theme_name', this.state.selectedThemeItem);
     this.props.onAddCoursecover(formData);
+  
+    this.setState({
+      showCreateInstructor: false
+    })
   }
 
   //EDITOR
@@ -161,25 +165,28 @@ class MyCoursesInstructor extends Component{
       editedCover: null,
       selectedImage: null,
       selectedThemeItem: null,
-
     })
   }
 
   handleUpdateCourseCover = (values) => {
-    console.log(values);
+
     const formData = new FormData();
     formData.append('name', values.name);
     formData.append('info', values.info);
     formData.append('description', values.description);
-    formData.append('image', this.state.selectedImage ? this.state.selectedImage : values.image);
+    formData.append('image', this.state.selectedImage ? this.state.selectedImage : '');
     formData.append('theme_id', this.state.selectedThemeItem ? this.state.selectedThemeItem._id : values.theme);
     formData.append('author_name', localStorage.getItem('username'));
+    formData.append('old_image', !this.state.selectedImage ? values.image : '');
     formData.append('theme_name', this.state.selectedThemeItem ? this.state.selectedThemeItem.name : values.name);
     this.props.onUpdateCourseCover(formData, values._id)
   }
 
+  deleteCourseCover = (id) => {
+    this.props.onDeleteCourseCover(id)
+  }
+
   render(){
-    console.log(this.state)
     const { classes, courseList } = this.props;
     return (      
       <React.Fragment>
@@ -192,6 +199,7 @@ class MyCoursesInstructor extends Component{
           </div>
           {this.props.userCoursesCovers.map(course => (
               <CourseCover
+                deleteCourseCover={this.deleteCourseCover}
                 key={course._id} 
                 course={course}
                 classes={classes}
@@ -207,6 +215,7 @@ class MyCoursesInstructor extends Component{
               <MyCoursesInstructorForm
                 form='createInstructor'
                 courseList={courseList}
+                closeCreateInstructor={this.closeCreateInstructor}
                 editedCover={this.state.editedCover}
                 selectedCategoryEl={this.state.selectedCategoryEl}
                 selectedSubcategoryEl={this.state.selectedSubcategoryEl}
@@ -257,7 +266,8 @@ class MyCoursesInstructor extends Component{
                   selectedImage={this.state.selectedImage}
                   imagePreviewUrl={this.state.imagePreviewUrl}
                   onSubmit={this.handleUpdateCourseCover}
-                  initialValues={this.state.editedCover}/>
+                  initialValues={this.state.editedCover}
+                  closeEditor={this.closeEditorHandler}/>
             </DialogContent>
           </Dialog>  
       </React.Fragment>
@@ -280,7 +290,8 @@ const mapDispatchToProps = (dispatch) => {
     onGetCourseList: () => dispatch(actionCourse.getCourseList()),
     onGetCourseCovers: () => dispatch(action.getCourseCovers()),
     onAddCoursecover: (data) => dispatch(action.addCourseCover(data)),
-    onUpdateCourseCover: (values,courseCoverId) => dispatch(action.updateCourseCover(values, courseCoverId))
+    onUpdateCourseCover: (values,courseCoverId) => dispatch(action.updateCourseCover(values, courseCoverId)),
+    onDeleteCourseCover: (id) => dispatch(action.deleteCourseCover(id))
   }
 }
 

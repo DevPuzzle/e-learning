@@ -36,7 +36,13 @@
       width: 100%;
       height: 100%;
     }
-    
+  }
+  &__changeImageBtn{
+    background: #0277bd !important;
+    width: fit-content !important;
+    &:hover {
+      background: #039be5 !important;
+    }
   }
   &__imageText {
     background: rgba(225, 245, 254, 1);
@@ -48,8 +54,34 @@
     color: #01579b;
     border: 2px dashed #01579b;
   }
+  &__btn {
+    background: #0277bd !important;
+    &:hover {
+      background: #039be5 !important;
+    }
+  }
   &__btn:disabled{
+    background: #ccc !important;
     cursor: not-allowed !important;
     pointer-events: all !important;
+  }
+  &__editBtn{
+    color: #0277bd !important;
+    &:hover {
+      background: rgba($color: #0277bd, $alpha: 0.08) !important;
+    }
+  }
+  &__deleteBtn{
+    color: #e53935 !important;
+    &:hover {
+      background: rgba($color: #e53935, $alpha: 0.08) !important;
+    }
+  }
+  &__cancelButton {
+    float: right;
+    color: #0277bd !important;
+      &:hover {
+        background: rgba($color: #0277bd, $alpha: 0.08) !important;
+      }
   }
 }

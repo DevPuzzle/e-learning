@@ -71,3 +71,29 @@ export const updateCourseCover = (values, courseCoverId) => {
     })
   }
 }
+
+export const deleteCourseCover = (courseCoverId) => {
+  return dispatch => {
+    dispatch(deleteCourseCoverStart());
+    axios.delete(`${URL}/delete/${courseCoverId}`)
+    .then(response => {
+      dispatch(deleteCourseCoverSuccess(courseCoverId));
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
+
+export const deleteCourseCoverStart = () => {
+  return {
+    type: actionTypes.DELETE_COURSECOVER_START
+  }
+}
+
+export const deleteCourseCoverSuccess = (id) => {
+  return {
+    type: actionTypes.DELETE_COURSECOVER_SUCCESS,
+    payload: id
+  }
+}

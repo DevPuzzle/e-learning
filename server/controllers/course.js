@@ -120,15 +120,21 @@ exports.course_list = (req, res, next) => {
 }
 
 exports.course_cover_edit = (req, res, next) => {
+ 
+  const path = req.body.old_image == '' ? req.file.path : req.body.old_image;
+
+  console.log('OLD IMAGE', req.body.old_image)
+  //console.log('IMAGE FILE', req.file.path)  
+  console.log("path", path);
+
   const id = req.params.id;
+  // const path = req.file.path;  
+  const author_id = req.userData.userId;
+
+  const description = req.body.description;  
   const coursename = req.body.name;
   const info = req.body.info;
-  const description = req.body.description;  
-  const path = req.file.path;
-  const author_id = req.userData.userId;
-  const theme_id = req.body.theme_id;
-  
-
+  const theme_id = req.body.theme_id;  
   const author_name = req.body.author_name;
   const theme_name = req.body.theme_name;
 

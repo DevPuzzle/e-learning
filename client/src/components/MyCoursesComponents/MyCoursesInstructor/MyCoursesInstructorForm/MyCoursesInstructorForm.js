@@ -69,7 +69,7 @@ class MyCoursesInstructorForm extends Component {
         onChange={this.props.selectImage}
         ref={fileInput => this.fileInput = fileInput}/>
       <Button 
-        className='profile__changeImageBtn'
+        className='instructorForm__changeImageBtn'
         variant="contained" 
         color="primary"
         onClick={() => this.fileInput.click()}>Choose image</Button>
@@ -96,7 +96,7 @@ class MyCoursesInstructorForm extends Component {
         if(selectedTheme){
           return <h3>{selectedTheme.name}</h3>
         }else if(apiTheme){
-          return <h3>{apiTheme.name}</h3>
+          return <h3>{apiTheme.theme.name}</h3>
         }else{
           return <h3>Select theme</h3>
         }
@@ -184,14 +184,17 @@ class MyCoursesInstructorForm extends Component {
           {checkImage(this.props.selectedImage, this.props.editedCover)}
         </div>
       </div>
-      <div className='instructor__btnCont'>
+      <div className='instructorForm__btnCont'>
         <Button
           className='instructorForm__btn'
           variant="contained" 
           color="primary"
           type='submit'
-          disabled={this.props.editedCover ? pristine : !this.props.selectedThemeItem || !this.props.selectedImage}>
-          {this.props.editedCover ? 'edit' : 'save'}
+          disabled={this.props.editedCover ? null : !this.props.selectedThemeItem || !this.props.selectedImage}>
+            Save
+        </Button>
+        <Button onClick={this.props.closeCreateInstructor ? this.props.closeCreateInstructor : this.props.closeEditor} className='instructorForm__cancelButton' color="primary">
+              Cancel
         </Button>
       </div>
       </form>

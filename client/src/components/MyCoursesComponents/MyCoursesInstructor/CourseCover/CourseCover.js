@@ -38,12 +38,13 @@ const CourseCover = (props) => {
         <CardActions>
           <Button 
             onClick={() => props.editCourseCover(props.course)}
-            color='primary'
+            className='instructorForm__editBtn'
             size='small'>
             Edit
           </Button>
           <Button 
-            color='primary'
+            className='instructorForm__deleteBtn'
+            onClick={() => props.deleteCourseCover(props.course._id)}
             size='small'>
             Delete
           </Button>
