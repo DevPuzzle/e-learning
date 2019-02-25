@@ -128,14 +128,11 @@ exports.course_cover_edit = (req, res, next) => {
   console.log("path", path);
 
   const id = req.params.id;
-  // const path = req.file.path;  
-  const author_id = req.userData.userId;
-
+  // const path = req.file.path;
   const description = req.body.description;  
   const coursename = req.body.name;
   const info = req.body.info;
-  const theme_id = req.body.theme_id;  
-  const author_name = req.body.author_name;
+  const theme_id = req.body.theme_id; 
   const theme_name = req.body.theme_name;
 
   Course.findOneAndUpdate({_id: id},
@@ -143,8 +140,7 @@ exports.course_cover_edit = (req, res, next) => {
       name: coursename,
       info: info,
       description: description,
-      image: path,
-      author: author_id,
+      image: path,      
       theme: theme_id
     }, 
     {
@@ -158,8 +154,7 @@ exports.course_cover_edit = (req, res, next) => {
         });
       }
       res.status(200).json({
-        course: updatedDoc,
-        author_name: author_name,
+        course: updatedDoc,       
         theme_name: theme_name,
         message: 'Successfuly edit course'
       }); 
