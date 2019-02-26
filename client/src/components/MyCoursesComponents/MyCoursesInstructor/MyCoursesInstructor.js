@@ -188,21 +188,15 @@ class MyCoursesInstructor extends Component{
     formData.append('name', values.name);
     formData.append('info', values.info);
     formData.append('description', values.description);
-    formData.append('image', this.state.selectedImage ? this.state.selectedImage : '');
-    formData.append('theme_id', this.state.selectedThemeItem ? this.state.selectedThemeItem._id : values.theme._id);
-    formData.append('author_name', localStorage.getItem('username'));
-    formData.append('old_image', !this.state.selectedImage ? values.image : '');
-    formData.append('theme_name', this.state.selectedThemeItem ? this.state.selectedThemeItem.name : values.theme.name);
-    this.props.onUpdateCourseCover(formData, values._id);
+    // formData.append('image', this.state.selectedImage ? this.state.selectedImage : '');
+    // formData.append('old_image', !this.state.selectedImage ? values.image : '');
+    formData.append('image', this.state.selectedImage ? this.state.selectedImage : '1');
+    formData.append('old_image', values.image);
 
-    this.setState({
-      openCategoriesList: false,
-      showEditor: false,
-      editedCover: null,
-      selectedImage: null,
-      selectedThemeItem: null,
-    
-    })
+    formData.append('theme_id', this.state.selectedThemeItem ? this.state.selectedThemeItem._id : values.theme._id);
+    formData.append('author_name', localStorage.getItem('username'));    
+    formData.append('theme_name', this.state.selectedThemeItem ? this.state.selectedThemeItem.name : values.name);
+    this.props.onUpdateCourseCover(formData, values._id)
   }
 
   deleteCourseCover = () => {
