@@ -5,6 +5,7 @@ const Theme = require('../models/theme');
 const User = require('../models/user');
 //const Comment = require('../models/comment');
 const Category = require('../models/category');
+const fs = require('fs');
 
 exports.course_cover_create = (req, res, next) => {
   const coursename = req.body.name;
@@ -137,12 +138,26 @@ exports.course_list = (req, res, next) => {
 
 exports.course_cover_edit = (req, res, next) => {
  
-  const path = req.body.old_image == '' ? req.file.path : req.body.old_image;
+  // work const path = req.body.old_image == '' ? req.file.path : req.body.old_image;
 
+  //const path = req.body.image === '' ? req.body.old_image : req.file.path;
+  const path = () => {
+    if(req.body.image === '1'){
+      return req.body.old_image
+    }else{
+      //delete course old image from server      
+      fs.unlink(req.body.old_image, (err) => {
+        if (err) return console.log(err);
+        console.log('successfully deleted', req.body.old_image);            
+      });      
+      return req.file.path
+    }
+  }
+  
   console.log('OLD IMAGE', req.body.old_image)
+  console.log('req.body.image ==', req.body.image)
   //console.log('IMAGE FILE', req.file.path)  
-  console.log("path", path);
-
+  //console.log("path", path);
   const id = req.params.id;
   // const path = req.file.path;  
   const author_id = req.userData.userId;
@@ -157,7 +172,7 @@ exports.course_cover_edit = (req, res, next) => {
       name: coursename,
       info: info,
       description: description,
-      image: path,
+      image: path(),
       author: author_id,
       theme: theme_id
     }, 
@@ -171,7 +186,7 @@ exports.course_cover_edit = (req, res, next) => {
         res.status(500).json({        
           message: 'This course not exist'
         });
-      }
+      }      
 
       Course.populate(updatedDoc, {
         path: 'theme',
@@ -206,21 +221,28 @@ exports.course_cover_delete = (req, res ,next) => {
     Course.findOneAndDelete({_id: id})
       .exec()
       .then(doc => {
-        if(doc) {
+        if(doc) {          
 
           const theme_id = doc.theme;
           const author_id = doc.author;
           console.log("THEME ID", theme_id);
           console.log('USER ID', author_id);
-          //const comment_id = doc.comment;          
+          //const comment_id = doc.comment; 
+          
+          // delete course image from server
+          const path = doc.image;
+          fs.unlink(path, (err) => {
+            if (err) return console.log(err);
+            console.log('successfully deleted', path);            
+          });
 
           Theme.update({_id: theme_id},
             {
               $pull: {course: {$in: [id] }}
             })
             .exec()
-            .then(result => {
-              console.log('UPDATE THEME', result);
+            .then(() => {
+              console.log('UPDATED THEME');
               
             })
             .catch(err => {
@@ -236,9 +258,8 @@ exports.course_cover_delete = (req, res ,next) => {
               $pull: {course: {$in: [id] }}
             })
             .exec()
-            .then(result => {
-              console.log('UPDATE USER', result);
-              
+            .then(() => {
+              console.log('UPDATED USER');              
             })
             .catch(err => {
               console.log(err);
@@ -249,7 +270,7 @@ exports.course_cover_delete = (req, res ,next) => {
             });   
             
           res.status(200).json({
-            message: "Successfuly course delete and theme, user update"
+            message: "Successfuly course delete and theme, user model updated"
           });
             
         }
