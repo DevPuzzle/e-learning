@@ -36,7 +36,8 @@ const upload = multer({
 //router.get("/list", checkAuth, CourseController.course_list);
 // router.get("/:id", CategoryController.category_get);
 router.post("/create", checkAuth, roleTeacher, upload.any(), SchoolController.school_create);
-// router.patch("/edit/:id", checkAuth, admin, CategoryController.category_edit);
-// router.delete("/delete/:id", checkAuth, admin, CategoryController.category_delete);
+router.patch("/edit/:id", checkAuth, roleTeacher, upload.any(), SchoolController.school_edit);
+router.delete("/delete/:id", checkAuth, roleTeacher, upload.any(), SchoolController.school_delete);
+
 
 module.exports = router;
