@@ -127,7 +127,7 @@ exports.course_list = (req, res, next) => {
       //return doc;
     } else {
       res.status(500).json({
-        message: 'Not exist doc'
+        error: 'Not exist courses'
       });
     }
   })
@@ -270,13 +270,17 @@ exports.course_cover_delete = (req, res , next) => {
             message: "Successfuly course delete and theme, user model updated"
           });
             
+        } else {
+          res.status(500).json({
+            error: 'This course not exist'          
+          })
         }
       })
       .catch(err => {
         console.log(err);
         res.status(500).json({
           error: err,
-          message: "This course not exist or some error"
+          message: "Error course delete"
         })
       })
 }
