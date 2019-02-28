@@ -5,6 +5,7 @@ const Theme = require('../models/theme');
 const User = require('../models/user');
 //const Comment = require('../models/comment');
 const Category = require('../models/category');
+
 const fs = require('fs');
 
 exports.course_cover_create = (req, res, next) => {
@@ -136,11 +137,8 @@ exports.course_list = (req, res, next) => {
   });
 }
 
-exports.course_cover_edit = (req, res, next) => {
- 
-  // work const path = req.body.old_image == '' ? req.file.path : req.body.old_image;
-
-  //const path = req.body.image === '' ? req.body.old_image : req.file.path;
+exports.course_cover_edit = (req, res, next) => { 
+  
   const path = () => {
     if(req.body.image === '1'){
       return req.body.old_image
@@ -158,8 +156,7 @@ exports.course_cover_edit = (req, res, next) => {
   console.log('req.body.image ==', req.body.image)
   //console.log('IMAGE FILE', req.file.path)  
   //console.log("path", path);
-  const id = req.params.id;
-  // const path = req.file.path;  
+  const id = req.params.id;  
   const author_id = req.userData.userId;
 
   const description = req.body.description;  
@@ -215,7 +212,7 @@ exports.course_cover_edit = (req, res, next) => {
     
 }
 
-exports.course_cover_delete = (req, res ,next) => {
+exports.course_cover_delete = (req, res , next) => {
     const id = req.params.id;
 
     Course.findOneAndDelete({_id: id})

@@ -46,12 +46,11 @@ router.patch("/edit", checkAuth, UserController.user_edit);
 router.patch("/edit/password", checkAuth, UserController.user_edit_password);
 router.patch("/forgotten/password", UserController.user_forgotten_pass)
 
-// users courses
+// user created courses 
 router.get("/course_cover", checkAuth, roleTeacher, UserController.user_course_cover);
 
-// users Schools
+// user created schools
 router.get("/school", checkAuth, roleTeacher, UserController.user_school);
-
 //router.delete("/:username", checkAuth, UserController.user_delete);
 
 module.exports = router;
