@@ -11,6 +11,7 @@ import verifyEmail from './verifyReducer';
 import forgotPassword from './forgotPasswordReducer';
 import courseList from './courseListReducer';
 import courseCovers from './courseCoverReducer';
+import schoolCovers from './schoolCoverReducer';
 
 export default combineReducers({
   form: formReducer,
@@ -24,5 +25,6 @@ export default combineReducers({
   verifyEmail,
   forgotPassword,
   courseList,
-  courseCovers
+  courseCovers,
+  schoolCovers
 })

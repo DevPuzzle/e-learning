@@ -1,0 +1,97 @@
+import React, { Component } from "react";
+import Slider from "react-slick";
+import SliderItem from "./SliderItem/SliderItem";
+import './SliderSection.scss';
+import SliderItemDescription from "./SliderItemDescription/SliderItemDescription";
+import { Fab } from "@material-ui/core";
+
+export const SlideLeft = ({onClick}) => (
+  <Fab className='leftArr' onClick={onClick}>
+    <i className="fas fa-angle-left"></i>
+  </Fab>
+)
+
+export const SlideRight = ({onClick}) => (
+  <Fab className='rightArr' onClick={onClick}>
+    <i className="fas fa-angle-right"></i>
+  </Fab>
+)
+
+
+class SliderSection extends Component {
+
+  render(){
+
+    var settings = {
+      dots: false,
+      infinite: false,
+      speed: 500,
+      slidesToShow: 4,
+      slidesToScroll: 4,
+      initialSlide: 0,
+      prevArrow: <SlideLeft />,
+      nextArrow: <SlideRight />,
+      className: 'slider-courses',
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            arrows:false,
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            infinite: true,
+            dots: false
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            arrows:false,
+            slidesToShow: 2,
+            slidesToScroll: 2,
+            initialSlide: 2
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            arrows:false,
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        }
+      ]
+    };
+    return(
+      <div>
+      <h2 style={{
+        color: '#0277bd',
+        fontWeight: 600,
+        fontSize: '22px',
+        marginBottom: '10px'}}>New courses</h2>
+      <Slider {...settings} >
+        <div>
+          <SliderItem/>
+        </div>
+        <div>
+          <SliderItem />
+        </div>
+        <div>
+          <SliderItem />
+        </div>
+        <div>
+          <SliderItem />
+        </div>
+        <div>
+          <SliderItem />
+        </div>
+        <div>
+          <SliderItem />
+        </div>
+      </Slider>
+    </div>
+    )
+  }
+}
+
+export default SliderSection;

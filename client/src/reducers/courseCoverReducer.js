@@ -53,17 +53,9 @@ const courseCoverReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: false,
-        courseCovers: state.courseCovers.map(courseCover => courseCover._id === action.payload.course._id ?
-          {...courseCover, 
-            name: action.payload.course.name, 
-            description: action.payload.course.description,
-            info: action.payload.course.info,
-            image: action.payload.course.image,
-            theme: {
-              ...courseCover.theme,
-              name: action.payload.theme_name,
-              _id: action.payload.course.theme
-            }} : courseCover)
+        courseCovers: state.courseCovers.map(courseCover => courseCover._id === action.payload._id ?
+          {...courseCover,
+          ...action.payload}: courseCover)
       }
     case actionTypes.DELETE_COURSECOVER_SUCCESS:
       return {

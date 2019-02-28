@@ -148,7 +148,6 @@ class MyCoursesInstructor extends Component{
 
   handleCreateCourse = (values) => {
     const formData = new FormData();
-    console.log(this.state.selectedThemeItem)
     formData.append('name', values.name);
     formData.append('info', values.info);
     formData.append('description', values.description);
@@ -188,15 +187,13 @@ class MyCoursesInstructor extends Component{
     formData.append('name', values.name);
     formData.append('info', values.info);
     formData.append('description', values.description);
-    // formData.append('image', this.state.selectedImage ? this.state.selectedImage : '');
-    // formData.append('old_image', !this.state.selectedImage ? values.image : '');
     formData.append('image', this.state.selectedImage ? this.state.selectedImage : '1');
     formData.append('old_image', values.image);
-
     formData.append('theme_id', this.state.selectedThemeItem ? this.state.selectedThemeItem._id : values.theme._id);
     formData.append('author_name', localStorage.getItem('username'));    
     formData.append('theme_name', this.state.selectedThemeItem ? this.state.selectedThemeItem.name : values.name);
-    this.props.onUpdateCourseCover(formData, values._id)
+    this.props.onUpdateCourseCover(formData, values._id);
+    this.closeEditorHandler();
   }
 
   deleteCourseCover = () => {
@@ -243,8 +240,6 @@ class MyCoursesInstructor extends Component{
         <React.Fragment>          
           {this.props.userCoursesCovers.map(course => (
               <CourseCover
-                chosenCategory={this.state.selectedChosenCategory}
-                chosenSubcategory={this.state.selectedChosenSubcategory}
                 key={course._id} 
                 openConfirmDialog={this.handleOpenConfirmDialog}
                 course={course}
@@ -314,31 +309,31 @@ class MyCoursesInstructor extends Component{
             </DialogTitle>
             <DialogContent>              
               <MyCoursesInstructorForm
-                  form='updateCover'
-                  editedCover={this.state.editedCover}
-                  chosenCategoryName={this.state.selectedChosenCategory}
-                  chosenSubcategoryName={this.state.selectedChosenSubcategory}
-                  leaveMouseHandler={this.leaveMouseHandler}
-                  courseList={courseList}
-                  selectImage={this.selectImage}
-                  openCategoriesList={this.state.openCategoriesList}
-                  selectedCategoryEl={this.state.selectedCategoryEl}
-                  selectedSubcategoryEl={this.state.selectedSubcategoryEl}
-                  selectedThemeEl={this.state.selectedThemeEl}
-                  openSubcategoriesList={this.state.openSubcategoriesList}
-                  openThemesList={this.state.openThemesList}
-                  openPopperHandler={this.openPopperHandler}
-                  showSubcategoriesHandler={this.showSubcategoriesHandler}
-                  showThemesHandler={this.showThemesHandler}
-                  subcategories={this.state.subcategories}
-                  themes={this.state.themes}
-                  selectedThemeItem={this.state.selectedThemeItem}
-                  selectedThemeItemHandler={this.selectedThemeItemHandler}
-                  selectedImage={this.state.selectedImage}
-                  imagePreviewUrl={this.state.imagePreviewUrl}
-                  onSubmit={this.handleUpdateCourseCover}
-                  initialValues={this.state.editedCover}
-                  closeEditor={this.closeEditorHandler}/>
+                form='updateCover'
+                editedCover={this.state.editedCover}
+                chosenCategoryName={this.state.selectedChosenCategory}
+                chosenSubcategoryName={this.state.selectedChosenSubcategory}
+                leaveMouseHandler={this.leaveMouseHandler}
+                courseList={courseList}
+                selectImage={this.selectImage}
+                openCategoriesList={this.state.openCategoriesList}
+                selectedCategoryEl={this.state.selectedCategoryEl}
+                selectedSubcategoryEl={this.state.selectedSubcategoryEl}
+                selectedThemeEl={this.state.selectedThemeEl}
+                openSubcategoriesList={this.state.openSubcategoriesList}
+                openThemesList={this.state.openThemesList}
+                openPopperHandler={this.openPopperHandler}
+                showSubcategoriesHandler={this.showSubcategoriesHandler}
+                showThemesHandler={this.showThemesHandler}
+                subcategories={this.state.subcategories}
+                themes={this.state.themes}
+                selectedThemeItem={this.state.selectedThemeItem}
+                selectedThemeItemHandler={this.selectedThemeItemHandler}
+                selectedImage={this.state.selectedImage}
+                imagePreviewUrl={this.state.imagePreviewUrl}
+                onSubmit={this.handleUpdateCourseCover}
+                initialValues={this.state.editedCover}
+                closeEditor={this.closeEditorHandler}/>
             </DialogContent>
           </Dialog>  
       </React.Fragment>
@@ -358,7 +353,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  
   return {
     onGetCourseList: () => dispatch(actionCourse.getCourseList()),
     onGetCourseCovers: () => dispatch(action.getCourseCovers()),

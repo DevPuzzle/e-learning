@@ -22,7 +22,7 @@ const renderInputField = (field) => {
   return(
     <FormControl className={className} margin="normal" required fullWidth>
       <InputLabel htmlFor={field.name} className='instructorForm__label'>{field.label}</InputLabel>
-      <Input id={field.input.name} className={field.input.name === 'first_name' || field.input.name === 'password' ? 'instructor__inp mr-4' : 'instructor__inp'} name={field.name} type={field.type} {...field.input} />
+      <Input id={field.input.name} className='instructor__inp' name={field.name} type={field.type} {...field.input} />
       <div className='instructorForm__error'>
         {field.meta.touched ? field.meta.error : ''}
       </div>
