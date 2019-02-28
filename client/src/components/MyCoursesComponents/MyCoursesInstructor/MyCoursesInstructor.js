@@ -49,7 +49,11 @@ class MyCoursesInstructor extends Component{
     showEditor: false,
     editedCover: null,
     confirmDialog: false,
-    courseElToDelete: null
+    courseElToDelete: null,
+    chosenCategoryName: null,
+    chosenSubcategoryName: null,
+    selectedChosenCategory: null,
+    selectedChosenSubcategory: null
   }
   
   componentDidMount(){
@@ -84,14 +88,17 @@ class MyCoursesInstructor extends Component{
     }));
   }
 
-  showSubcategoriesHandler = (e, id) => {
+  showSubcategoriesHandler = (e, id, name) => {
     const category = this.props.courseList.list.find(category => category._id === id);
     const { currentTarget } = e;
+
     this.setState({
       selectedSubcategoryEl: currentTarget,
       subcategories: null,
       openSubcategoriesList: false,
-      openThemesList: false
+      openThemesList: false,
+      chosenCategoryName: name
+
       
     })
     this.setState({
@@ -101,13 +108,15 @@ class MyCoursesInstructor extends Component{
     })
   }
 
-  showThemesHandler = (e, id) => {
+  showThemesHandler = (e, id, name) => {
     const subcategory = this.state.subcategories.find(subcategory => subcategory._id === id);
     const { currentTarget } = e;
     this.setState({
       openThemesList: true,
       selectedThemeEl: currentTarget,
-      themes: subcategory.theme
+      themes: subcategory.theme,
+      chosenSubcategoryName: name
+
     })
   }
 
@@ -116,7 +125,9 @@ class MyCoursesInstructor extends Component{
       selectedThemeItem: theme,
       openCategoriesList: false,
       openSubcategoriesList: false,
-      openThemesList: false
+      openThemesList: false,
+      selectedChosenCategory: this.state.chosenCategoryName,
+      selectedChosenSubcategory: this.state.chosenSubcategoryName
     })
     
   }
@@ -142,9 +153,8 @@ class MyCoursesInstructor extends Component{
     formData.append('description', values.description);
     formData.append('image', this.state.selectedImage);
     formData.append('theme_id', this.state.selectedThemeItem._id);
-    formData.append('theme_name', this.state.selectedThemeItem);
+    formData.append('theme_name', this.state.selectedThemeItem.name);
     this.props.onAddCoursecover(formData);
-  
     this.setState({
       showCreateInstructor: false,
       selectedThemeItem: null,
@@ -177,15 +187,13 @@ class MyCoursesInstructor extends Component{
     formData.append('name', values.name);
     formData.append('info', values.info);
     formData.append('description', values.description);
-    // formData.append('image', this.state.selectedImage ? this.state.selectedImage : '');
-    // formData.append('old_image', !this.state.selectedImage ? values.image : '');
     formData.append('image', this.state.selectedImage ? this.state.selectedImage : '1');
     formData.append('old_image', values.image);
-
     formData.append('theme_id', this.state.selectedThemeItem ? this.state.selectedThemeItem._id : values.theme._id);
     formData.append('author_name', localStorage.getItem('username'));    
     formData.append('theme_name', this.state.selectedThemeItem ? this.state.selectedThemeItem.name : values.name);
-    this.props.onUpdateCourseCover(formData, values._id)
+    this.props.onUpdateCourseCover(formData, values._id);
+    this.closeEditorHandler();
   }
 
   deleteCourseCover = () => {
@@ -210,12 +218,20 @@ class MyCoursesInstructor extends Component{
     });
   };
 
+  leaveMouseHandler = () => {
+    this.setState({
+      openCategoriesList: false,
+      openSubcategoriesList: false,
+      openThemesList: false
+    })
+  }
+
 
   render(){
     const { classes, courseList } = this.props;
     return (      
       <React.Fragment>
-        <div className='instructor__listItem col-md-2 mb-4 d-flex justify-content-center align-items-center'>
+        <div className='instructor__listItem col-md-3 mb-4 d-flex justify-content-center align-items-center'>
           <Fab onClick={this.openCreateInstrucor} className={classes.fab}>
             <AddIcon />
           </Fab>
@@ -258,9 +274,12 @@ class MyCoursesInstructor extends Component{
             <DialogContent>              
               <MyCoursesInstructorForm
                 form='createInstructor'
+                editedCover={this.state.editedCover}
+                chosenCategoryName={this.state.selectedChosenCategory}
+                chosenSubcategoryName={this.state.selectedChosenSubcategory}
+                leaveMouseHandler={this.leaveMouseHandler}
                 courseList={courseList}
                 closeCreateInstructor={this.closeCreateInstructor}
-                editedCover={this.state.editedCover}
                 selectedCategoryEl={this.state.selectedCategoryEl}
                 selectedSubcategoryEl={this.state.selectedSubcategoryEl}
                 selectedThemeEl={this.state.selectedThemeEl}
@@ -290,28 +309,31 @@ class MyCoursesInstructor extends Component{
             </DialogTitle>
             <DialogContent>              
               <MyCoursesInstructorForm
-                  form='updateCover'
-                  editedCover={this.state.editedCover}
-                  courseList={courseList}
-                  selectImage={this.selectImage}
-                  openCategoriesList={this.state.openCategoriesList}
-                  selectedCategoryEl={this.state.selectedCategoryEl}
-                  selectedSubcategoryEl={this.state.selectedSubcategoryEl}
-                  selectedThemeEl={this.state.selectedThemeEl}
-                  openSubcategoriesList={this.state.openSubcategoriesList}
-                  openThemesList={this.state.openThemesList}
-                  openPopperHandler={this.openPopperHandler}
-                  showSubcategoriesHandler={this.showSubcategoriesHandler}
-                  showThemesHandler={this.showThemesHandler}
-                  subcategories={this.state.subcategories}
-                  themes={this.state.themes}
-                  selectedThemeItem={this.state.selectedThemeItem}
-                  selectedThemeItemHandler={this.selectedThemeItemHandler}
-                  selectedImage={this.state.selectedImage}
-                  imagePreviewUrl={this.state.imagePreviewUrl}
-                  onSubmit={this.handleUpdateCourseCover}
-                  initialValues={this.state.editedCover}
-                  closeEditor={this.closeEditorHandler}/>
+                form='updateCover'
+                editedCover={this.state.editedCover}
+                chosenCategoryName={this.state.selectedChosenCategory}
+                chosenSubcategoryName={this.state.selectedChosenSubcategory}
+                leaveMouseHandler={this.leaveMouseHandler}
+                courseList={courseList}
+                selectImage={this.selectImage}
+                openCategoriesList={this.state.openCategoriesList}
+                selectedCategoryEl={this.state.selectedCategoryEl}
+                selectedSubcategoryEl={this.state.selectedSubcategoryEl}
+                selectedThemeEl={this.state.selectedThemeEl}
+                openSubcategoriesList={this.state.openSubcategoriesList}
+                openThemesList={this.state.openThemesList}
+                openPopperHandler={this.openPopperHandler}
+                showSubcategoriesHandler={this.showSubcategoriesHandler}
+                showThemesHandler={this.showThemesHandler}
+                subcategories={this.state.subcategories}
+                themes={this.state.themes}
+                selectedThemeItem={this.state.selectedThemeItem}
+                selectedThemeItemHandler={this.selectedThemeItemHandler}
+                selectedImage={this.state.selectedImage}
+                imagePreviewUrl={this.state.imagePreviewUrl}
+                onSubmit={this.handleUpdateCourseCover}
+                initialValues={this.state.editedCover}
+                closeEditor={this.closeEditorHandler}/>
             </DialogContent>
           </Dialog>  
       </React.Fragment>
@@ -331,7 +353,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  
   return {
     onGetCourseList: () => dispatch(actionCourse.getCourseList()),
     onGetCourseCovers: () => dispatch(action.getCourseCovers()),

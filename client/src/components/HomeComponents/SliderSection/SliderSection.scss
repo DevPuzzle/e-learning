@@ -1,0 +1,42 @@
+.slider-courses {
+  .leftArr {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -40px;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: #0277bd;
+    color: #ffffff;
+    &:hover{
+      background: #039be5;
+    }
+    i{
+      font-size: 26px;
+    }
+}
+  .rightArr {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    color: #ffffff;
+    transform: translateY(-50%);
+    right: -40px;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    background: #0277bd;
+    &:hover{
+      background: #039be5;
+    }
+    i{
+      font-size: 26px;
+    }
+  }
+}

@@ -6,6 +6,7 @@ import Info from '../../components/Info/Info';
 import SignUp from '../../components/SignUp/SignUp';
 import { connect } from 'react-redux';
 import ErrorComponent from '../../components/ErrorComponent/ErrorComponent';
+import SliderSection from '../../components/HomeComponents/SliderSection/SliderSection';
 
 class HomeContainer extends Component {
 
@@ -47,8 +48,11 @@ class HomeContainer extends Component {
             </div>
           </div>          
         </div>
-        <div style={{padding: '40px'}}>
-          CONTENT HERE
+        <div style={{padding: '40px 0'}}>
+          <div className='container'>
+            <SliderSection />
+          </div>
+          
         </div>
       </section>
     )

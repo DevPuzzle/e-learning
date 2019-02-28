@@ -54,10 +54,10 @@ const courseCoverReducer = (state = initialState, action) => {
         loading: false,
         error: false,
         courseCovers: state.courseCovers.map(courseCover => courseCover._id === action.payload._id ?
-          {...courseCover, courseCover: action.payload} : courseCover)
+          {...courseCover,
+          ...action.payload}: courseCover)
       }
     case actionTypes.DELETE_COURSECOVER_SUCCESS:
-    console.log('cover', state.courseCovers)
       return {
         ...state,
         courseCovers: state.courseCovers.filter(courseCover => courseCover._id !== action.payload)

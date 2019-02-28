@@ -20,7 +20,7 @@ const PopperSubcategoriesList = (props) => {
               <List>
                 {props.subcategories.map(subcategory => (
                   <ListItem 
-                    onMouseOver={(e) => props.showThemesHandler(e, subcategory._id)}
+                    onMouseOver={(e) => props.showThemesHandler(e, subcategory._id, subcategory.name)}
                     key={subcategory._id}
                     button>
                     {subcategory.name}

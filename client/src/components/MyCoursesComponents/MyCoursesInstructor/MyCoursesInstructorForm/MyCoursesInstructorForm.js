@@ -22,7 +22,7 @@ const renderInputField = (field) => {
   return(
     <FormControl className={className} margin="normal" required fullWidth>
       <InputLabel htmlFor={field.name} className='instructorForm__label'>{field.label}</InputLabel>
-      <Input id={field.input.name} className={field.input.name === 'first_name' || field.input.name === 'password' ? 'instructor__inp mr-4' : 'instructor__inp'} name={field.name} type={field.type} {...field.input} />
+      <Input id={field.input.name} className='instructor__inp' name={field.name} type={field.type} {...field.input} />
       <div className='instructorForm__error'>
         {field.meta.touched ? field.meta.error : ''}
       </div>
@@ -81,6 +81,7 @@ class MyCoursesInstructorForm extends Component {
   }
 
   render(){
+ 
     const { courseList, 
             handleSubmit,
             selectedCategoryEl, 
@@ -90,13 +91,16 @@ class MyCoursesInstructorForm extends Component {
             selectedThemeEl, 
             openThemesList,
             subcategories,
-            themes, pristine } = this.props;
+            themes, 
+            chosenCategoryName,
+            chosenSubcategoryName,
+            pristine } = this.props;
     
       const checkTheme = (selectedTheme, apiTheme) => {
         if(selectedTheme){
-          return <h3>{selectedTheme.name}</h3>
+          return <h3>{`${chosenCategoryName} > ${chosenSubcategoryName} > ${selectedTheme.name}`}</h3>
         }else if(apiTheme){
-          return <h3>{apiTheme.theme.name}</h3>
+          return <h3>{`${apiTheme.theme.subcategory.name} > ${apiTheme.theme.subcategory.category.name} > ${apiTheme.theme.name}`}</h3>
         }else{
           return <h3>Select theme</h3>
         }
@@ -129,6 +133,7 @@ class MyCoursesInstructorForm extends Component {
         style={{zIndex: '100000'}} 
         open={openCategoriesList} 
         anchorEl={selectedCategoryEl} 
+        onMouseLeave={this.props.leaveMouseHandler}
         transition>
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={350}>
@@ -137,7 +142,7 @@ class MyCoursesInstructorForm extends Component {
                   {courseList ? courseList.list.map(category => (
                     <React.Fragment key={category._id} >
                     <ListItem 
-                      onMouseOver={(e) => this.props.showSubcategoriesHandler(e,category._id)}
+                      onMouseOver={(e) => this.props.showSubcategoriesHandler(e,category._id, category.name)}
                       button>
                         {category.name}
                     </ListItem>

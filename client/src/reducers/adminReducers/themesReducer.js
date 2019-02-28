@@ -34,7 +34,10 @@ const themesReducer = (state = initialState, action) => {
         loading: false,
         error: false,
         themes: state.themes.map(theme => theme._id === action.payload._id ?
-            {...theme, name: action.payload.name, description: action.payload.description} : theme)
+            {...theme, 
+              name: action.payload.name,
+              description: action.payload.description} 
+              : theme)
       }
     case actionTypes.ADD_THEME_SUCCESS:
       return {
