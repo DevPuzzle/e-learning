@@ -67,6 +67,26 @@ exports.school_create = (req, res, next) => {
 
 }
 
+exports.school_list = (req, res, next) => {
+  School.find({})
+  .exec()
+  .then(doc => {
+    if(doc) {
+      res.status(200).json({
+        schoolList: doc
+      });
+    } else {
+      res.status(500).json({
+        error: 'Not exist schools'
+      });
+    }
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({ error: err });
+  });
+}
+
 exports.school_edit = (req, res, next) => {  
   
   const image = req.files[0].path;
@@ -97,7 +117,6 @@ exports.school_edit = (req, res, next) => {
       return logo; 
     }
   }
-
   // console.log('OLD IMAGE', req.body.old_image)
   // console.log('req.body.image ==', req.body.image)  
   const id = req.params.id;
@@ -146,10 +165,8 @@ exports.school_delete = (req, res, next) => {
     .then(doc => {
       if(doc) {
 
-        const course_id = doc.course;
-        const creator_id = doc.creator;
-        console.log("course_id == ", course_id);
-        console.log('course_id == ', creator_id);
+        //const course_id = doc.course;
+        const creator_id = doc.creator;        
 
         // delete school image and logo from server
         const path_image = doc.image;
@@ -179,7 +196,7 @@ exports.school_delete = (req, res, next) => {
               error: err
             });
           }); */
-        User.update({_id: id},
+        User.update({_id: creator_id},
           {
             $pull: {school: {$in: [id]}}
           })
@@ -189,7 +206,26 @@ exports.school_delete = (req, res, next) => {
           })
           .catch(err => {
             console.log(500)
+            res.status(500).json({
+              message: 'Error find user',
+              error: err
+            });
           });
+
+          res.status(200).json({
+            message: 'Successfuly school delete and user model updated'
+          })
+      } else {
+        res.status(500).json({
+          error: 'This school not exist'          
+        })
       }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+        message: "Error school delete"
+      })
     })
 }
