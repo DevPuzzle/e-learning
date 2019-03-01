@@ -5,7 +5,40 @@ import { TextField, Paper, MenuItem } from '@material-ui/core';
 
 
 const suggestions = [
- 
+  { label: "Afghanistan" },
+  { label: "Aland Islands" },
+  { label: "Albania" },
+  { label: "Algeria" },
+  { label: "American Samoa" },
+  { label: "Andorra" },
+  { label: "Angola" },
+  { label: "Anguilla" },
+  { label: "Antarctica" },
+  { label: "Antigua and Barbuda" },
+  { label: "Argentina" },
+  { label: "Armenia" },
+  { label: "Aruba" },
+  { label: "Australia" },
+  { label: "Austria" },
+  { label: "Azerbaijan" },
+  { label: "Bahamas" },
+  { label: "Bahrain" },
+  { label: "Bangladesh" },
+  { label: "Barbados" },
+  { label: "Belarus" },
+  { label: "Belgium" },
+  { label: "Belize" },
+  { label: "Benin" },
+  { label: "Bermuda" },
+  { label: "Bhutan" },
+  { label: "Bolivia, Plurinational State of" },
+  { label: "Bonaire, Sint Eustatius and Saba" },
+  { label: "Bosnia and Herzegovina" },
+  { label: "Botswana" },
+  { label: "Bouvet Island" },
+  { label: "Brazil" },
+  { label: "British Indian Ocean Territory" },
+  { label: "Brunei Darussalam" }
 ];
 
 
@@ -46,6 +79,7 @@ const renderInput = (inputProps) => {
     <TextField 
       InputProps={{
         inputRef: ref,
+        onChange: onChange,
         classes: {
           root: classes.inputRoot,
           input: classes.inputInput
@@ -59,8 +93,6 @@ const renderInput = (inputProps) => {
 const getSuggestions = (value) => {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
-  //POST REQUEST
-
   let count = 0;
 
   return inputLength === 0

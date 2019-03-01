@@ -33,6 +33,7 @@ const styles = theme => ({
 
 
 
+
  class MySchoolsInstructor extends Component {
    state = {
     showCreateInstructor: false,
@@ -90,7 +91,6 @@ const styles = theme => ({
 
   render() {
     const { classes } = this.props;
-    
     return (
      <React.Fragment>
        <div className='col-md-3 mb-4 d-flex justify-content-center align-items-center'>
@@ -115,7 +115,10 @@ const styles = theme => ({
             <DialogContent 
             className='RRRRRRR'>
               <MySchoolInstructorForm
+                cities={this.props.cities}
+                getSuggestions={this.getSuggestions}
                 form='createSchool'
+                getCities={this.props.onGetCities}
                 address={AddressData.addresses}
                 selectBackgroundImageHandler={this.selectBackgroundImageHandler}
                 backgroundImagePreviewUrl={this.state.backgroundImagePreviewUrl}
@@ -135,13 +138,14 @@ const styles = theme => ({
 
 const mapStateToProps = (state) => {
   return {
-    userSchoolCovers: state.schoolCovers.schoolCovers
+    userSchoolCovers: state.schoolCovers.schoolCovers,
+    cities: state.cities.cities
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onGetSchoolCovers: () => dispatch(action.getSchoolCovers()),
+    onGetSchoolCovers: () => dispatch(action.getSchoolCovers())
   }
 }
 

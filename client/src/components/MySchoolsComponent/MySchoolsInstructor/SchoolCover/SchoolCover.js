@@ -10,7 +10,6 @@ import {
 } from '@material-ui/core';
 
 const SchoolCover = (props) => {
-  console.log(props)
   return (
     <div 
       className='col-md-3 mb-4'>

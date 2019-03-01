@@ -98,7 +98,9 @@ import {
           name='name'
           component={renderInputField}/>{/* 
           <div className='instructorForm__address'> */} 
-         <Typehead />
+         <Typehead
+          cities={this.props.cities} 
+          getSuggestions={this.props.getSuggestions}/>
           
          {/* </div> */} 
         <Field 
