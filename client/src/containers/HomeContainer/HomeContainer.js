@@ -48,8 +48,24 @@ class HomeContainer extends Component {
             </div>
           </div>          
         </div>
+        <div style={{padding: '40px 0', borderBottom: '1px solid rgba(0,0,0, 0.1)'}}>
+          <div className='container'>
+          <h2 style={{
+        color: '#0277bd',
+        fontWeight: 600,
+        fontSize: '22px',
+        marginBottom: '10px'}}>New courses</h2>
+            <SliderSection />
+          </div>
+          
+        </div>
         <div style={{padding: '40px 0'}}>
           <div className='container'>
+          <h2 style={{
+        color: '#0277bd',
+        fontWeight: 600,
+        fontSize: '22px',
+        marginBottom: '10px'}}>New Schools</h2>
             <SliderSection />
           </div>
           

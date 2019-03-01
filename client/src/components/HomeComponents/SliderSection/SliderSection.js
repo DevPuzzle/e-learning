@@ -64,11 +64,7 @@ class SliderSection extends Component {
     };
     return(
       <div>
-      <h2 style={{
-        color: '#0277bd',
-        fontWeight: 600,
-        fontSize: '22px',
-        marginBottom: '10px'}}>New courses</h2>
+      
       <Slider {...settings} >
         <div>
           <SliderItem/>
