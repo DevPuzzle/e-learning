@@ -5,6 +5,43 @@ const School = require('../models/school');
 const Course = require('../models/course');
 const data = require('../../data/cities.json');
 
+exports.cities_filter = (req, res, next) => {
+  const city = req.body.city;
+  console.log('city', req.body.city);
+
+  if(city){
+
+    const text = city.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+    const regex = new RegExp(text, 'gi');
+
+    let filtered = data.filter( obj => {
+      if(regex.test(obj.city)) {
+        console.log('obj.city', obj.city)
+        return obj.city
+      }
+      return false
+    })
+
+    let doc = filtered.map(obj => {
+
+      return {
+        state : obj.state,
+        city : obj.city
+      }
+    })      
+
+    res.status(200).json({
+      data: doc
+    }); 
+    
+  } else {
+    res.status(401).json({
+      error: 'Error send state'        
+    });
+  }
+
+}
+
 exports.state_filter = (req, res, next) => {
     
   const state = req.body.state;

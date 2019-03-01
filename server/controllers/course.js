@@ -90,6 +90,37 @@ exports.course_cover_create = (req, res, next) => {
     
 }
 
+exports.course_get = (req, res, next) => {
+  const id = req.params.id;
+
+  Course.findOne({_id: id})
+    .populate([
+      {
+      path: 'theme',
+      select: '_id name'      
+      },
+      {
+      path: 'author',
+      select: '_id name'
+      }
+    ])    
+    .exec()
+    .then(doc => {
+      if (!doc) {
+        res.status(404).json({
+          error: 'This course not exist'
+        })  
+      }
+      res.status(200).json({
+        course: doc
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err});
+    })
+}
+
 exports.catalog_list = (req, res, next) => {
   Category.find({})
     .select('_id name')
@@ -124,7 +155,7 @@ exports.course_list = (req, res, next) => {
       res.status(200).json({
         courseList: doc
       });
-      //return doc;
+      
     } else {
       res.status(500).json({
         error: 'Not exist courses'
@@ -150,12 +181,9 @@ exports.course_cover_edit = (req, res, next) => {
       });      
       return req.file.path
     }
-  }
+  }  
+  //console.log('OLD IMAGE', req.body.old_image)
   
-  console.log('OLD IMAGE', req.body.old_image)
-  console.log('req.body.image ==', req.body.image)
-  //console.log('IMAGE FILE', req.file.path)  
-  //console.log("path", path);
   const id = req.params.id;  
   const author_id = req.userData.userId;
 
@@ -221,9 +249,7 @@ exports.course_cover_delete = (req, res , next) => {
         if(doc) {          
 
           const theme_id = doc.theme;
-          const author_id = doc.author;
-          console.log("THEME ID", theme_id);
-          console.log('USER ID', author_id);
+          const author_id = doc.author;          
           //const comment_id = doc.comment; 
           
           // delete course image from server
@@ -239,8 +265,7 @@ exports.course_cover_delete = (req, res , next) => {
             })
             .exec()
             .then(() => {
-              console.log('UPDATED THEME');
-              
+              console.log('UPDATED THEME');              
             })
             .catch(err => {
               console.log(err);

@@ -58,7 +58,7 @@ exports.category_get = (req, res, next) => {
         });
       } else {
         res.status(404)
-          .json({ message: "Not exist this category name" });
+          .json({ error: "Not exist this category" });
       }
     })
     .catch(err => {

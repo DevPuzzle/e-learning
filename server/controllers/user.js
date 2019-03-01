@@ -548,16 +548,15 @@ exports.user_edit_password = (req, res, next) => {
 exports.user_get = (req, res, next) => {
   const userId = req.userData.userId;  
   const role = req.userData.role;
-  console.log('REQ USER ROLE', role);
-  //console.log('REQ USER111', req.userData);
-  console.log('ID', userId);
+  // console.log('REQ USER ROLE', role);  
+  // console.log('ID', userId);
 
   User.findOne({_id: userId})
     .select('first_name last_name email name password userImage role')
     .exec()
     .then(doc => {
 
-      console.log("From database", doc);
+      console.log("DOC ==", doc);
 
       if (doc) {        
         res.status(200).json({
