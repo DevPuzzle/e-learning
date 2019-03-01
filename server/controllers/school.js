@@ -64,7 +64,37 @@ exports.school_create = (req, res, next) => {
         message: 'Error create school'
       });
     });
+}
 
+exports.school_get = (req, res, next) => {
+  const id = req.params.id;
+
+  School.findOne({_id: id})
+    .populate([
+      {
+        path: 'course',
+        select: '_id name'
+      },
+      {
+        path: 'creator',
+        select: '_id name'
+      }
+    ])
+    .exec()
+    .then(doc => {
+      if (!doc) {
+        res.status(404).json({
+          error: 'This school not exist'
+        })
+      }
+      res.status(200).json({
+        school: doc
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({error: err})
+    })
 }
 
 exports.school_list = (req, res, next) => {
@@ -86,6 +116,8 @@ exports.school_list = (req, res, next) => {
     res.status(500).json({ error: err });
   });
 }
+
+
 
 exports.school_edit = (req, res, next) => {  
   

@@ -12,10 +12,7 @@ const courseSchema = new Schema({
   state: { type: String, required: true },
   city: { type: String, required: true },
   address: { type: String, required: true },
-  info: {
-    type: String, 
-    required: true,    
-  },  
+  info: { type: String, required: true },  
   image: { type: String, required: false },
   logo: { type: String, required: false },  
   course: [{

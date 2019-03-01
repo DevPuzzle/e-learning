@@ -35,7 +35,7 @@ const upload = multer({
 router.get("/catalog/list", checkAuth, CourseController.catalog_list);
 
 router.get("/list", checkAuth, CourseController.course_list);
-// router.get("/:id", CourseController.course_get);
+router.get("/:id", CourseController.course_get);
 router.post("/cover/create", checkAuth, roleTeacher, upload.single('image'), CourseController.course_cover_create);
 router.patch("/edit/:id", checkAuth, roleTeacher, upload.single('image'), CourseController.course_cover_edit);
 router.delete("/delete/:id", checkAuth, roleTeacher, CourseController.course_cover_delete);
