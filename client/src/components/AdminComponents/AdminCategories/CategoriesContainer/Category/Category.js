@@ -18,6 +18,7 @@ import AdminEditForm from '../../../../UI/Templates/AdminEditForm/AdminEditForm'
       <div className={'courses__icon'} onClick={() => props.categoryEdit(props.category._id)}>
         <i className="fas fa-marker"></i>
       </div>
+      {/* button delete */}
       <div className='courses__icon'>
         <i className="fas fa-trash-alt"></i>
       </div>

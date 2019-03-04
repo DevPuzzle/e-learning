@@ -33,7 +33,6 @@ export const getSubcategoriesSuccess = (data) => {
   }
 }
 
-
 export const updateSubCategory = (values, subcategoryId) => {
   return dispatch => {
     dispatch(updateSubCategoryStart());
@@ -79,6 +78,31 @@ export const addSubcategoryStart = () => {
 export const addSubcategorySuccess = (data) => {
   return {
     type: actionTypes.ADD_SUBCATEGORY_SUCCESS,
+    payload: data
+  }
+}
+
+// delete subcategory
+export const deleteSubcategory = (id) => {
+  return dispatch => {
+  /*   dispatch(deleteSubcategoryStart()); */
+    axios.delete(`${URL}/subcategory/delete/${id}`)
+    .then(res => {
+      console.log(res);
+      dispatch(deleteSubcategorySuccess(id));
+    })
+  }
+}
+
+/* export const deleteSubcategoryStart = () => {
+  return {
+    type: actionTypes.DELETE_SUBCATEGORY_START
+  }
+} */
+
+export const deleteSubcategorySuccess = (data) => {
+  return {
+    type: actionTypes.DELETE_SUBCATEGORY_SUCCESS,
     payload: data
   }
 }

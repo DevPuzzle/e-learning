@@ -129,8 +129,6 @@ exports.school_list = (req, res, next) => {
   });
 }
 
-
-
 exports.school_edit = (req, res, next) => {  
   
   const image = req.files[0].path;

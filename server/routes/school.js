@@ -32,7 +32,7 @@ const upload = multer({
   fileFilter: fileFilter
 });
 
-router.get("/list", checkAuth, SchoolController.school_list);
+router.get("/list", SchoolController.school_list);
 router.get("/:id", SchoolController.school_get);
 router.post("/create", checkAuth, roleTeacher, upload.any(), SchoolController.school_create);
 router.patch("/edit/:id", checkAuth, roleTeacher, upload.any(), SchoolController.school_edit);

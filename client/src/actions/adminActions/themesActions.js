@@ -16,7 +16,6 @@ export const getThemes = (subcategoryId) => {
   }
 }
 
-
 export const getThemesStart = () => {
   return {
     type: actionTypes.GET_THEMES_START
