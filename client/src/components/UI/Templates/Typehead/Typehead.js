@@ -1,173 +1,49 @@
 import React from 'react';
-import Downshift from "downshift";
-import { withStyles } from "@material-ui/core/styles";
-import { TextField, Paper, MenuItem } from '@material-ui/core';
-
-
-const suggestions = [
-  { label: "Afghanistan" },
-  { label: "Aland Islands" },
-  { label: "Albania" },
-  { label: "Algeria" },
-  { label: "American Samoa" },
-  { label: "Andorra" },
-  { label: "Angola" },
-  { label: "Anguilla" },
-  { label: "Antarctica" },
-  { label: "Antigua and Barbuda" },
-  { label: "Argentina" },
-  { label: "Armenia" },
-  { label: "Aruba" },
-  { label: "Australia" },
-  { label: "Austria" },
-  { label: "Azerbaijan" },
-  { label: "Bahamas" },
-  { label: "Bahrain" },
-  { label: "Bangladesh" },
-  { label: "Barbados" },
-  { label: "Belarus" },
-  { label: "Belgium" },
-  { label: "Belize" },
-  { label: "Benin" },
-  { label: "Bermuda" },
-  { label: "Bhutan" },
-  { label: "Bolivia, Plurinational State of" },
-  { label: "Bonaire, Sint Eustatius and Saba" },
-  { label: "Bosnia and Herzegovina" },
-  { label: "Botswana" },
-  { label: "Bouvet Island" },
-  { label: "Brazil" },
-  { label: "British Indian Ocean Territory" },
-  { label: "Brunei Darussalam" }
-];
-
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    height: 250
-  },
-  container: {
-    flexGrow: 1,
-    position: "relative"
-  },
-  paper: {
-    position: "absolute",
-    zIndex: 1,
-    marginTop: theme.spacing.unit,
-    left: 0,
-    right: 0
-  },
-  chip: {
-    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`
-  },
-  inputRoot: {
-    flexWrap: "wrap"
-  },
-  inputInput: {
-    width: "auto",
-    flexGrow: 1
-  },
-  divider: {
-    height: theme.spacing.unit * 2
-  }
-});
-
-const renderInput = (inputProps) => {
-  const { InputProps, classes, ref, onChange, ...other } = inputProps;
-  return(
-    <TextField 
-      InputProps={{
-        inputRef: ref,
-        onChange: onChange,
-        classes: {
-          root: classes.inputRoot,
-          input: classes.inputInput
-        },
-        ...InputProps
-      }}
-      {...other}/>
-  )
-}
-
-const getSuggestions = (value) => {
-  const inputValue = value.trim().toLowerCase();
-  const inputLength = inputValue.length;
-  let count = 0;
-
-  return inputLength === 0
-    ? []
-    : suggestions.filter(suggestion => {
-        const keep = 
-          count < 5 &&
-          suggestion.label.slice(0, inputLength).toLowerCase() === inputValue;
-
-        if(keep) {
-          count += 1;
-        }
-        return keep;
-    })
-}
-
-  const renderSuggestion = ({suggestion, index, itemProps, highlightedIndex, selectedItem}) =>{
-    const isHighlighted = highlightedIndex === index;
-    const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1;
-    return (
-      <MenuItem
-        {...itemProps}
-        key={suggestion.label}
-        selected={isHighlighted}
-        component='div'
-        style={{fontWeight: isSelected ? 500 : 400 }}>
-        {suggestion.label}
-      </MenuItem>
-    );
-  }
-
+import Downshift from 'downshift';
+import TextField from '@material-ui/core/TextField';
+import { FormControl, List, ListItem } from '@material-ui/core';
 
 const Typehead = (props) => {
-  const { classes } = props;
-  
-  return (
-    <div className={classes.root}>
-      <Downshift>
-        {({
-          getInputProps,
-          getItemProps,
-          getMenuProps,
-          highlightedIndex,
-          inputValue,
-          isOpen,
-          selectedItem
-        }) => (
-          <div className={classes.container}>
-            {renderInput({
-              fullWidth: true,
-              classes,
-              InputProps: getInputProps({
-                placeholder: 'Search a country'
-              })
-            })}
-            <div {...getMenuProps()}>
-              {isOpen ? (
-                <Paper className={classes.paper} square>
-                  {getSuggestions(inputValue).map((suggestion,index) => 
-                    renderSuggestion({
-                      suggestion,
-                      index,
-                      itemProps: getItemProps({ item: suggestion.label }),
-                      highlightedIndex,
-                      selectedItem
-                    }))}
-                </Paper>
-              )
-              : null}
-            </div>
-          </div>
-        )}
+ 
+    return (
+      <Downshift style={{position: 'relative'}}
+        onChange={props.downshiftOnChange} 
+        itemToString={item => (item ? item.city : '')}>
+         {({ selectedItem, getInputProps, getItemProps, highlightedIndex, isOpen, inputValue, getLabelProps }) => (
+           <div>
+             <FormControl margin="normal" required fullWidth>
+             <TextField {...getInputProps({
+               placeholder: 'Search',
+               label: 'Select city',
+               onChange: props.inputChange
+             })}/>
+             </FormControl>
+             {isOpen ? (
+               <List 
+                style={{position: 'absolute', zIndex: '10000'}}>
+                 {
+                   props.cities && props.cities.data ?
+                   props.cities.data.filter(city => !inputValue || city.city.toLowerCase().includes(inputValue.toLowerCase()))
+                   .slice(0, 10)
+                   .map((item,index) => (                      
+                     <ListItem button
+                      {...getItemProps({key: index, index, item})}
+                      style={{
+                        backgroundColor: highlightedIndex === index ? 'lightgray' : 'white',
+                        fontWeight: selectedItem === item ? 'bold' : 'normal',
+                        borderBottom: '1px solid #ccc',
+                        boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12)'
+                      }}>
+                       {`${item.city}, ${item.state}`}
+                     </ListItem>
+                   ))
+                 : null}
+               </List>
+             ) : null }
+           </div>
+         )}
       </Downshift>
-    </div>
-  )
-}
+    )
+  }
 
-export default withStyles(styles)(Typehead);
+export default Typehead;

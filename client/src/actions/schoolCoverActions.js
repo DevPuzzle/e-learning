@@ -28,3 +28,31 @@ export const getSchoolCoversSuccess = (data) => {
     payload: data
   }
 }
+
+//ADD
+
+export const addSchoolCover = (data) => {
+  return dispatch => {
+    dispatch(addSchoolCoverStart());
+    axios.post(`${URL}/school/create`, data)
+    .then(response => {
+      dispatch(addSchoolCoverSuccess(response.data))
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
+
+export const addSchoolCoverStart = () => {
+  return {
+    type: actionTypes.ADD_SCHOOLCOVER_START
+  }
+}
+
+export const addSchoolCoverSuccess = (data) => {
+  return {
+    type: actionTypes.ADD_SCHOOLCOVER_SUCCESS,
+    payload: data
+  }
+}

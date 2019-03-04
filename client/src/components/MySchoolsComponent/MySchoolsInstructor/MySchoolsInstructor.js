@@ -8,7 +8,7 @@ import * as action from '../../../actions/schoolCoverActions';
 import SchoolCover from './SchoolCover/SchoolCover';
 import { Dialog, DialogTitle, DialogContent } from '@material-ui/core';
 import MySchoolInstructorForm from './MySchoolsInstructorForm/MySchoolInstructorForm';
-import AddressData from '../../../address.json';
+import axios from 'axios';
 
 const styles = theme => ({
   fab: {
@@ -41,6 +41,8 @@ const styles = theme => ({
     selectedBackgroundImage: null,
     logoImagePreviewUrl: null,
     selectedLogo: null,
+    cities: [],
+    selectedCity: null
    }
 
    componentDidMount(){
@@ -89,6 +91,35 @@ const styles = theme => ({
     }
   }
 
+  createSchoolHandler = (values) => {}
+
+
+  //CITIES
+
+  fetchCities = (city) => {
+    const cityUrl = 'http://localhost:5000';
+    axios.post(`${cityUrl}/search/cities/filter`, {city})
+    .then(response => {
+      this.setState({
+        cities: response.data
+      })
+    })
+  }
+
+  inputChange = (e) => {
+    if(!e.target.value){
+      return
+    }
+    this.fetchCities(e.target.value);
+  }
+
+  downshiftOnChange = (selectedItem) => {
+    this.setState({
+      selectedCity: selectedItem.city
+    })
+  }
+  
+
   render() {
     const { classes } = this.props;
     return (
@@ -112,14 +143,16 @@ const styles = theme => ({
             <DialogTitle>
               Creator
             </DialogTitle>
-            <DialogContent 
-            className='RRRRRRR'>
+            <DialogContent>
               <MySchoolInstructorForm
-                cities={this.props.cities}
-                getSuggestions={this.getSuggestions}
                 form='createSchool'
-                getCities={this.props.onGetCities}
-                address={AddressData.addresses}
+                onSubmit={this.createSchoolHandler}
+                selectedCity={this.state.selectedCity}
+                downshiftOnChange={this.downshiftOnChange}
+                inputChange={this.inputChange}
+                cities={this.state.cities}
+                citiesData={this.props.cities}
+                getSuggestions={this.getSuggestions}
                 selectBackgroundImageHandler={this.selectBackgroundImageHandler}
                 backgroundImagePreviewUrl={this.state.backgroundImagePreviewUrl}
                 selectedBackgroundImage={this.state.selectedBackgroundImage}
@@ -138,14 +171,14 @@ const styles = theme => ({
 
 const mapStateToProps = (state) => {
   return {
-    userSchoolCovers: state.schoolCovers.schoolCovers,
-    cities: state.cities.cities
+    userSchoolCovers: state.schoolCovers.schoolCovers
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onGetSchoolCovers: () => dispatch(action.getSchoolCovers())
+    onGetSchoolCovers: () => dispatch(action.getSchoolCovers()),
+    onGetCities: () => dispatch()
   }
 }
 

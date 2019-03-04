@@ -99,7 +99,11 @@ import {
           component={renderInputField}/>{/* 
           <div className='instructorForm__address'> */} 
          <Typehead
-          cities={this.props.cities} 
+          selectedCity={this.props.selectedCity}
+          downshiftOnChange={this.props.downshiftOnChange}
+          inputChange={this.props.inputChange}
+          cities={this.props.cities}
+          citiesData={this.props.citiesData} 
           getSuggestions={this.props.getSuggestions}/>
           
          {/* </div> */} 
@@ -125,7 +129,7 @@ import {
           display: 'flex',
           flexDirection: 'column'
         }}>
-        <h3>Logo</h3>
+        <h3>Logo image</h3>
           <Field 
             type='file'
             name='logo'
