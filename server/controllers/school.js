@@ -7,8 +7,7 @@ const Comment = require('../models/comment');
 
 const fs = require('fs');
 
-exports.school_create = (req, res, next) => {
-  const creator_name = req.body.creator_name;
+exports.school_create = (req, res, next) => {  
   const creator_id = req.userData.userId;
 
   const schoolname = req.body.name;
@@ -49,12 +48,24 @@ exports.school_create = (req, res, next) => {
           });
         });
 
-      console.log(doc);
-      res.status(200).json({
-        school: doc,
-        creator_name: creator_name,        
-        message: 'Successfuly create school'
-      });
+      School.populate(doc, {
+        path: 'creator',
+        select: '_id name',
+      })
+      .then(() => {
+        console.log(doc);
+        res.status(200).json({
+          school: doc,                
+          message: 'Successfuly create school'
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err,
+          message: 'Error create school'
+        });
+      });      
 
     })
     .catch(err => {
@@ -87,6 +98,7 @@ exports.school_get = (req, res, next) => {
           error: 'This school not exist'
         })
       }
+      
       res.status(200).json({
         school: doc
       });
