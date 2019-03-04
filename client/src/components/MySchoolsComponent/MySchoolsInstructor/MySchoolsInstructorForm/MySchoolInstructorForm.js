@@ -109,7 +109,12 @@ import {
          {/* </div> */} 
         <Field 
           type='text'
-          name='description'
+          name='address'
+          label='Street'
+          component={renderInputField}/>
+        <Field 
+          type='text'
+          name='info'
           component={renderTextareaField}/>
         <div className='instructorForm__image' style={{
           display: 'flex',

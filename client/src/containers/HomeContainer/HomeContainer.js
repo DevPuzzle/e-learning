@@ -7,8 +7,36 @@ import SignUp from '../../components/SignUp/SignUp';
 import { connect } from 'react-redux';
 import ErrorComponent from '../../components/ErrorComponent/ErrorComponent';
 import SliderSection from '../../components/HomeComponents/SliderSection/SliderSection';
+import axios from 'axios';
 
 class HomeContainer extends Component {
+  state = {
+    courses: [],
+    schools: [],
+    selectedCourse: null
+  }
+
+  componentWillMount(){
+    axios.get('http://localhost:5000/course/list')
+    .then(response => {
+      this.setState({
+        courses: response.data.courseList
+      })
+    })
+
+    axios.get('http://localhost:5000/school/list')
+    .then(response => {
+      this.setState({
+        schools: response.data.schoolList
+      })
+    })
+  }
+
+  selectedCourse = (item) => {
+    this.setState({
+      selectedCourse: item
+    })
+  }
 
   render() {
     return (
@@ -55,7 +83,10 @@ class HomeContainer extends Component {
         fontWeight: 600,
         fontSize: '22px',
         marginBottom: '10px'}}>New courses</h2>
-            <SliderSection />
+            <SliderSection 
+              selectedItem={this.state.selectedCourse}
+              selectedItemHandler={this.selectedCourse}
+              items={this.state.courses}/>
           </div>
           
         </div>
@@ -66,7 +97,10 @@ class HomeContainer extends Component {
         fontWeight: 600,
         fontSize: '22px',
         marginBottom: '10px'}}>New Schools</h2>
-            <SliderSection />
+            <SliderSection 
+              selectedItem={this.state.selectedCourse}
+              selectedItemHandler={this.selectedCourse}
+              items={this.state.schools}/>
           </div>
           
         </div>

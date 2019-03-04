@@ -19,9 +19,8 @@ export const SlideRight = ({onClick}) => (
 
 
 class SliderSection extends Component {
-
+  
   render(){
-
     var settings = {
       dots: false,
       infinite: false,
@@ -66,24 +65,15 @@ class SliderSection extends Component {
       <div>
       
       <Slider {...settings} >
-        <div>
-          <SliderItem/>
+      {this.props.items ?
+         this.props.items.map(item => (
+        <div key={item._id}>
+          <SliderItem
+            selectedItem={this.props.selectedItem}
+            selectedItemHandler={this.props.selectedItemHandler}
+            item={item}/>
         </div>
-        <div>
-          <SliderItem />
-        </div>
-        <div>
-          <SliderItem />
-        </div>
-        <div>
-          <SliderItem />
-        </div>
-        <div>
-          <SliderItem />
-        </div>
-        <div>
-          <SliderItem />
-        </div>
+         )) : null}         
       </Slider>
     </div>
     )

@@ -27,6 +27,7 @@ const Typehead = (props) => {
                    .slice(0, 10)
                    .map((item,index) => (                      
                      <ListItem button
+                     key={index}
                       {...getItemProps({key: index, index, item})}
                       style={{
                         backgroundColor: highlightedIndex === index ? 'lightgray' : 'white',

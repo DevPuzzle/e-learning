@@ -56,3 +56,30 @@ export const addSchoolCoverSuccess = (data) => {
     payload: data
   }
 }
+
+export const deleteSchoolCover = (id) => {
+  return dispatch => {
+    dispatch(deleteSchoolCoverStart());
+    axios.delete(`${URL}/school/delete/${id}`)
+    .then(response => {
+      console.log(id)
+      dispatch(deleteSchoolCoverSuccess(id))
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
+
+export const deleteSchoolCoverStart = () => {
+  return {
+    type: actionTypes.DELETE_SCHOOLCOVER_START
+  }
+}
+
+export const deleteSchoolCoverSuccess = (id) => {
+  return {
+    type: actionTypes.DELETE_SCHOOLCOVER_SUCCESS,
+    payload: id
+  }
+}

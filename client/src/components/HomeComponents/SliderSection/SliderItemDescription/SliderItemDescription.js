@@ -1,14 +1,22 @@
 import React from 'react';
+import { Button } from '@material-ui/core';
 
  const SliderItemDescription = (props) => {
   return (
     <div style={{padding: '15px'}}>
       <h3 style={{fontSize: '18px', 
-    lineHeight: '22px', marginBottom: '10px'}}>React course complete 10 hours</h3>
+    lineHeight: '22px', marginBottom: '10px'}}>{props.selectedItem.name}</h3>
       <p>
-        Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-        across all continents except Antarctica
+        {props.selectedItem.info}
       </p>
+      <Button
+        className='instructorForm__btn'
+        variant="contained" 
+        color="primary"
+        type='submit'
+        /* disabled={this.props.editedCover ? null : !this.props.selectedThemeItem || !this.props.selectedImage} */>
+        Navigate to
+      </Button>
     </div>
   )
 }

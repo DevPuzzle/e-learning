@@ -37,7 +37,7 @@ const SchoolCover = (props) => {
                 color: 'rgba(0, 0, 0, 0.54)'
               }}
               component="p">
-              {`${props.schoolCover.info}`}
+              {`${props.schoolCover.city}, ${props.schoolCover.state}`}
             </Typography> 
             </CardContent>
         </CardActionArea>
@@ -47,7 +47,8 @@ const SchoolCover = (props) => {
             Edit
           </Button>
           <Button
-            size='small'>
+            size='small'
+            onClick={() => props.deleteSchoolCover(props.schoolCover._id)}>
             Delete
           </Button>
         </CardActions>

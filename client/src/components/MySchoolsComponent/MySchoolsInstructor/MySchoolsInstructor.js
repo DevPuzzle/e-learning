@@ -42,7 +42,8 @@ const styles = theme => ({
     logoImagePreviewUrl: null,
     selectedLogo: null,
     cities: [],
-    selectedCity: null
+    selectedCity: null,
+    selectedState: null
    }
 
    componentDidMount(){
@@ -91,8 +92,22 @@ const styles = theme => ({
     }
   }
 
-  createSchoolHandler = (values) => {}
+  createSchoolHandler = (values) => {
+/*name state city address info image logo  formData.append('name', values.name);*/
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('state', this.state.selectedState);
+    formData.append('city', this.state.selectedCity);
+    formData.append('address', values.address);
+    formData.append('info', values.info);
+    formData.append('image', this.state.selectedBackgroundImage);
+    formData.append('logo', this.state.selectedLogo);
+    this.props.onAddSchoolCover(formData);
+  }
 
+  deleteSchoolCoverHandler = (id) => {
+    this.props.onDeleteSchoolCover(id)
+  }
 
   //CITIES
 
@@ -115,7 +130,8 @@ const styles = theme => ({
 
   downshiftOnChange = (selectedItem) => {
     this.setState({
-      selectedCity: selectedItem.city
+      selectedCity: selectedItem.city,
+      selectedState: selectedItem.state
     })
   }
   
@@ -135,6 +151,7 @@ const styles = theme => ({
             <SchoolCover 
               key={schoolCover._id}
               schoolCover={schoolCover}
+              deleteSchoolCover={this.deleteSchoolCoverHandler}
               classes={classes}/>
           ))}
           <Dialog
@@ -178,7 +195,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onGetSchoolCovers: () => dispatch(action.getSchoolCovers()),
-    onGetCities: () => dispatch()
+    onAddSchoolCover: (data) => dispatch(action.addSchoolCover(data)),
+    onDeleteSchoolCover: (id) => dispatch(action.deleteSchoolCover(id))
   }
 }
 
