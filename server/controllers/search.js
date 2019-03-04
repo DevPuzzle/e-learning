@@ -36,7 +36,7 @@ exports.cities_filter = (req, res, next) => {
     
   } else {
     res.status(401).json({
-      error: 'Error send state'        
+      error: 'Error send city'        
     });
   }
 
