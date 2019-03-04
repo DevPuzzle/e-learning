@@ -69,6 +69,11 @@ import AddButton from '../UI/Buttons/AddButton';
       subcategoryEdit: id
     })
   }
+  // delete subcategory
+  deleteSubcategory = (id) => {
+    console.log(id)
+    this.props.onDeleteSubcategory(id)
+  }
 
   subcategorySubmit = (values) => {
     this.props.onUpdateSubCategory(values, values._id)
@@ -127,7 +132,7 @@ import AddButton from '../UI/Buttons/AddButton';
     console.log(id)
     this.props.onDeleteTheme(id)
   } 
- 
+
   
   render() {
     return (
@@ -164,6 +169,7 @@ import AddButton from '../UI/Buttons/AddButton';
             addSubCategory={this.state.addSubCategory}
             submitAddSubCategory={this.submitAddSubCategory}
             adding={this.addSubCategoryHandler}
+            deleteSubcategory={this.deleteSubcategory}
             />
         </div>
         <div className='col-md-4 courses__elementList'>
@@ -220,7 +226,8 @@ const mapDispatchToProps = (dispatch) => {
     onGetThemes: (subcategoryId) => dispatch(themeActions.getThemes(subcategoryId)),
     onUpdateTheme: (values, themeId) => dispatch(themeActions.updateTheme(values,themeId)),
     onAddTheme: (values, subcategoryId) => dispatch(themeActions.addTheme(values, subcategoryId)),
-    onDeleteTheme: (id) => dispatch(themeActions.deleteTheme(id))
+    onDeleteTheme: (id) => dispatch(themeActions.deleteTheme(id)),
+    onDeleteSubcategory: (id) => dispatch(subCategoryActions.deleteSubcategory(id)),
     }
   }
 

@@ -41,6 +41,13 @@ const subCategoriesReducer = (state = initialState, action) => {
         ...state,
         subcategories: [...state.subcategories, action.payload]
       }
+    case actionTypes.DELETE_SUBCATEGORY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        subcategories: state.subcategories.filter(subcategory => subcategory._id !== action.payload)
+      }    
     default:
       return state
   }

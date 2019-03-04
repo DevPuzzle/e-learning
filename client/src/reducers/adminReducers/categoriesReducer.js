@@ -52,6 +52,7 @@ const categoriesReducer = ( state = initialState, action ) => {
         error: false,
         categories: [...state.categories, action.payload]
       }
+      //delete category 
     default: 
       return state
   }

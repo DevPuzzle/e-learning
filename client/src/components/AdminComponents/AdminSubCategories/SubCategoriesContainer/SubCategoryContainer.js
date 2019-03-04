@@ -9,6 +9,7 @@ const SubCategoriesContainer = (props) => {
       {props.subcategories ? 
         props.subcategories.map(subcategory => (
           <SubCategory 
+            deleteSubcategory={props.deleteSubcategory}
             key={subcategory._id}
             active={props.active}
             getThemes={props.getThemes}

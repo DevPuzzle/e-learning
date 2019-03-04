@@ -76,3 +76,5 @@ export const addCategorySuccess = (data) => {
     payload: data
   }
 }
+
+//action delete
