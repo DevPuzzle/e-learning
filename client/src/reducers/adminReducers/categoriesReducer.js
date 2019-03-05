@@ -53,6 +53,13 @@ const categoriesReducer = ( state = initialState, action ) => {
         categories: [...state.categories, action.payload]
       }
       //delete category 
+    case actionTypes.DELETE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        categories: state.categories.filter(category => category._id !== action.payload)
+      }
     default: 
       return state
   }

@@ -9,6 +9,7 @@ const CategoriesContainer = (props) => {
       {props.categories ?
         props.categories.map(category =>(
           <Category 
+            deleteCategory={props.deleteCategory}
             category={category}
             key={category._id}
             active={props.active}
