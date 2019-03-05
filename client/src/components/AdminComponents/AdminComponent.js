@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './AdminComponent.scss';
 import * as actions from '../../actions/adminActions/categoriesActions';
+import * as categoryActions from '../../actions/adminActions/categoriesActions';
 import * as subCategoryActions from '../../actions/adminActions/subCategoriesActions';
 import * as themeActions from '../../actions/adminActions/themesActions';
 import { connect } from 'react-redux';
@@ -69,6 +70,13 @@ import AddButton from '../UI/Buttons/AddButton';
       subcategoryEdit: id
     })
   }
+
+  // delete category
+  deleteCategory = (id) => {
+    console.log(id)
+    this.props.onDeleteCategory(id)
+  } 
+
   // delete subcategory
   deleteSubcategory = (id) => {
     console.log(id)
@@ -142,6 +150,7 @@ import AddButton from '../UI/Buttons/AddButton';
             Categories
           </h3>
           <CategoriesContainer 
+            deleteCategory={this.deleteCategory}
             categories={this.props.categories}
             active={this.state.activeCategory}
             getSubCategories={this.getSubCategoriesHandler}
@@ -228,6 +237,7 @@ const mapDispatchToProps = (dispatch) => {
     onAddTheme: (values, subcategoryId) => dispatch(themeActions.addTheme(values, subcategoryId)),
     onDeleteTheme: (id) => dispatch(themeActions.deleteTheme(id)),
     onDeleteSubcategory: (id) => dispatch(subCategoryActions.deleteSubcategory(id)),
+    onDeleteCategory: (id) => dispatch(categoryActions.deleteCategory(id))
     }
   }
 

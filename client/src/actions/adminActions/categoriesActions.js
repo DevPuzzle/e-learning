@@ -77,4 +77,20 @@ export const addCategorySuccess = (data) => {
   }
 }
 
-//action delete
+//action delete category
+export const deleteCategory = (id) => {
+  return dispatch => {
+    axios.delete(`${URL}/delete/${id}`)
+    .then(res => {
+      console.log(res)
+      dispatch(deleteCategorySuccess(id));
+    })
+  }
+}
+
+export const deleteCategorySuccess = (data) => {
+  return {
+    type: actionTypes.DELETE_CATEGORY_SUCCESS,
+    payload: data
+  }
+}
