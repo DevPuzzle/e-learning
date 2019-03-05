@@ -19,7 +19,7 @@ import AdminEditForm from '../../../../UI/Templates/AdminEditForm/AdminEditForm'
         <i className="fas fa-marker"></i>
       </div>
       {/* button delete */}
-      <div className='courses__icon' onClick={() => props.deleteCategory(props.category._id)}>
+      <div className='courses__icon' onClick={() => props.openDeleteModalHandler(props.category._id)}>
         <i className="fas fa-trash-alt"></i>
       </div>
     </div>
