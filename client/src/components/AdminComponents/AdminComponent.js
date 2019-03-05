@@ -10,22 +10,38 @@ import SubCategoriesContainer from './AdminSubCategories/SubCategoriesContainer/
 import CategoriesContainer from './AdminCategories/CategoriesContainer/CategoriesContainer';
 import AdminAddForm from '../UI/Templates/AdminAddForm/AdminAddForm';
 import AddButton from '../UI/Buttons/AddButton';
+import AdminDeleteModal from '../UI/Templates/AdminDeleteModal/AdminDeleteModal';
+//import AdminDeleteModal from '../UI/Templates/AdminDeleteModal/AdminDeleteModal';
 
 
  class AdminComponent extends Component {
 
   state = {
+    openDeleteModal: false,
     categoryEdit: null,
     subcategoryEdit: null,
     themeEdit: null,
     addCategory: false,
     addSubCategory: false,
     activeCategory: 0,
-    activeSubCategory: 0
+    activeSubCategory: 0,
+    itemToDelete: null
   }
 
   componentDidMount(){
     this.props.onGetCategories();
+  }
+
+  // modal befor delete
+  openDeleteModalHandler = (id) => {
+    this.setState({
+      openDeleteModal: true,
+      itemToDelete: id
+    })
+  }
+
+  closeDeleteModalHandler = () => {
+    this.setState({ openDeleteModal: false })
   }
 
   //CATEGORY STATE CHANGES
@@ -72,15 +88,18 @@ import AddButton from '../UI/Buttons/AddButton';
   }
 
   // delete category
-  deleteCategory = (id) => {
-    console.log(id)
-    this.props.onDeleteCategory(id)
+  deleteCategory = () => {
+     
+    console.log('delete')  
+    this.props.onDeleteCategory(this.state.itemToDelete);
+    this.closeDeleteModalHandler();
   } 
 
   // delete subcategory
-  deleteSubcategory = (id) => {
-    console.log(id)
-    this.props.onDeleteSubcategory(id)
+  deleteSubcategory = (id) => {  
+    console.log('delete')  
+    this.props.onDeleteSubcategory(this.state.itemToDelete);
+    this.closeDeleteModalHandler();
   }
 
   subcategorySubmit = (values) => {
@@ -137,8 +156,8 @@ import AddButton from '../UI/Buttons/AddButton';
   }
 
   deleteTheme = (id) => {
-    console.log(id)
-    this.props.onDeleteTheme(id)
+    this.props.onDeleteTheme(this.state.itemToDelete);
+    this.closeDeleteModalHandler();
   } 
 
   
@@ -150,6 +169,9 @@ import AddButton from '../UI/Buttons/AddButton';
             Categories
           </h3>
           <CategoriesContainer 
+            openDeleteModalHandler={this.openDeleteModalHandler}
+            openDeleteModal={this.state.openDeleteModal}
+            closeDeleteModalHandler={this.closeDeleteModalHandler}
             deleteCategory={this.deleteCategory}
             categories={this.props.categories}
             active={this.state.activeCategory}
@@ -168,6 +190,9 @@ import AddButton from '../UI/Buttons/AddButton';
             Sub Categories
           </h3>
           <SubCategoriesContainer 
+            openDeleteModalHandler={this.openDeleteModalHandler}
+            openDeleteModal={this.state.openDeleteModal}
+            closeDeleteModalHandler={this.closeDeleteModalHandler}
             subcategories={this.props.subcategories}
             active={this.state.activeSubCategory}
             getThemes={this.getThemesHandler}
@@ -188,6 +213,9 @@ import AddButton from '../UI/Buttons/AddButton';
             {this.props.themes ?
               this.props.themes.map(theme => (
                 <AdminTheme
+                  openDeleteModalHandler={this.openDeleteModalHandler}
+                  openDeleteModal={this.state.openDeleteModal}
+                  closeDeleteModalHandler={this.closeDeleteModalHandler}
                   theme={theme}
                   key={theme._id}
                   submit={this.themeSubmit}
@@ -208,8 +236,13 @@ import AddButton from '../UI/Buttons/AddButton';
                       className='courses__add'/>          
                   </div>
                   : <h3>Choose Theme</h3>}
+                  <AdminDeleteModal 
+                    closeDeleteModalHandler={this.closeDeleteModalHandler}
+                    openDeleteModal={this.state.openDeleteModal}
+                    delete={this.deleteTheme}                    
+                    />
         </div>
-       
+              
         </div>
     )
   }
