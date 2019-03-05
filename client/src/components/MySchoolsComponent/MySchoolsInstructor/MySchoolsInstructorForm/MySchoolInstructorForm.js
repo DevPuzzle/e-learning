@@ -8,7 +8,7 @@ import {
   TextField,
   Paper,
   MenuItem} from '@material-ui/core';
- import IntegrationDownshift from '../../../UI/Templates/Typehead/Typehead';
+ import Typehead from '../../../UI/Templates/Typehead/Typehead';
 
 
   const renderInputField = (field) => {
@@ -47,68 +47,7 @@ import {
       </FormControl>
     )
   }
-
-  const renderAddress = (inputProps) => {
-    const { InputProps, classes, ref, ...other } = inputProps;
-    return (
-      <TextField 
-        inputProps={{
-          inputref: ref,
-          ...InputProps,
-        }}
-        {...other}
-        />
-    )
-  }
-
-  const renderSuggestion = ({
-    address,
-    index,
-    itemProps,
-    highlightedIndex,
-    selectedItem
-  }) => {
-    const isHighlighted = highlightedIndex === index;
-    const isSelected = (selectedItem || "").indexOf(address.city) > -1;
-
-    return (
-      <MenuItem
-        {...itemProps}
-        key={address.label}
-        selected={isHighlighted}
-        component="div"
-        style={{
-          fontWeight: isSelected ? 500 : 400
-        }}
-      >
-        {address.city}
-      </MenuItem>
-    );
-
-  }
-
-
-  const getSuggestions = (value, props) => {
-    const inputValue = value.trim().toLowerCase();
-    const inputLength = inputValue.length;
-    let count = 0;
-    const cityVariants =  props.address.filter(addrs => {
-      
-      const keep =
-        count < 5 &&
-        addrs.city.slice(0, inputLength).toLowerCase() === inputValue;
-        if(keep) {
-          count += 1;
-        }
-        return keep;
-
-    })
-
-
-    return inputLength === 0
-    ? []
-    : cityVariants;
-  }
+  
 
   class MySchoolInstructorForm extends Component {
     
@@ -159,12 +98,23 @@ import {
           name='name'
           component={renderInputField}/>{/* 
           <div className='instructorForm__address'> */} 
-         <IntegrationDownshift />
+         <Typehead
+          selectedCity={this.props.selectedCity}
+          downshiftOnChange={this.props.downshiftOnChange}
+          inputChange={this.props.inputChange}
+          cities={this.props.cities}
+          citiesData={this.props.citiesData} 
+          getSuggestions={this.props.getSuggestions}/>
           
          {/* </div> */} 
         <Field 
           type='text'
-          name='description'
+          name='address'
+          label='Street'
+          component={renderInputField}/>
+        <Field 
+          type='text'
+          name='info'
           component={renderTextareaField}/>
         <div className='instructorForm__image' style={{
           display: 'flex',
@@ -184,7 +134,7 @@ import {
           display: 'flex',
           flexDirection: 'column'
         }}>
-        <h3>Logo</h3>
+        <h3>Logo image</h3>
           <Field 
             type='file'
             name='logo'

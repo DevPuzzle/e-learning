@@ -8,7 +8,7 @@ import * as action from '../../../actions/schoolCoverActions';
 import SchoolCover from './SchoolCover/SchoolCover';
 import { Dialog, DialogTitle, DialogContent } from '@material-ui/core';
 import MySchoolInstructorForm from './MySchoolsInstructorForm/MySchoolInstructorForm';
-import AddressData from '../../../address.json';
+import axios from 'axios';
 
 const styles = theme => ({
   fab: {
@@ -33,6 +33,7 @@ const styles = theme => ({
 
 
 
+
  class MySchoolsInstructor extends Component {
    state = {
     showCreateInstructor: false,
@@ -40,6 +41,9 @@ const styles = theme => ({
     selectedBackgroundImage: null,
     logoImagePreviewUrl: null,
     selectedLogo: null,
+    cities: [],
+    selectedCity: null,
+    selectedState: null
    }
 
    componentDidMount(){
@@ -88,9 +92,52 @@ const styles = theme => ({
     }
   }
 
+  createSchoolHandler = (values) => {
+/*name state city address info image logo  formData.append('name', values.name);*/
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('state', this.state.selectedState);
+    formData.append('city', this.state.selectedCity);
+    formData.append('address', values.address);
+    formData.append('info', values.info);
+    formData.append('image', this.state.selectedBackgroundImage);
+    formData.append('logo', this.state.selectedLogo);
+    this.props.onAddSchoolCover(formData);
+  }
+
+  deleteSchoolCoverHandler = (id) => {
+    this.props.onDeleteSchoolCover(id)
+  }
+
+  //CITIES
+
+  fetchCities = (city) => {
+    const cityUrl = 'http://localhost:5000';
+    axios.post(`${cityUrl}/search/cities/filter`, {city})
+    .then(response => {
+      this.setState({
+        cities: response.data
+      })
+    })
+  }
+
+  inputChange = (e) => {
+    if(!e.target.value){
+      return
+    }
+    this.fetchCities(e.target.value);
+  }
+
+  downshiftOnChange = (selectedItem) => {
+    this.setState({
+      selectedCity: selectedItem.city,
+      selectedState: selectedItem.state
+    })
+  }
+  
+
   render() {
     const { classes } = this.props;
-    
     return (
      <React.Fragment>
        <div className='col-md-3 mb-4 d-flex justify-content-center align-items-center'>
@@ -104,6 +151,7 @@ const styles = theme => ({
             <SchoolCover 
               key={schoolCover._id}
               schoolCover={schoolCover}
+              deleteSchoolCover={this.deleteSchoolCoverHandler}
               classes={classes}/>
           ))}
           <Dialog
@@ -112,11 +160,16 @@ const styles = theme => ({
             <DialogTitle>
               Creator
             </DialogTitle>
-            <DialogContent 
-            className='RRRRRRR'>
+            <DialogContent>
               <MySchoolInstructorForm
                 form='createSchool'
-                address={AddressData.addresses}
+                onSubmit={this.createSchoolHandler}
+                selectedCity={this.state.selectedCity}
+                downshiftOnChange={this.downshiftOnChange}
+                inputChange={this.inputChange}
+                cities={this.state.cities}
+                citiesData={this.props.cities}
+                getSuggestions={this.getSuggestions}
                 selectBackgroundImageHandler={this.selectBackgroundImageHandler}
                 backgroundImagePreviewUrl={this.state.backgroundImagePreviewUrl}
                 selectedBackgroundImage={this.state.selectedBackgroundImage}
@@ -142,6 +195,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onGetSchoolCovers: () => dispatch(action.getSchoolCovers()),
+    onAddSchoolCover: (data) => dispatch(action.addSchoolCover(data)),
+    onDeleteSchoolCover: (id) => dispatch(action.deleteSchoolCover(id))
   }
 }
 

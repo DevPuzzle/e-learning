@@ -37,11 +37,12 @@ const SliderItem = (props) => {
   const { classes } = props;
   return (
     <Tooltip 
-      enterDelay={250}
-      leaveDelay={250}
+      onMouseEnter={() => props.selectedItemHandler(props.item)}
+      enterDelay={300}
+      leaveDelay={100}
       placement='right'
       style={{opacity: '1 !important'}}
-      title={<SliderItemDescription />} 
+      title={<SliderItemDescription selectedItem={props.selectedItem}/>} 
       classes={{
         popper: classes.popper,
         tooltip: classes.htmlTooltip,
@@ -53,19 +54,23 @@ const SliderItem = (props) => {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image="https://cdn-images-1.medium.com/max/1200/1*y6C4nSvy2Woe0m7bWEn4BA.png"
+          image={`http://localhost:5000/${props.item.image}`}
         />
-        <CardContent>
+        <CardContent style={{
+          maxHeight: '100px',
+          minHeight: '100px'
+        }}>
           <Typography gutterBottom variant="h5" component="h2" style={{
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden'
           }}>
-            React course complete 10 hours
+            {props.item.name}
           </Typography>
-          <Typography component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
+          <Typography component="p" style={{textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden'}}>
+            {props.item.info}
           </Typography>
         </CardContent>
       </CardActionArea>
