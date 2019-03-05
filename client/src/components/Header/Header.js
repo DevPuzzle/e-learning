@@ -17,6 +17,7 @@ import ListItem from '@material-ui/core/ListItem';
 import MenuIcon from '@material-ui/icons/Menu';
 import { withStyles } from '@material-ui/core';
 import { getUserData } from '../../actions/profileActions';
+import logo from '../../assets/images/OWL.png';
 
 
 const styles = theme => ({
@@ -105,10 +106,10 @@ class Header extends Component {
     const { classes } = this.props;
     const sideList = (
         <List className='drawer'>
-          <ListItem className='drawer__link' component={Link} to='/courses' button>
+          <ListItem className='drawer__link' component={Link} to='/myCourses' button>
             <i className="fas fa-book"></i> Courses
           </ListItem>
-          <ListItem className='drawer__link' component={Link} to='/schools' button>
+          <ListItem className='drawer__link' component={Link} to='/mySchools' button>
             <i className="fas fa-graduation-cap"></i> Schools
           </ListItem>
           {!this.props.auth ?
@@ -168,7 +169,7 @@ class Header extends Component {
         </Drawer>
       </div>
       <div className='header__logo'>
-          <NavLink to='/'><p>eLearning</p></NavLink>
+          <NavLink to='/'><img src={logo} alt=""/><span>OwlUnion</span></NavLink>
         </div>
         <nav className='header__nav'>
           <div className='header__courses'>

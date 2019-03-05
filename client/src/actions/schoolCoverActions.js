@@ -57,6 +57,33 @@ export const addSchoolCoverSuccess = (data) => {
   }
 }
 
+export const updateSchoolCover = (data, id) => {
+
+  return dispatch => {
+    dispatch(updateSchoolCoverStart());
+    axios.patch(`${URL}/school/edit/${id}`, data)
+    .then(response => {
+      dispatch(updateSchoolCoverSuccess(response.data.school))
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
+
+export const updateSchoolCoverStart = () => {
+  return {
+    type: actionTypes.UPDATE_SCHOOLCOVER_START
+  }
+}
+
+export const updateSchoolCoverSuccess = (data) => {
+  return {
+    type: actionTypes.UPDATE_SCHOOLCOVER_SUCCESS,
+    payload: data
+  }
+}
+
 export const deleteSchoolCover = (id) => {
   return dispatch => {
     dispatch(deleteSchoolCoverStart());

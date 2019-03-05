@@ -4,10 +4,11 @@ import TextField from '@material-ui/core/TextField';
 import { FormControl, List, ListItem } from '@material-ui/core';
 
 const Typehead = (props) => {
- 
+
     return (
       <Downshift style={{position: 'relative'}}
         onChange={props.downshiftOnChange} 
+        initialInputValue={props.editedSchool ? props.editedSchool.city : ''}
         itemToString={item => (item ? item.city : '')}>
          {({ selectedItem, getInputProps, getItemProps, highlightedIndex, isOpen, inputValue, getLabelProps }) => (
            <div>
@@ -15,7 +16,8 @@ const Typehead = (props) => {
              <TextField {...getInputProps({
                placeholder: 'Search',
                label: 'Select city',
-               onChange: props.inputChange
+               onChange: props.inputChange,
+               
              })}/>
              </FormControl>
              {isOpen ? (

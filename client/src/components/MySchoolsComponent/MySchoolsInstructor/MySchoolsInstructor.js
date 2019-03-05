@@ -43,11 +43,28 @@ const styles = theme => ({
     selectedLogo: null,
     cities: [],
     selectedCity: null,
-    selectedState: null
+    selectedState: null,
+    showEditor: false,
+    editedSchool: null
    }
 
    componentDidMount(){
     this.props.onGetSchoolCovers();
+  }
+
+  updateSchoolsHandler = (values) => {
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('image', this.state.selectedBackgroundImage ? this.state.selectedBackgroundImage : '1');
+    formData.append('old_image', values.image);
+    formData.append('logo', this.state.selectedLogo ? this.state.selectedLogo : '1');
+    formData.append('old_logo', values.logo);
+    formData.append('state', this.state.selectedState ? this.state.selectedState : values.state);
+    formData.append('city', this.state.selectedCity ? this.state.selectedCity : values.city);
+    formData.append('address', values.address);
+    formData.append('info', values.info);
+    this.props.onUpdateSchoolCover(formData, values._id);
+    this.closeEditorHandler();
   }
 
   //CREATE INSTRUCTOR
@@ -60,7 +77,9 @@ const styles = theme => ({
 
   closeCreateInstructor = () => {
     this.setState({
-      showCreateInstructor: false
+      showCreateInstructor: false,
+      selectedBackgroundImage: null,
+      selectedLogo: null
     })
   }
 
@@ -102,7 +121,7 @@ const styles = theme => ({
     formData.append('info', values.info);
     formData.append('image', this.state.selectedBackgroundImage);
     formData.append('logo', this.state.selectedLogo);
-    this.props.onAddSchoolCover(formData);
+    this.closeCreateInstructor();
   }
 
   deleteSchoolCoverHandler = (id) => {
@@ -134,6 +153,24 @@ const styles = theme => ({
       selectedState: selectedItem.state
     })
   }
+
+  //EDITOR 
+  editSchoolCoverHandler = (school) => {
+    this.setState({
+      showEditor: true,
+      editedSchool: school
+    })
+  }
+
+  closeEditorHandler = () => {
+    this.setState({
+      showEditor: false,
+      selectedBackgroundImage: null,
+      selectedLogo: null
+    })
+  }
+
+ 
   
 
   render() {
@@ -152,7 +189,8 @@ const styles = theme => ({
               key={schoolCover._id}
               schoolCover={schoolCover}
               deleteSchoolCover={this.deleteSchoolCoverHandler}
-              classes={classes}/>
+              classes={classes}
+              editSchoolCover={this.editSchoolCoverHandler}/>
           ))}
           <Dialog
             open={this.state.showCreateInstructor}
@@ -163,6 +201,7 @@ const styles = theme => ({
             <DialogContent>
               <MySchoolInstructorForm
                 form='createSchool'
+                closeCreateInstructor={this.closeCreateInstructor}
                 onSubmit={this.createSchoolHandler}
                 selectedCity={this.state.selectedCity}
                 downshiftOnChange={this.downshiftOnChange}
@@ -175,12 +214,38 @@ const styles = theme => ({
                 selectedBackgroundImage={this.state.selectedBackgroundImage}
                 selectLogoHandler={this.selectLogoHandler}
                 selectedLogo={this.state.selectedLogo}
-                logoImagePreviewUrl={this.state.logoImagePreviewUrl}
-                />
+                logoImagePreviewUrl={this.state.logoImagePreviewUrl}/>
                 
             </DialogContent>
           </Dialog>
         </React.Fragment> : <Spinner />}
+        <Dialog
+          open={this.state.showEditor}
+          onClose={this.closeEditorHandler}>
+            <DialogTitle>
+              Editor
+            </DialogTitle>
+            <DialogContent>
+              <MySchoolInstructorForm 
+                form='updateSchool'
+                onSubmit={this.updateSchoolsHandler}
+                cities={this.state.cities}
+                selectedCity={this.state.selectedCity}
+                downshiftOnChange={this.downshiftOnChange}
+                citiesData={this.props.cities}
+                editedSchool={this.state.editedSchool}
+                inputChange={this.inputChange}
+                selectBackgroundImageHandler={this.selectBackgroundImageHandler}
+                selectedBackgroundImage={this.state.selectedBackgroundImage}
+                backgroundImagePreviewUrl={this.state.backgroundImagePreviewUrl}
+                selectLogoHandler={this.selectLogoHandler}
+                selectedLogo={this.state.selectedLogo}
+                logoImagePreviewUrl={this.state.logoImagePreviewUrl}
+                initialValues={this.state.editedSchool}
+                closeEditor={this.closeEditorHandler}
+                />
+            </DialogContent>
+        </Dialog>
     </React.Fragment>
     )
   }
@@ -196,7 +261,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onGetSchoolCovers: () => dispatch(action.getSchoolCovers()),
     onAddSchoolCover: (data) => dispatch(action.addSchoolCover(data)),
-    onDeleteSchoolCover: (id) => dispatch(action.deleteSchoolCover(id))
+    onDeleteSchoolCover: (id) => dispatch(action.deleteSchoolCover(id)),
+    onUpdateSchoolCover: (data, id) => dispatch(action.updateSchoolCover(data, id))
   }
 }
 

@@ -4,6 +4,7 @@ import SliderItem from "./SliderItem/SliderItem";
 import './SliderSection.scss';
 import SliderItemDescription from "./SliderItemDescription/SliderItemDescription";
 import { Fab } from "@material-ui/core";
+import { withRouter } from 'react-router';
 
 export const SlideLeft = ({onClick}) => (
   <Fab className='leftArr' onClick={onClick}>
@@ -20,6 +21,13 @@ export const SlideRight = ({onClick}) => (
 
 class SliderSection extends Component {
   
+
+
+  navigateTo = (id) => {
+    console.log(id)
+    this.props.history.push(`/school/${id}`)
+  }
+
   render(){
     var settings = {
       dots: false,
@@ -61,6 +69,8 @@ class SliderSection extends Component {
         }
       ]
     };
+
+  
     return(
       <div>
       
@@ -69,6 +79,7 @@ class SliderSection extends Component {
          this.props.items.map(item => (
         <div key={item._id}>
           <SliderItem
+            navigateTo={this.navigateTo}
             selectedItem={this.props.selectedItem}
             selectedItemHandler={this.props.selectedItemHandler}
             item={item}/>
@@ -80,4 +91,4 @@ class SliderSection extends Component {
   }
 }
 
-export default SliderSection;
+export default withRouter(SliderSection);
