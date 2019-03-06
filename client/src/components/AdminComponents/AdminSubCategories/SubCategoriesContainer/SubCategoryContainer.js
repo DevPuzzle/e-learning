@@ -2,6 +2,7 @@ import React from 'react';
 import SubCategory from './SubCategory/SubCategory';
 import AdminAddForm from '../../../UI/Templates/AdminAddForm/AdminAddForm';
 import AddButton from '../../../UI/Buttons/AddButton';
+import AdminDeleteModal from '../../../UI/Templates/AdminDeleteModal/AdminDeleteModal';
 
 const SubCategoriesContainer = (props) => {
   return (
@@ -9,6 +10,7 @@ const SubCategoriesContainer = (props) => {
       {props.subcategories ? 
         props.subcategories.map(subcategory => (
           <SubCategory 
+            openDeleteModalHandler={props.openDeleteModalHandler}
             deleteSubcategory={props.deleteSubcategory}
             key={subcategory._id}
             active={props.active}
@@ -33,6 +35,11 @@ const SubCategoriesContainer = (props) => {
                   />
               </div>
               : <h3>Choose category</h3>}
+              <AdminDeleteModal   
+                openDeleteModalHandler={props.openDeleteModalHandler}             
+                closeDeleteModalHandler={props.closeDeleteModalHandler}
+                openDeleteModal={props.openDeleteModal}
+                delete={props.deleteSubcategory}/>
     </React.Fragment>
   )
 }

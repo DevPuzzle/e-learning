@@ -2,6 +2,7 @@ import React from 'react';
 import Category from './Category/Category';
 import AdminAddForm from '../../../UI/Templates/AdminAddForm/AdminAddForm';
 import AddButton from '../../../UI/Buttons/AddButton';
+import AdminDeleteModal from '../../../UI/Templates/AdminDeleteModal/AdminDeleteModal';
 
 const CategoriesContainer = (props) => {
   return (
@@ -9,6 +10,7 @@ const CategoriesContainer = (props) => {
       {props.categories ?
         props.categories.map(category =>(
           <Category 
+            openDeleteModalHandler={props.openDeleteModalHandler}
             category={category}
             key={category._id}
             active={props.active}
@@ -28,6 +30,11 @@ const CategoriesContainer = (props) => {
               adding={props.adding}
               className='courses__add'/>
           </div>}
+          <AdminDeleteModal 
+                openDeleteModalHandler={props.openDeleteModalHandler}
+                closeDeleteModalHandler={props.closeDeleteModalHandler}
+                openDeleteModal={props.openDeleteModal}
+                delete={props.deleteCategory}/>
     </React.Fragment>
   )
 }

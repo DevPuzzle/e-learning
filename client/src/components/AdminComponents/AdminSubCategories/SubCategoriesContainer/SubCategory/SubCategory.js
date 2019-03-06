@@ -19,7 +19,7 @@ import AdminEditForm from '../../../../UI/Templates/AdminEditForm/AdminEditForm'
               <i className="fas fa-marker"></i>
             </div>
             {/* delete button */}
-            <div className='courses__icon' onClick={() => props.deleteSubcategory(props.subcategory._id)}>
+            <div className='courses__icon' onClick={() => props.openDeleteModalHandler(props.subcategory._id)}>
               <i className="fas fa-trash-alt"></i>
             </div>
           </div>
@@ -30,8 +30,7 @@ import AdminEditForm from '../../../../UI/Templates/AdminEditForm/AdminEditForm'
         </div>
         : <AdminEditForm onSubmit={props.submit} form={props.subcategory.name} initialValues={props.subcategory}/>
 
-      }
-    
+      }    
 
       
     </CardContent>
