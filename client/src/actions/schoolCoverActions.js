@@ -110,3 +110,30 @@ export const deleteSchoolCoverSuccess = (id) => {
     payload: id
   }
 }
+
+//ONE SCHOOl
+export const getSchool = (id) => {
+  return dispatch => {
+    dispatch(getSchoolStart());
+    axios.get(`${URL}/school/${id}`)
+    .then(response => {
+      dispatch(getSchoolSuccess(response.data.school))
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
+
+export const getSchoolStart = () => {
+  return {
+    type: actionTypes.GET_SCHOOL_START
+  }
+}
+
+export const getSchoolSuccess = (data) => {
+  return {
+    type: actionTypes.GET_SCHOOL_SUCCESS,
+    payload: data
+  }
+}

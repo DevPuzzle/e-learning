@@ -40,6 +40,7 @@ const SliderItem = (props) => {
       onMouseEnter={() => props.selectedItemHandler(props.item)}
       enterDelay={300}
       leaveDelay={100}
+      onClick={() => props.navigateTo(props.item)}
       placement='right'
       style={{opacity: '1 !important'}}
       title={<SliderItemDescription navigateTo={props.navigateTo} selectedItem={props.selectedItem}/>} 

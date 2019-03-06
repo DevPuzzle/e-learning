@@ -1,0 +1,208 @@
+.courseEl {
+  &__background {
+    background: #0277bd;
+    padding: 26px 0;
+    min-height: 350px;
+    align-items: center;
+    display: flex;
+  }
+  &__title {
+    color: #fff;
+    font-weight: bold;
+    line-height: 52px;
+    margin-bottom: 20px;
+    font-size: 40px;
+  }
+  &__info {
+    color: #fff;
+    font-size: 22px;
+    line-height: 30px;
+  }
+  &__overEl{
+    position: relative;
+  }
+  &__card{
+    position: absolute;
+    top: 30px;
+    right: 0;
+  }
+  &__descriptionContent{
+    padding: 80px 0;
+  }
+  &__descrTitle {
+    color: rgb(2, 119, 189);
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  &__descriptionCard {
+    margin-bottom: 60px;
+    padding: 40px 15px;
+    line-height: 22px;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;  
+  }
+  &__toLearnCard{
+    padding: 40px 15px;
+    line-height: 22px;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;  
+    &:hover {
+      cursor: not-allowed;
+      background: #ccc;
+    }
+  }
+  &__cardTitle {
+    margin-bottom: 20px !important;
+    font-size: 20px !important;
+  }
+  &__cardAuthor {
+    margin-bottom: 20px;
+    color: rgba(0, 0, 0, 0.54);
+  }
+  &__cardDescr {
+    font-size: 14px !important;
+    line-height: 22px;
+    margin-bottom: 20px;
+  }
+  &__btn {
+    text-align: center;
+    button {
+      padding: 10px 30px;
+    }
+  }
+}
+
+@media (max-width: 575.98px) { 
+  .courseEl {
+    height: auto;
+    &__card {
+      display: none;
+    }
+    &__hidden {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      padding: 15px;
+      display: flex;
+      width: 100%;
+      background: #fff;
+      -webkit-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
+-moz-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
+box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
+    }
+    &__hiddenCont {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      justify-content: space-around;
+    }
+    &__hiddenImg {
+      width: 80px;
+      height: 80px;
+      img{
+        box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
+        object-fit: cover;
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+      }
+    }
+    &__hiddenBtn{
+      button {
+        padding: 20px 50px;
+      }
+    }
+  }
+ }
+
+ @media (min-width: 576px) and (max-width: 767.98px) { 
+  .courseEl {
+    height: auto;
+    &__card {
+      display: none;
+    }
+    &__hidden {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      padding: 15px;
+      display: flex;
+      width: 100%;
+      background: #fff;
+      -webkit-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
+      -moz-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
+      box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
+    }
+    &__hiddenCont {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      justify-content: space-around;
+    }
+    &__hiddenImg {
+      width: 80px;
+      height: 80px;
+      img{
+        box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
+        object-fit: cover;
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+      }
+    }
+
+    &__hiddenBtn{
+      button {
+        padding: 20px 50px;
+      }
+    }
+  }
+  
+  }
+
+ @media (min-width: 768px) and (max-width: 991.98px) { 
+  .courseEl {
+    height: auto;
+    &__hidden{
+      display: none;
+    }
+  }
+  
+  }
+
+ @media (min-width: 992px) and (max-width: 1199.98px) { 
+  .courseEl {
+    height: auto;
+    &__hidden{
+      display: none;
+    }
+  }
+  }
+
+ @media (min-width: 1200px) { 
+  .courseEl {
+    height: auto;
+    &__hidden{
+      display: none;
+    }
+  }
+  }

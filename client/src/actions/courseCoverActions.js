@@ -108,3 +108,32 @@ export const deleteCourseCoverSuccess = (id) => {
     payload: id
   }
 }
+
+
+//ONE COURSE
+export const getCourse = (id) => {
+  console.log('get')
+  return dispatch => {
+    dispatch(getCourseStart());
+    axios.get(`${URL}/${id}`)
+    .then(response => {
+      dispatch(getCourseSuccess(response.data.course))
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
+
+export const getCourseStart = () => {
+  return {
+    type: actionTypes.GET_COURSE_START
+  }
+}
+
+export const getCourseSuccess = (data) => {
+  return {
+    type: actionTypes.GET_COURSE_SUCCESS,
+    payload: data
+  }
+}

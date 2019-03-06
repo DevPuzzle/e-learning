@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Slider from "react-slick";
 import SliderItem from "./SliderItem/SliderItem";
 import './SliderSection.scss';
-import SliderItemDescription from "./SliderItemDescription/SliderItemDescription";
 import { Fab } from "@material-ui/core";
 import { withRouter } from 'react-router';
 
@@ -23,9 +22,15 @@ class SliderSection extends Component {
   
 
 
-  navigateTo = (id) => {
-    console.log(id)
-    this.props.history.push(`/school/${id}`)
+  navigateTo = (item) => {
+    console.log(item)
+    if('city' in item){
+      this.props.history.push(`/school/${item.url}`);
+
+    }else{
+      this.props.history.push(`/course/${item.url}`)
+    }
+   
   }
 
   render(){
@@ -91,4 +96,5 @@ class SliderSection extends Component {
   }
 }
 
-export default withRouter(SliderSection);
+
+export default (withRouter(SliderSection));

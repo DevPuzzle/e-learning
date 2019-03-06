@@ -93,10 +93,10 @@ class HomeContainer extends Component {
         <div style={{padding: '40px 0'}}>
           <div className='container'>
           <h2 style={{
-        color: '#0277bd',
-        fontWeight: 600,
-        fontSize: '22px',
-        marginBottom: '10px'}}>New Schools</h2>
+          color: '#0277bd',
+          fontWeight: 600,
+          fontSize: '22px',
+          marginBottom: '10px'}}>New Schools</h2>
             <SliderSection 
               selectedItem={this.state.selectedCourse}
               selectedItemHandler={this.selectedCourse}
@@ -109,7 +109,6 @@ class HomeContainer extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  
   return {
     login: state.login
   }
