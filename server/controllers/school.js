@@ -162,7 +162,6 @@ exports.school_edit = (req, res, next) => {
     }
   }
   // console.log('OLD IMAGE', req.body.old_image)
-  // console.log('req.body.image ==', req.body.image)  
 
   const id = req.params.id;
   const creator_id = req.userData.userId;
@@ -172,6 +171,9 @@ exports.school_edit = (req, res, next) => {
   const city = req.body.city;
   const address = req.body.address;
   const info = req.body.info; 
+  const url = getSlug(schoolname, {
+    separator: '_'
+  });
   
   School.findOneAndUpdate({_id: id},
     {
@@ -183,6 +185,7 @@ exports.school_edit = (req, res, next) => {
       image: path_image(),
       logo: path_logo(),
       creator: creator_id,
+      url: url,
     },
     {
       new: true
