@@ -1,0 +1,21 @@
+.courseEl {
+  &__background {
+    background: #0277bd;
+    padding: 26px 0;
+  }
+  &__content {
+    max-width: 750px;
+  }
+  &__title{
+    color: #fff;
+    font-weight: bold;
+    line-height: 40px;
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+  &__info {
+    font-size: 20px;
+    color: #fff;
+    line-height: 26px;
+  }
+}

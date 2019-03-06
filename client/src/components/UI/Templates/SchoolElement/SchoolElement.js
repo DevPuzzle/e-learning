@@ -1,9 +1,11 @@
 import React from 'react'
 
-export default function SchoolElement() {
+const SchoolElement = () => {
   return (
     <div>
       SCHOOL
     </div>
   )
 }
+
+export default SchoolElement;

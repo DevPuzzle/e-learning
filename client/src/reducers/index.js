@@ -12,6 +12,7 @@ import forgotPassword from './forgotPasswordReducer';
 import courseList from './courseListReducer';
 import courseCovers from './courseCoverReducer';
 import schoolCovers from './schoolCoverReducer';
+import courseReducer from './courseReducer';
 
 export default combineReducers({
   form: formReducer,
@@ -26,5 +27,6 @@ export default combineReducers({
   forgotPassword,
   courseList,
   courseCovers,
-  schoolCovers
+  schoolCovers,
+  courseReducer
 })

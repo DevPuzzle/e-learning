@@ -15,7 +15,7 @@ import { Button } from '@material-ui/core';
         variant="contained" 
         color="primary"
         type='submit'
-        onClick={() => props.navigateTo(props.selectedItem._id)}>
+        onClick={() => props.navigateTo(props.selectedItem)}>
         Navigate to
       </Button>
     </div>

@@ -131,9 +131,6 @@ exports.school_list = (req, res, next) => {
 
 exports.school_edit = (req, res, next) => {  
   
-  const image = req.files[0].path;
-  const logo = req.files[1].path;  
-  
   const path_image = () => {
     if(req.body.image === '1'){
       return req.body.old_image
@@ -143,7 +140,7 @@ exports.school_edit = (req, res, next) => {
         if (err) return console.log(err);
         console.log('successfully deleted', req.body.old_image);            
       });      
-      return image;
+      return ireq.files[0].path;
     }
   }
 
@@ -156,11 +153,12 @@ exports.school_edit = (req, res, next) => {
         if (err) return console.log(err);
         console.log('successfully deleted', req.body.old_logo);            
       });
-      return logo; 
+      return req.files[1].path; 
     }
   }
   // console.log('OLD IMAGE', req.body.old_image)
   // console.log('req.body.image ==', req.body.image)  
+
   const id = req.params.id;
   const creator_id = req.userData.userId;
 

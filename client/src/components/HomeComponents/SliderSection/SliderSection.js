@@ -5,6 +5,8 @@ import './SliderSection.scss';
 import SliderItemDescription from "./SliderItemDescription/SliderItemDescription";
 import { Fab } from "@material-ui/core";
 import { withRouter } from 'react-router';
+import { getCourse } from '../../../actions/courseCoverActions';
+import { connect } from 'react-redux';
 
 export const SlideLeft = ({onClick}) => (
   <Fab className='leftArr' onClick={onClick}>
@@ -23,9 +25,15 @@ class SliderSection extends Component {
   
 
 
-  navigateTo = (id) => {
-    console.log(id)
-    this.props.history.push(`/school/${id}`)
+  navigateTo = (item) => {
+    if('city' in item){
+      this.props.history.push(`/school/${item.name}`);
+
+    }else{
+      this.props.onGetCourse(item._id);
+      this.props.history.push(`/course/${item.name}`)
+    }
+   
   }
 
   render(){
@@ -91,4 +99,10 @@ class SliderSection extends Component {
   }
 }
 
-export default withRouter(SliderSection);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onGetCourse: (id) => dispatch(getCourse(id))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(withRouter(SliderSection));
