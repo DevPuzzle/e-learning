@@ -23,8 +23,12 @@ const courseSchema = new Schema({
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User'
-  }  
-  
+  },
+  url: {
+    type: String, 
+    required: true, 
+    unique: true
+  }
 },
 {
   timestamps: true

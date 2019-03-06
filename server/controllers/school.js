@@ -4,6 +4,7 @@ const School = require('../models/school');
 const Course = require('../models/course');
 const User = require('../models/user');
 const Comment = require('../models/comment');
+const getSlug = require('speakingurl');
 
 const fs = require('fs');
 
@@ -17,7 +18,10 @@ exports.school_create = (req, res, next) => {
   const address = req.body.address;
   const info = req.body.info;
   const image = req.files[0].path;
-  const logo = req.files[1].path;  
+  const logo = req.files[1].path; 
+  const url = getSlug(schoolname, {
+          separator: '_'
+        });
   // console.log('REQ file1', req.files[0].path);
   // console.log('REQ file2', req.files[1].path);
   school = new School({
@@ -31,6 +35,7 @@ exports.school_create = (req, res, next) => {
     image: image,
     logo: logo,
     creator: creator_id,
+    url: url
   });
   school
     .save()
@@ -78,9 +83,9 @@ exports.school_create = (req, res, next) => {
 }
 
 exports.school_get = (req, res, next) => {
-  const id = req.params.id;
+  const url = req.params.url;
 
-  School.findOne({_id: id})
+  School.findOne({url: url})
     .populate([
       {
         path: 'course',
