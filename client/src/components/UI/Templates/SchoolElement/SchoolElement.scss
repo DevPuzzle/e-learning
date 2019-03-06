@@ -1,10 +1,20 @@
-.courseEl {
+.schoolEl{
   &__background {
-    background: #0277bd;
+    background-size: cover !important;
+    position: relative !important;
     padding: 26px 0;
     min-height: 350px;
     align-items: center;
     display: flex;
+    &:before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: '';
+      background: rgba($color: #000000, $alpha: .5);
+      width: 100%;
+      height: 100%;
+    }
   }
   &__title {
     color: #fff;
@@ -66,7 +76,7 @@
     margin-bottom: 20px !important;
     font-size: 20px !important;
   }
-  &__cardAuthor {
+  &__cardStreet {
     margin-bottom: 20px;
     color: rgba(0, 0, 0, 0.54);
   }
@@ -83,14 +93,16 @@
   }
 }
 
+
 @media (max-width: 575.98px) { 
-  .courseEl {
+  .schoolEl {
     height: auto;
     &__card {
       display: none;
     }
     &__hidden {
       position: fixed;
+      background-size: cover !important;
       bottom: 0;
       left: 0;
       padding: 15px;
@@ -98,10 +110,21 @@
       width: 100%;
       background: #fff;
       -webkit-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
--moz-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
+      -moz-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
+      box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
+      &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: '';
+        background: rgba($color: #000000, $alpha: .5);
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+      }
     }
     &__hiddenCont {
+      z-index: 100;
       display: flex;
       align-items: center;
       width: 100%;
@@ -131,12 +154,13 @@ box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
  }
 
  @media (min-width: 576px) and (max-width: 767.98px) { 
-  .courseEl {
+  .schoolEl {
     height: auto;
     &__card {
       display: none;
     }
     &__hidden {
+      background-size: cover !important;
       position: fixed;
       bottom: 0;
       left: 0;
@@ -147,12 +171,24 @@ box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
       -webkit-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
       -moz-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
       box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
+      &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: '';
+        background: rgba($color: #000000, $alpha: .5);
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+      }
+    
     }
     &__hiddenCont {
       display: flex;
       align-items: center;
       width: 100%;
       justify-content: space-around;
+      z-index: 100;
     }
     &__hiddenImg {
       width: 80px;
@@ -180,7 +216,7 @@ box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
   }
 
  @media (min-width: 768px) and (max-width: 991.98px) { 
-  .courseEl {
+  .schoolEl {
     height: auto;
     &__hidden{
       display: none;
@@ -190,7 +226,7 @@ box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
   }
 
  @media (min-width: 992px) and (max-width: 1199.98px) { 
-  .courseEl {
+  .schoolEl {
     height: auto;
     &__hidden{
       display: none;
@@ -199,7 +235,7 @@ box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.25);
   }
 
  @media (min-width: 1200px) { 
-  .courseEl {
+  .schoolEl {
     height: auto;
     &__hidden{
       display: none;

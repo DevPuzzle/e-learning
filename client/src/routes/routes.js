@@ -35,7 +35,7 @@ render(){
           <PrivateRoute path='/myCourses' redir='/' component={MyCoursesContainer} />
           <PrivateRoute path='/mySchools' redir='/' component={MySchoolsContainer} /> 
           <PrivateRoute path='/profile' exact redir='/' component={Profile} />  
-          <Route path='/course/:name'  exact render={(props) => <CourseElement {...props} course={this.props.course ? this.props.course.course : null}/> } />
+          <Route path='/course/:name'  exact component={CourseElement} />
           <Route path='/school/:name' exact component={SchoolElement}/>
           <Route path='/verifyEmail/:code' exact component={VerifyEmailPage}/>
           <Route path='/errorPage' exact component={ErrorComponent}/>
@@ -49,8 +49,7 @@ render(){
 
 const mapStateToProps = (state) => {
   return {
-   profile: state.profile.userData,
-   course: state.courseReducer.course
+   profile: state.profile.userData
   }
 }
 

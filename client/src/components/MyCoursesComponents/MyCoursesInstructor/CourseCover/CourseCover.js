@@ -8,6 +8,7 @@ import {  Card,
           Button } from '@material-ui/core';
 
 const CourseCover = (props) => {
+  console.log(props)
   return (
     <div 
       className='col-md-3 mb-4'>

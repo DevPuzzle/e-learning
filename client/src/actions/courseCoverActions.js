@@ -117,8 +117,7 @@ export const getCourse = (id) => {
     dispatch(getCourseStart());
     axios.get(`${URL}/${id}`)
     .then(response => {
-      console.log(response);
-      dispatch(getCourseSuccess(response.data))
+      dispatch(getCourseSuccess(response.data.course))
     })
     .catch(err => {
       console.log(err)
