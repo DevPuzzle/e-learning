@@ -5,6 +5,7 @@ const Theme = require('../models/theme');
 const User = require('../models/user');
 //const Comment = require('../models/comment');
 const Category = require('../models/category');
+const getSlug = require('speakingurl');
 
 const fs = require('fs');
 
@@ -15,6 +16,9 @@ exports.course_cover_create = (req, res, next) => {
   const path = req.file.path;
   const author_id = req.userData.userId;
   const theme_id = req.body.theme_id;
+  const url = getSlug(coursename, {
+          separator: '_'
+        });
   //const author_name = req.body.author_name;
   console.log('THEME NAME', req.body.theme_name) 
   
@@ -25,7 +29,8 @@ exports.course_cover_create = (req, res, next) => {
     description: description,
     image: path,
     author: author_id,
-    theme: theme_id
+    theme: theme_id,
+    url: url
   });
   course
     .save()    
@@ -91,9 +96,9 @@ exports.course_cover_create = (req, res, next) => {
 }
 
 exports.course_get = (req, res, next) => {
-  const id = req.params.id;
+  const url = req.params.url;
 
-  Course.findOne({_id: id})
+  Course.findOne({url: url})
     .populate([
       {
       path: 'theme',

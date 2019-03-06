@@ -31,6 +31,11 @@ const courseSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Comment'
   }],
+  url: {
+    type: String, 
+    required: true, 
+    unique: true
+  }
 },
 {
   timestamps: true
