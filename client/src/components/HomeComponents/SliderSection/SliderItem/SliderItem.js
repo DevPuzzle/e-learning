@@ -42,7 +42,7 @@ const SliderItem = (props) => {
       leaveDelay={100}
       placement='right'
       style={{opacity: '1 !important'}}
-      title={<SliderItemDescription selectedItem={props.selectedItem}/>} 
+      title={<SliderItemDescription navigateTo={props.navigateTo} selectedItem={props.selectedItem}/>} 
       classes={{
         popper: classes.popper,
         tooltip: classes.htmlTooltip,

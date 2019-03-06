@@ -14,6 +14,7 @@ import AdminPrivateRoute from '../hoc/adminPrivateRoute';
 import SignUpConfirmEmail from '../components/SignUp/SignUpConfirmEmail/SignUpConfirmEmail';
 import MyCoursesContainer from '../containers/MyCoursesContainer/MyCoursesContainer';
 import MySchoolsContainer from '../containers/MySchoolsContainer/MySchoolsContainer';
+import SchoolElement from '../components/UI/Templates/SchoolElement/SchoolElement';
 
 class Routes extends Component {
 
@@ -33,6 +34,7 @@ render(){
           <PrivateRoute path='/myCourses' redir='/' component={MyCoursesContainer} />
           <PrivateRoute path='/mySchools' redir='/' component={MySchoolsContainer} /> 
           <PrivateRoute path='/profile' exact redir='/' component={Profile} />  
+          <Route path='/school/:id' exact component={SchoolElement}/>
           <Route path='/verifyEmail/:code' exact component={VerifyEmailPage}/>
           <Route path='/errorPage' exact component={ErrorComponent}/>
           <Route path='/' component={HomeContainer}/>

@@ -10,11 +10,12 @@ import { Button } from '@material-ui/core';
         {props.selectedItem.info}
       </p>
       <Button
+        style={{marginTop: '10px'}}
         className='instructorForm__btn'
         variant="contained" 
         color="primary"
         type='submit'
-        /* disabled={this.props.editedCover ? null : !this.props.selectedThemeItem || !this.props.selectedImage} */>
+        onClick={() => props.navigateTo(props.selectedItem._id)}>
         Navigate to
       </Button>
     </div>

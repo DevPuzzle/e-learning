@@ -34,7 +34,10 @@ const SchoolCover = (props) => {
               </Typography>
               <Typography 
               style={{
-                color: 'rgba(0, 0, 0, 0.54)'
+                color: 'rgba(0, 0, 0, 0.54)',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden'
               }}
               component="p">
               {`${props.schoolCover.city}, ${props.schoolCover.state}`}
@@ -43,11 +46,14 @@ const SchoolCover = (props) => {
         </CardActionArea>
         <CardActions>
           <Button
-            size='small'>
+            size='small'
+            className='instructorForm__editBtn'
+            onClick={() => props.editSchoolCover(props.schoolCover)}>
             Edit
           </Button>
           <Button
             size='small'
+            className='instructorForm__deleteBtn'
             onClick={() => props.deleteSchoolCover(props.schoolCover._id)}>
             Delete
           </Button>

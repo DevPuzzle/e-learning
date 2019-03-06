@@ -40,6 +40,21 @@ const schoolCoversReducer = (state = initialState, action) => {
         ...state,
         schoolCovers: state.schoolCovers.filter(schoolCover => schoolCover._id !== action.payload)
       }
+    case actionTypes.UPDATE_SCHOOLCOVER_START:
+      return {
+        ...state,
+        loading: true,
+        error: false
+      }
+    case actionTypes.UPDATE_SCHOOLCOVER_SUCCESS: 
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        schoolCovers: state.schoolCovers.map(schoolCover => schoolCover._id === action.payload._id ?
+          {...schoolCover,
+          ...action.payload } : schoolCover)
+      }
     default:
       return state
   }

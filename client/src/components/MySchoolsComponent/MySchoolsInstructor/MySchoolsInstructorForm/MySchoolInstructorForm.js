@@ -78,13 +78,16 @@ import {
 
     render(){
       const { handleSubmit } = this.props;
-      const checkBackgroundImage = (selectedBackgroundImage, toShow) => {
-        if(selectedBackgroundImage){
-          return <img src={toShow}/>
+      
+      const checkImage = (selectedImage, apiImage, previewImg) => {
+        if(selectedImage){
+          return <img src={previewImg}/>
+        }else if(apiImage){
+          return <img src={`http://localhost:5000/${apiImage}`}/>
         }else{
           return <h3 className='instructorForm__imageText'>
-              Image will be here
-            </h3>
+            Image will be here
+          </h3>
         }
       }
 
@@ -102,9 +105,10 @@ import {
           selectedCity={this.props.selectedCity}
           downshiftOnChange={this.props.downshiftOnChange}
           inputChange={this.props.inputChange}
+          editedSchool={this.props.editedSchool}
           cities={this.props.cities}
           citiesData={this.props.citiesData} 
-          getSuggestions={this.props.getSuggestions}/>
+          getSuggestions={this.props.ggetInputPropsetSuggestions}/>
           
          {/* </div> */} 
         <Field 
@@ -127,7 +131,11 @@ import {
             component={this.renderFileField}
             onChange={this.props.selectBackgroundImageHandler}/>
           <div className='instructorForm__imageCont'>
-            {checkBackgroundImage(this.props.selectedBackgroundImage, this.props.backgroundImagePreviewUrl)}
+            {checkImage(this.props.selectedBackgroundImage, 
+              this.props.editedSchool ?  
+              this.props.editedSchool.image 
+              : null, 
+              this.props.backgroundImagePreviewUrl)}
           </div>
         </div>
         <div className='instructorForm__image' style={{
@@ -141,7 +149,11 @@ import {
             component={this.renderFileField}
             onChange={this.props.selectLogoHandler}/>
           <div className='instructorForm__imageCont'>
-            {checkBackgroundImage(this.props.selectedLogo, this.props.logoImagePreviewUrl)}
+            {checkImage(this.props.selectedLogo, 
+                this.props.editedSchool ? 
+                this.props.editedSchool.logo 
+                : null, 
+                this.props.logoImagePreviewUrl)}
           </div>
         </div>
           
@@ -154,7 +166,7 @@ import {
           /* disabled={this.props.editedCover ? null : !this.props.selectedThemeItem || !this.props.selectedImage} */>
             Save
         </Button>
-        <Button /* onClick={this.props.closeCreateInstructor ? this.props.closeCreateInstructor : this.props.closeEditor} */ className='instructorForm__cancelButton' color="primary">
+        <Button onClick={this.props.closeCreateInstructor ? this.props.closeCreateInstructor : this.props.closeEditor} className='instructorForm__cancelButton' color="primary">
               Cancel
         </Button>
       </div>
