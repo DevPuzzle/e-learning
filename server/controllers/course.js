@@ -383,3 +383,37 @@ exports.user_adding_course_to_collection = (req, res, next) => {
   });    
   
 }
+
+exports.user_get_course_collection = (req, res, next) => {  
+  const userId = req.userData.userId;
+
+  User.findOne({_id: userId})
+    .select('_id')
+    .populate({
+      path: 'course_collection',
+      populate: {
+        path: 'theme',
+        select: '_id name',
+        populate: {
+          path: 'subcategory',
+          select: 'name -_id',
+          populate: {
+            path: 'category',
+            select: 'name -_id'
+          }
+        }        
+      }
+    })
+    .exec()
+    .then(doc => {
+      if (doc) {
+        res.status(200).json({          
+          user_course_collection: doc.course_collection
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    }); 
+}

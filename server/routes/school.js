@@ -38,10 +38,14 @@ router.post("/create", checkAuth, roleTeacher, upload.any(), SchoolController.sc
 router.patch("/edit/:id", checkAuth, roleTeacher, upload.any(), SchoolController.school_edit);
 router.delete("/delete/:id", checkAuth, roleTeacher, upload.any(), SchoolController.school_delete);
 // user get schools (instructor)
+<<<<<<< HEAD
 router.get("/user/instructor", checkAuth, roleTeacher, SchoolController.user_schools);
+=======
+router.get("/instructor/get", checkAuth, roleTeacher, SchoolController.user_schools);
+>>>>>>> 42b2965ea62e533365cd2d683e3db3b3904babd5
 // user adding school to collection
 router.post("/addingToCollection", checkAuth, SchoolController.user_adding_school_to_collection);
-
-
+//user get school collection
+router.get("/collection/get", checkAuth, SchoolController.user_get_school_collection);
 
 module.exports = router;
