@@ -40,4 +40,11 @@ router.post("/cover/create", checkAuth, roleTeacher, upload.single('image'), Cou
 router.patch("/edit/:id", checkAuth, roleTeacher, upload.single('image'), CourseController.course_cover_edit);
 router.delete("/delete/:id", checkAuth, roleTeacher, CourseController.course_cover_delete);
 
+// user get course covers (instructor)
+router.get("/covers/instructor", checkAuth, roleTeacher, CourseController.user_course_cover);
+// user adding course to collection
+router.post("/addingToCollection", checkAuth, CourseController.user_adding_course_to_collection);
+//user get course collection
+//router.get("/course/collection", checkAuth, CourseController.user_get_course_collection);
+
 module.exports = router;

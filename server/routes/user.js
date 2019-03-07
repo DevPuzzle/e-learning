@@ -44,17 +44,7 @@ router.get("/profile", checkAuth, UserController.user_get);
 router.patch("/avatar/uploads", checkAuth, upload.single('userImage'), UserController.user_avatar_upload);
 router.patch("/edit", checkAuth, UserController.user_edit);
 router.patch("/edit/password", checkAuth, UserController.user_edit_password);
-router.patch("/forgotten/password", UserController.user_forgotten_pass)
-
-// user created COURSES 
-router.get("/course_cover", checkAuth, roleTeacher, UserController.user_course_cover);
-// user adding course to collection
-router.post("/course/addingToCollection", checkAuth, UserController.user_adding_course_to_collection);
-
-// user created SCHOOLS
-router.get("/school", checkAuth, roleTeacher, UserController.user_school);
-// user adding school to collection
-router.post("/school/addingToCollection", checkAuth, UserController.user_adding_school_to_collection);
+router.patch("/forgotten/password", UserController.user_forgotten_pass);
 
 //router.delete("/:username", checkAuth, UserController.user_delete);
 
