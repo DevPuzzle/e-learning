@@ -418,7 +418,7 @@ exports.user_get_course_collection = (req, res, next) => {
     }); 
 }
 
-exports.user_delete_course_form_collection = (req, res, next) => {
+exports.user_delete_course_from_collection = (req, res, next) => {
   const id = req.params.id;
   const userId = req.userData.userId;
 
