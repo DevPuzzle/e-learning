@@ -48,6 +48,8 @@ router.patch("/forgotten/password", UserController.user_forgotten_pass)
 
 // user created courses 
 router.get("/course_cover", checkAuth, roleTeacher, UserController.user_course_cover);
+// user adding course to collection
+router.get("/course/addingToCollection", checkAuth, UserController.user_adding_course_to_collection)
 
 // user created schools
 router.get("/school", checkAuth, roleTeacher, UserController.user_school);

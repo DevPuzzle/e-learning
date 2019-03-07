@@ -582,6 +582,7 @@ exports.user_get = (req, res, next) => {
   
 }
 
+// COURSE
 exports.user_course_cover = (req, res, next) => {
   const userId = req.userData.userId; 
 
@@ -616,6 +617,38 @@ exports.user_course_cover = (req, res, next) => {
     }); 
 }
 
+exports.user_adding_course_to_collection = (req, res, next) => {
+  const userId = req.userData.userId;
+  const courseId = req.body.course_id;
+
+  User.findOneAndUpdate({_id: userId},
+  {
+    course_collection: courseId
+  },
+  {
+    new: true
+  })
+  .then((doc) =>{
+    if(doc){
+      console.log(doc);
+      res.status(200).json({           
+        message: 'Successfuly added course to collection'
+      });
+    } else {
+      console.log(doc);
+      res.status(500).json({                
+        error: 'Error added course to collection'
+      });
+    }
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({ error: err });
+  });    
+  
+}
+
+// SCHOOL
 exports.user_school = (req, res, next) => {
   const userId = req.userData.userId; 
 
