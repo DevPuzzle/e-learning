@@ -220,7 +220,7 @@ exports.course_cover_edit = (req, res, next) => {
 
       Course.populate(updatedDoc, {
         path: 'theme',
-        select: 'name -_id',
+        select: '_id name',
         populate: {
           path: 'subcategory',
           select: 'name -_id',

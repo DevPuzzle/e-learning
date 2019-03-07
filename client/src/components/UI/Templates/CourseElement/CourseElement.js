@@ -6,7 +6,7 @@ import {getCourse} from '../../../../actions/courseCoverActions';
 import Spinner from '../../Spinner/Spinner';
 import { withStyles } from '@material-ui/core/styles';
 import { Card, CardMedia, CardContent, Typography, Button } from '@material-ui/core';
-
+import axios from 'axios';
 
 const styles = {
   card: {
@@ -22,6 +22,17 @@ const styles = {
 
   componentWillMount(){
     this.props.onGetCourse(this.props.match.params.name);
+  }
+
+  addCourse = (id) => {
+    console.log('click')
+    axios.post('http://localhost:5000/user/course/addingToCollection', {course_id: id})
+    .then(response => {
+      console.log(response)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 
   render(){
@@ -57,7 +68,10 @@ const styles = {
                     <p
                       className='courseEl__cardDescr'>{this.props.course.description}</p>
                     <div className='courseEl__btn'>
-                      <Button variant='contained' color='secondary'>Add to cart</Button>
+                      <Button 
+                        variant='contained' 
+                        color='secondary' 
+                        onClick={() => this.addCourse(this.props.course._id)}>Add to cart</Button>
                     </div>
                    
                   </CardContent>
@@ -89,7 +103,7 @@ const styles = {
                 <img src={`http://localhost:5000/${this.props.course.image}`} alt=""/>
               </div>
               <div className='courseEl__hiddenBtn'>
-                <Button variant='contained' color='secondary'>Add to cart</Button>
+                <Button variant='contained' color='secondary' >Add to cart</Button>
               </div>
             </div>
         </div>
