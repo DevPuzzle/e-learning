@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import {getSchool} from '../../../../actions/schoolCoverActions';
 import Spinner from '../../Spinner/Spinner';
 import { withStyles } from '@material-ui/core/styles';
-import { Card, CardMedia, CardContent, Typography, Button } from '@material-ui/core';
+import { Card, CardMedia, CardContent, Typography, Button, Dialog, Slide, DialogActions } from '@material-ui/core';
 import axios from 'axios';
 
 const styles = {
@@ -17,20 +17,44 @@ const styles = {
   },
 };
 
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
 
  class SchoolElement extends Component  {
+
+  state = {
+    successAdded: false,
+    error: false
+  }
 
   componentWillMount(){
     this.props.onGetSchool(this.props.match.params.name);
   }
 
   addSchool = (id) => {
-    axios.post('http://localhost:5000/user/school/addingToCollection', {school_id: id})
+    axios.post('http://localhost:5000/school/addingToCollection', {school_id: id})
     .then(response => {
-      console.log(response)
+      this.setState({
+        successAdded: true
+      })
     })
     .catch(err => {
-      console.log(err)
+      this.setState({
+        error: true
+      })
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      successAdded: false
+    })
+  }
+
+  handleCloseError = () => {
+    this.setState({
+      error: false
     })
   }
 
@@ -99,8 +123,52 @@ const styles = {
             </div>
           </div>
         </div>
-       
         </div>
+        <Dialog
+          open={this.state.successAdded}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={this.handleClose}>
+          <div className='schoolEl__successCont'>
+            <div className='schoolEl__successImg'>
+                <i className="far fa-check-circle"></i>
+              </div>
+              <div className='schoolEl__successMessage'>
+                This course has been added successfully to your collection.
+              </div>
+              <DialogActions style={{position: 'absolute', bottom: 0, right: 0}}>
+              <Button 
+                className='schoolEl__successBtn' 
+                onClick={this.handleClose}>
+                Close
+              </Button>
+            </DialogActions>
+          </div>
+            
+        </Dialog>
+
+        <Dialog
+          open={this.state.error}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={this.handleCloseError}>
+          <div className='schoolEl__errorCont'>
+            <div className='schoolEl__errorImg'>
+              <i className="far fa-times-circle"></i>
+              </div>
+              <div className='schoolEl__errorMessage'>
+                Sorry but only logged users can subscribe.
+              </div>
+              <DialogActions style={{position: 'absolute', bottom: 0, right: 0}}>
+              <Button 
+                className='schoolEl__errorBtn' 
+                onClick={this.handleCloseError}>
+                Close
+              </Button>
+            </DialogActions>
+          </div>
+            
+        </Dialog>
         <div className='schoolEl__hidden' style={{background: `url(http://localhost:5000/${this.props.school.image}) no-repeat center center`}}>
             <div className='row schoolEl__hiddenCont'>
               <div className='schoolEl__hiddenImg'>

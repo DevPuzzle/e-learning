@@ -23,7 +23,6 @@ class SliderSection extends Component {
 
 
   navigateTo = (item) => {
-    console.log(item)
     if('city' in item){
       this.props.history.push(`/school/${item.url}`);
 

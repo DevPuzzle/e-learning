@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
 const URL = 'http://localhost:5000/course';
-const fetchUrl = 'http://localhost:5000/user/course_cover';
+const fetchUrl = 'http://localhost:5000/course/covers/instructor';
 
 
 

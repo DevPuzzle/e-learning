@@ -26,7 +26,7 @@ const styles = {
 
   addCourse = (id) => {
     console.log('click')
-    axios.post('http://localhost:5000/user/course/addingToCollection', {course_id: id})
+    axios.post(' http://localhost:5000/course/addingToCollection', {course_id: id})
     .then(response => {
       console.log(response)
     })
