@@ -318,3 +318,68 @@ exports.course_cover_delete = (req, res , next) => {
         })
       })
 }
+
+exports.user_course_cover = (req, res, next) => {
+  const userId = req.userData.userId; 
+
+  User.findOne({_id: userId})
+    .select('_id')
+    .populate({
+      path: 'course',
+      populate: {
+        path: 'theme',
+        select: '_id name',
+        populate: {
+          path: 'subcategory',
+          select: 'name -_id',
+          populate: {
+            path: 'category',
+            select: 'name -_id'
+          }
+        }        
+      }
+    })
+    .exec()
+    .then(doc => {
+      if (doc) {
+        res.status(200).json({          
+          user_courses_covers: doc.course
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    }); 
+}
+
+exports.user_adding_course_to_collection = (req, res, next) => {
+  const userId = req.userData.userId;
+  const courseId = req.body.course_id;
+
+  User.findOneAndUpdate({_id: userId},
+  {
+    course_collection: courseId
+  },
+  {
+    new: true
+  })
+  .then((doc) =>{
+    if(doc){
+      console.log(doc);
+      res.status(200).json({           
+        message: 'Successfuly added course to collection'
+      });
+    } else {
+      console.log(doc);
+      res.status(500).json({                
+        error: 'Error added course to collection'
+      });
+    }
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({ error: err });
+  });    
+  
+}
