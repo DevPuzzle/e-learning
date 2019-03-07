@@ -46,5 +46,6 @@ router.get("/covers/instructor", checkAuth, roleTeacher, CourseController.user_c
 router.post("/addingToCollection", checkAuth, CourseController.user_adding_course_to_collection);
 //user get course collection
 router.get("/collection/get", checkAuth, CourseController.user_get_course_collection);
-
+//user delete course form collection
+router.delete("/collection/delete/:id", checkAuth, CourseController.user_delete_course_form_collection);
 module.exports = router;
