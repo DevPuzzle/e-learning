@@ -38,7 +38,7 @@ router.post("/create", checkAuth, roleTeacher, upload.any(), SchoolController.sc
 router.patch("/edit/:id", checkAuth, roleTeacher, upload.any(), SchoolController.school_edit);
 router.delete("/delete/:id", checkAuth, roleTeacher, upload.any(), SchoolController.school_delete);
 // user get schools (instructor)
-router.get("/instructor", checkAuth, roleTeacher, SchoolController.user_schools);
+router.get("/user/instructor", checkAuth, roleTeacher, SchoolController.user_schools);
 // user adding school to collection
 router.post("/addingToCollection", checkAuth, SchoolController.user_adding_school_to_collection);
 
