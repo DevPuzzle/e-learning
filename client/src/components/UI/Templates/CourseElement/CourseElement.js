@@ -103,7 +103,10 @@ const styles = {
                 <img src={`http://localhost:5000/${this.props.course.image}`} alt=""/>
               </div>
               <div className='courseEl__hiddenBtn'>
-                <Button variant='contained' color='secondary' >Add to cart</Button>
+                <Button 
+                  variant='contained' 
+                  color='secondary' 
+                  onClick={() => this.addCourse(this.props.course._id)}>Add to cart</Button>
               </div>
             </div>
         </div>

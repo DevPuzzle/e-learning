@@ -6,7 +6,7 @@ import {getSchool} from '../../../../actions/schoolCoverActions';
 import Spinner from '../../Spinner/Spinner';
 import { withStyles } from '@material-ui/core/styles';
 import { Card, CardMedia, CardContent, Typography, Button } from '@material-ui/core';
-
+import axios from 'axios';
 
 const styles = {
   card: {
@@ -22,6 +22,16 @@ const styles = {
 
   componentWillMount(){
     this.props.onGetSchool(this.props.match.params.name);
+  }
+
+  addSchool = (id) => {
+    axios.post('http://localhost:5000/user/school/addingToCollection', {school_id: id})
+    .then(response => {
+      console.log(response)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 
   render(){
@@ -60,7 +70,10 @@ const styles = {
                     <p
                       className='schoolEl__cardDescr'>{this.props.school.info}</p> 
                     <div className='schoolEl__btn'>
-                      <Button variant='contained' color='secondary'>Subscribe</Button>
+                      <Button
+                        onClick={() => this.addSchool(this.props.school._id)} 
+                        variant='contained' 
+                        color='secondary'>Subscribe</Button>
                     </div>
                    
                   </CardContent>
@@ -94,7 +107,9 @@ const styles = {
                 <img src={`http://localhost:5000/${this.props.school.logo}`} alt=""/>
               </div>
               <div className='schoolEl__hiddenBtn'>
-                <Button variant='contained' color='secondary'>Subscribe</Button>
+                <Button 
+                  onClick={() => this.addSchool(this.props.school._id)}
+                  variant='contained' color='secondary'>Subscribe</Button>
               </div>
             </div>
         </div>
