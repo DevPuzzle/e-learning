@@ -352,3 +352,27 @@ exports.user_get_school_collection = (req, res, next) => {
     res.status(500).json({ error: err });
   }); 
 }
+
+exports.user_delete_school_from_collection = (req, res, next) => {
+  const id = req.params.id;
+  const userId = req.userData.userId;
+
+  User.update({_id: userId},
+    {
+      $pull: {school_collection: { $in: [id] }}
+    })
+    .exec()
+    .then(() => {
+      console.log('Successfuly delete school_collection');
+      res.status(200).json({          
+        message: 'Successfuly delete school_collection'        
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: "Error find course_collection",
+        error: err
+      });
+    });
+}

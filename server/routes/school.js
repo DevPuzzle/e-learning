@@ -43,5 +43,7 @@ router.get("/instructor/get", checkAuth, roleTeacher, SchoolController.user_scho
 router.post("/addingToCollection", checkAuth, SchoolController.user_adding_school_to_collection);
 //user get school collection
 router.get("/collection/get", checkAuth, SchoolController.user_get_school_collection);
+//user delete school from collection
+router.delete("/collection/delete/:id", checkAuth, SchoolController.user_delete_school_from_collection);
 
 module.exports = router;
