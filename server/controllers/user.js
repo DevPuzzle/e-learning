@@ -670,3 +670,36 @@ exports.user_school = (req, res, next) => {
       res.status(500).json({ error: err });
     }); 
 }
+
+exports.user_adding_school_to_collection = (req, res, next) => {
+  const userId = req.userData.userId;
+  const schoolId = req.body.school_id;
+
+  User.findOneAndUpdate({_id: userId},
+    {
+      school_collection: schoolId
+    },
+    {
+      new: true
+    })
+    .then((doc) =>{
+      if(doc){
+        console.log(doc);
+        res.status(200).json({           
+          message: 'Successfuly added school to collection'
+        });
+      } else {
+        console.log(doc);
+        res.status(500).json({                
+          error: 'Error added school to collection'
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    });
+
+
+
+}
