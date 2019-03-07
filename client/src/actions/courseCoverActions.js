@@ -112,7 +112,6 @@ export const deleteCourseCoverSuccess = (id) => {
 
 //ONE COURSE
 export const getCourse = (id) => {
-  console.log('get')
   return dispatch => {
     dispatch(getCourseStart());
     axios.get(`${URL}/${id}`)
@@ -134,6 +133,32 @@ export const getCourseStart = () => {
 export const getCourseSuccess = (data) => {
   return {
     type: actionTypes.GET_COURSE_SUCCESS,
+    payload: data
+  }
+}
+
+export const getCourseCollection = () => {
+  return dispatch => {
+    dispatch(getCourseCollectionStart());
+    axios.get('http://localhost:5000/course/collection/get')
+    .then(response => {
+      dispatch(getCourseCollectionSuccess(response.data.user_course_collection))
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
+
+export const getCourseCollectionStart = () => {
+  return {
+    type: actionTypes.GET_COURSECOLLECTION_START
+  }
+}
+
+export const getCourseCollectionSuccess = (data) => {
+  return {
+    type: actionTypes.GET_COURSECOLLECTION_SUCCESS,
     payload: data
   }
 }

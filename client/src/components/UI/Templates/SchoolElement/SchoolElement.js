@@ -134,7 +134,7 @@ function Transition(props) {
                 <i className="far fa-check-circle"></i>
               </div>
               <div className='schoolEl__successMessage'>
-                This course has been added successfully to your collection.
+                This school has been added successfully to your collection.
               </div>
               <DialogActions style={{position: 'absolute', bottom: 0, right: 0}}>
               <Button 
@@ -196,7 +196,6 @@ function Transition(props) {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.schoolReducer.school)
   return {
     school: state.schoolReducer.school
   }

@@ -14,6 +14,7 @@ import courseCovers from './courseCoverReducer';
 import schoolCovers from './schoolCoverReducer';
 import courseReducer from './courseReducer';
 import schoolReducer from './schoolReducer';
+import courseCollectionReducer from './courseCollectionReducer';
 
 export default combineReducers({
   form: formReducer,
@@ -30,5 +31,6 @@ export default combineReducers({
   courseCovers,
   schoolCovers,
   courseReducer,
-  schoolReducer
+  schoolReducer,
+  courseCollectionReducer
 })
