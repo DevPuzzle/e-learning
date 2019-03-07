@@ -279,7 +279,7 @@ exports.school_delete = (req, res, next) => {
 }
 
 exports.user_schools = (req, res, next) => {
-  const userId = req.userData.userId; 
+  const userId = req.userData.userId;   
 
   User.findOne({_id: userId})
     .select('_id')
@@ -311,7 +311,7 @@ exports.user_adding_school_to_collection = (req, res, next) => {
     {
       new: true
     })
-    .then((doc) =>{
+    .then((doc) => {
       if(doc){
         console.log(doc);
         res.status(200).json({           
@@ -329,4 +329,26 @@ exports.user_adding_school_to_collection = (req, res, next) => {
       res.status(500).json({ error: err });
     });
 
+}
+
+exports.user_get_school_collection = (req, res, next) => {
+  const userId = req.userData.userId;
+
+  User.findOne({_id: userId})
+  .select('_id')
+  .populate({
+    path: 'school_collection'   
+  })
+  .exec()
+  .then(doc => {
+    if (doc) {
+      res.status(200).json({          
+        user_school_collection: doc.school_collection
+      });
+    }
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({ error: err });
+  }); 
 }
