@@ -192,10 +192,13 @@ exports.course_cover_edit = (req, res, next) => {
   const id = req.params.id;  
   const author_id = req.userData.userId;
 
-  const description = req.body.description;  
   const coursename = req.body.name;
+  const description = req.body.description;  
   const info = req.body.info;
   const theme_id = req.body.theme_id;
+  const url = getSlug(coursename, {
+    separator: '_'
+  });
 
   Course.findOneAndUpdate({_id: id},
     {
@@ -204,7 +207,8 @@ exports.course_cover_edit = (req, res, next) => {
       description: description,
       image: path(),
       author: author_id,
-      theme: theme_id
+      theme: theme_id,
+      url: url
     }, 
     {
       new: true

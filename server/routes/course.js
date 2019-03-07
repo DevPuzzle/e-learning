@@ -32,7 +32,7 @@ const upload = multer({
   fileFilter: fileFilter
 });
 
-router.get("/catalog/list", checkAuth, CourseController.catalog_list);
+router.get("/catalog/list", CourseController.catalog_list);
 
 router.get("/list", CourseController.course_list);
 router.get("/:url", CourseController.course_get);
