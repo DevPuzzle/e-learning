@@ -45,6 +45,6 @@ router.get("/covers/instructor", checkAuth, roleTeacher, CourseController.user_c
 // user adding course to collection
 router.post("/addingToCollection", checkAuth, CourseController.user_adding_course_to_collection);
 //user get course collection
-//router.get("/course/collection", checkAuth, CourseController.user_get_course_collection);
+router.get("/collection/get", checkAuth, CourseController.user_get_course_collection);
 
 module.exports = router;
