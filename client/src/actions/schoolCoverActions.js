@@ -6,7 +6,7 @@ const URL = 'http://localhost:5000';
 export const getSchoolCovers = () => {
   return dispatch => {
     dispatch(getSchoolCoversStart());
-    axios.get(`${URL}/user/school`)
+    axios.get(`${URL}/school/instructor/get`)
     .then(response => {
       dispatch(getSchoolCoversSuccess(response.data.user_school));
     })

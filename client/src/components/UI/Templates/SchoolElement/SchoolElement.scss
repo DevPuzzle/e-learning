@@ -91,6 +91,61 @@
       padding: 10px 30px;
     }
   }
+  &__successCont {
+    display: flex;
+  }
+  &__successImg {
+    background: url(../../../../assets/images/success-message.jpg) no-repeat center center;
+    background-size: cover;
+    padding: 40px 80px;
+    i {
+      font-size: 100px;
+      color: #fff;
+    }
+  }
+  &__successMessage {
+    display: flex;
+    padding: 10px 25px;
+    align-items: center;
+    box-sizing: border-box;
+    max-width: 300px;
+    font-size: 18px;
+    line-height: 24px;
+  }
+  &__successBtn {
+    color: #0277bd !important;
+    &:hover{
+      background: rgba($color: #0277bd, $alpha: .08) !important;
+    }
+  }
+
+  &__errorCont {
+    display: flex;
+  }
+  &__errorImg {
+    background: url(../../../../assets/images/red-background.png) no-repeat center center;
+    background-size: cover;
+    padding: 40px 80px;
+    i {
+      font-size: 100px;
+      color: #fff;
+    }
+  }
+  &__errorMessage {
+    display: flex;
+    padding: 10px 25px;
+    align-items: center;
+    box-sizing: border-box;
+    max-width: 300px;
+    font-size: 18px;
+    line-height: 24px;
+  }
+  &__errorBtn {
+    color: #0277bd !important;
+    &:hover{
+      background: rgba($color: #0277bd, $alpha: .08) !important;
+    }
+  }
 }
 
 

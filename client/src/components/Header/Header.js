@@ -15,8 +15,10 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import MenuIcon from '@material-ui/icons/Menu';
-import { withStyles } from '@material-ui/core';
+import { withStyles, Popper, Fade, Paper } from '@material-ui/core';
 import { getUserData } from '../../actions/profileActions';
+import { getCourseList } from '../../actions/courseListActions';
+
 import logo from '../../assets/images/OWL.png';
 
 
@@ -71,7 +73,10 @@ const styles = theme => ({
 class Header extends Component {
   state = {
     anchorEl: null,
-    left: false
+    left: false,
+    openCategoriesList: false,
+    openSubcategoriesList: false,
+    openThemesList: false,
   }
 
   componentDidMount(){
@@ -98,6 +103,23 @@ class Header extends Component {
     this.handleClose();
     this.props.onLogout();
     this.props.history.push('/');
+  }
+
+  openPopperHandler = e => {
+    this.props.onGetCourseList();
+    this.setState(state => ({
+      openSubcategoriesList: false,
+      openThemesList: false,
+      openCategoriesList: !state.openCategoriesList,
+    }));
+  }
+
+  leaveMouseHandler = () => {
+    this.setState({
+      openCategoriesList: false,
+      openSubcategoriesList: false,
+      openThemesList: false
+    })
   }
 
   render(){
@@ -172,11 +194,28 @@ class Header extends Component {
           <NavLink to='/'><img src={logo} alt=""/><span>OwlUnion</span></NavLink>
         </div>
         <nav className='header__nav'>
-          <div className='header__courses'>
+          <div className='header__courses' onClick={this.openPopperHandler}>
           <p>
             Courses
           </p>
           </div>
+          <Popper
+            placement='right-start' 
+            style={{zIndex: '100000'}} 
+            open={this.state.openCategoriesList} 
+            onMouseLeave={this.leaveMouseHandler}
+            transition>
+              {({ TransitionProps }) => (
+                <Fade {...TransitionProps} timeout={350}>
+                  <Paper>
+                    <List>
+
+                    </List>
+                  </Paper>
+                </Fade>
+              )}
+
+          </Popper>
           <div className='header__schools'>
           <p>
             Schools
@@ -257,7 +296,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onLogout: () => dispatch(actions.logout()),
-    onGetUserData: () => dispatch(getUserData())
+    onGetUserData: () => dispatch(getUserData()),
+    onGetCourseList: () => dispatch(getCourseList())
     }
   }
 

@@ -145,7 +145,7 @@ exports.school_edit = (req, res, next) => {
         if (err) return console.log(err);
         console.log('successfully deleted', req.body.old_image);            
       });      
-      return ireq.files[0].path;
+      return req.files[0].path;
     }
   }
 

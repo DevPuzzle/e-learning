@@ -121,6 +121,7 @@ const styles = theme => ({
     formData.append('info', values.info);
     formData.append('image', this.state.selectedBackgroundImage);
     formData.append('logo', this.state.selectedLogo);
+    this.props.onAddSchoolCover(formData);
     this.closeCreateInstructor();
   }
 
