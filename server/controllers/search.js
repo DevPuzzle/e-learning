@@ -68,7 +68,7 @@ exports.search_school = (req, res, next) => {
         }        
       })
 
-      if(!filtered.lenth){
+      if(filtered.lenth < 1){
         res.status(500).json({
           error: 'There are no schools in this city'
         });
