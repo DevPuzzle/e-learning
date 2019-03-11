@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import {getCourseCollection} from '../../../actions/courseCoverActions';
+import {getCourseCollection, deleteCourseCollection} from '../../../actions/courseCoverActions';
 import { connect } from 'react-redux';
 import { Card, CardActionArea, CardMedia, CardContent, Typography, Button, CardActions } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import DeleteModal from '../../UI/Templates/DeleteModal/DeleteModal';
 
 const styles = theme => ({
   fab: {
@@ -28,9 +29,36 @@ const styles = theme => ({
 
 
 class MyCoursesCollection extends Component {
+
+  state = {
+    itemToDelete: null,
+    showDelete: false
+  }
   
   componentWillMount(){
     this.props.onGetCourseCollection()
+  }
+
+  showDeleteModal = (id) => {
+    this.setState({
+      itemToDelete: id,
+      showDelete: true
+    })
+  }
+
+  deleteCourseCollectionHandler = () => {
+    this.props.onDeleteCourseCollection(this.state.itemToDelete);
+    this.setState({
+      itemToDelete: null,
+      showDelete: false
+    })
+  }
+
+  closeDeleteModal = () => {
+    this.setState({
+      itemToDelete: null,
+      showDelete: false
+    })
   }
 
   render(){
@@ -68,6 +96,7 @@ class MyCoursesCollection extends Component {
         </CardActionArea>
         <CardActions>
           <Button 
+            onClick={() => this.showDeleteModal(course._id)}
             className='instructorForm__deleteBtn'
             size='small'>
             Delete
@@ -76,7 +105,11 @@ class MyCoursesCollection extends Component {
       </Card>
         </div>
         )) : null}
-        
+        <DeleteModal 
+          item={this.state.itemToDelete}
+          open={this.state.showDelete}
+          handleClose={this.closeDeleteModal}
+          delete={this.deleteCourseCollectionHandler}/>        
       </React.Fragment>
       
     )
@@ -91,8 +124,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    
-    onGetCourseCollection: () => dispatch(getCourseCollection())
+    onGetCourseCollection: () => dispatch(getCourseCollection()),
+    onDeleteCourseCollection: (id) => dispatch(deleteCourseCollection(id))
   }
 }
 

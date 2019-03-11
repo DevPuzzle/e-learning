@@ -3,6 +3,7 @@ import { getSchoolCollection, deleteSchoolCollection } from '../../../actions/sc
 import { connect } from 'react-redux';
 import { Card, CardActionArea, CardMedia, CardContent, Typography, Button, CardActions } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import DeleteModal from '../../UI/Templates/DeleteModal/DeleteModal';
 
 const styles = theme => ({
   fab: {
@@ -28,21 +29,44 @@ const styles = theme => ({
 
 
 class MySchoolsCollection extends Component {
+
+  state = {
+    itemToDelete: null,
+    showDelete: false
+  }
   
   componentWillMount(){
     this.props.onGetSchoolCollection()
   }
 
-  deleteSchoolCollectionHandler = (id) => {
-    this.props.onDeleteSchoolCollection(id)
+  showDeleteModal = (id) => {
+    this.setState({
+      itemToDelete: id,
+      showDelete: true
+    })
+  }
+
+  deleteSchoolCollectionHandler = () => {
+    this.props.onDeleteSchoolCollection(this.state.itemToDelete);
+    this.setState({
+      itemToDeleteL: null,
+      showDelete: false
+    })
+  }
+
+  closeDeleteModal = () => {
+    this.setState({
+      itemToDelete: null,
+      showDelete: false
+    })
   }
 
   render(){
+    
     return (
       <React.Fragment>
         {this.props.schoolCollection ? this.props.schoolCollection.map(school => (
           <div className='col-md-3' key={school._id}>
-          {console.log(school)}
         <Card
           className={this.props.classes.card}>
         <CardActionArea>
@@ -73,7 +97,7 @@ class MySchoolsCollection extends Component {
         </CardActionArea>
         <CardActions>
           <Button 
-            onClick={() => this.deleteSchoolCollectionHandler(school._id)}
+            onClick={() => this.showDeleteModal(school._id)}
             className='instructorForm__deleteBtn'
             size='small'>
             Delete
@@ -82,7 +106,11 @@ class MySchoolsCollection extends Component {
       </Card>
         </div>
         )) : null}
-        
+        <DeleteModal 
+          item={this.state.itemToDelete}
+          open={this.state.showDelete}
+          handleClose={this.closeDeleteModal}
+          delete={this.deleteSchoolCollectionHandler}/>
       </React.Fragment>
       
     )
