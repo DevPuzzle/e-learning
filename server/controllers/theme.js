@@ -2,17 +2,22 @@ const mongoose = require('mongoose');
 
 const Subcategory = require('../models/subcategory');
 const Theme = require('../models/theme');
+const getSlug = require('speakingurl');
 
 exports.theme_create = (req, res, next) => {
   const themename = req.body.name;
   const description = req.body.description;
   const subcat_id = req.body.subcat_id;
+  const url = getSlug(themename, {
+    separator: '_'
+  });
 
   theme = new Theme({
     _id: new mongoose.Types.ObjectId(),
       name: themename,
       description: description,
-      subcategory: subcat_id
+      subcategory: subcat_id,
+      url: url
   })
   theme
     .save()

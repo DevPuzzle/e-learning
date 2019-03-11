@@ -127,9 +127,9 @@ exports.course_get = (req, res, next) => {
 }
 
 exports.get_theme_courses = (req, res, next) => {
-  const theme_id = req.body.id;
+  const theme_url = req.body.url;
   
-  Theme.findOne({_id: theme_id})
+  Theme.findOne({url: theme_url})
     .select('_id name')
     .populate({
       path: 'course'      
