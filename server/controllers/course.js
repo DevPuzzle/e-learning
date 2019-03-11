@@ -126,6 +126,29 @@ exports.course_get = (req, res, next) => {
     })
 }
 
+exports.get_theme_courses = (req, res, next) => {
+  const theme_id = req.body.id;
+  
+  Theme.findOne({_id: theme_id})
+    .select('_id name')
+    .populate({
+      path: 'course'      
+    })
+    .exec()
+    .then(doc => {
+      if(doc){
+        res.status(200).json({
+          theme: doc
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    });  
+
+}
+
 exports.catalog_list = (req, res, next) => {
   Category.find({})
     .select('_id name')
