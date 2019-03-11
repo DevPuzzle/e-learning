@@ -306,7 +306,7 @@ exports.user_adding_school_to_collection = (req, res, next) => {
 
   User.findOneAndUpdate({_id: userId},
     {
-      school_collection: schoolId
+      $push: { school_collection: schoolId }
     },
     {
       new: true

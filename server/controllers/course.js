@@ -359,7 +359,7 @@ exports.user_adding_course_to_collection = (req, res, next) => {
 
   User.findOneAndUpdate({_id: userId},
   {
-    course_collection: courseId
+    $push: { course_collection: courseId }
   },
   {
     new: true
