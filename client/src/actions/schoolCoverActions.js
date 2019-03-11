@@ -137,3 +137,55 @@ export const getSchoolSuccess = (data) => {
     payload: data
   }
 }
+
+export const getSchoolCollection = () => {
+  return dispatch => {
+    dispatch(getSchoolCollectionStart());
+    axios.get('http://localhost:5000/school/collection/get')
+    .then(response => {
+      dispatch(getSchoolCollectionSuccess(response.data.user_school_collection))
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
+
+export const getSchoolCollectionStart = () => {
+  return {
+    type: actionTypes.GET_SCHOOLCOLLECTION_START
+  }
+}
+
+export const getSchoolCollectionSuccess = (data) => {
+  return {
+    type: actionTypes.GET_SCHOOLCOLLECTION_SUCCESS,
+    payload: data
+  }
+}
+
+export const deleteSchoolCollection = (id) => {
+  return dispatch => {
+    dispatch(deleteSchoolCollectionStart());
+    axios.delete(`http://localhost:5000/school/collection/delete/${id}`)
+    .then(response => {
+      dispatch(deleteSchoolCollectionSuccess(id));
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
+
+export const deleteSchoolCollectionStart = () => {
+  return {
+    type: actionTypes.DELETE_SCHOOLCOLLECTION_START
+  }
+}
+
+export const deleteSchoolCollectionSuccess = (id) => {
+  return {
+    type: actionTypes.DELETE_SCHOOLCOLLECTION_SUCCESS,
+    payload: id
+  }
+}

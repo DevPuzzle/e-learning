@@ -83,9 +83,7 @@ class MyCoursesCollection extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  console.log(state.courseCollectionReducer.courseCollection)
-  
+const mapStateToProps = (state) => {  
   return {
     courseCollection: state.courseCollectionReducer.courseCollection
   }

@@ -162,3 +162,30 @@ export const getCourseCollectionSuccess = (data) => {
     payload: data
   }
 }
+
+
+export const deleteCourseCollection = (id) => {
+  return dispatch => {
+    dispatch(deleteCourseCollectionStart());
+    axios.delete(`http://localhost:5000/course/collection/delete/${id}`)
+    .then(response => {
+      dispatch(deleteCourseCollectionSuccess(id));
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
+
+export const deleteCourseCollectionStart = () => {
+  return {
+    type: actionTypes.DELETE_COURSECOLLECTION_START
+  }
+}
+
+export const deleteCourseCollectionSuccess = (id) => {
+  return {
+    type: actionTypes.DELETE_COURSECOLLECTION_SUCCESS,
+    payload: id
+  }
+}
