@@ -113,19 +113,23 @@ class Header extends Component {
   openPopperHandler = e => {
     const { currentTarget } = e;
     this.props.onGetCourseList();
+    /* this.setState({
+      selectedCategoryEl: null,
+      openCategoriesList: false
+    }) */
     this.setState(state => ({
       selectedCategoryEl: currentTarget,
       openSubcategoriesList: false,
       openThemesList: false,
-      openCategoriesList: !state.openCategoriesList,
+      openCategoriesList: true,
     }));
   }
 
   leaveMouseHandler = () => {
     this.setState({
-      openCategoriesList: false,
+      openThemesList: false,
       openSubcategoriesList: false,
-      openThemesList: false
+      openCategoriesList: false
     })
   }
 
@@ -157,10 +161,14 @@ class Header extends Component {
   }
 
   selectedThemeItemHandler = (id) => {
-    console.log(id)
     axios.post('http://localhost:5000/course/get/by/theme', {id})
     .then(response => {
-      console.log('succes')
+      this.props.history.push(`/courseList/${response.data.theme.name}`)
+    })
+    this.setState({
+      openThemesList: false,
+      openSubcategoriesList: false,
+      openCategoriesList: false
     })
   }
 
@@ -236,8 +244,8 @@ class Header extends Component {
           <NavLink to='/'><img src={logo} alt=""/><span>OwlUnion</span></NavLink>
         </div>
         <nav className='header__nav'>
-          <div className='header__courses' onClick={this.openPopperHandler}>
-          <p>
+          <div className='header__courses'>
+          <p onMouseOver={this.openPopperHandler}>
             Courses
           </p>
           </div>
@@ -246,10 +254,9 @@ class Header extends Component {
             style={{zIndex: '100000'}} 
             open={this.state.openCategoriesList} 
             anchorEl={this.state.selectedCategoryEl}
-            onMouseLeave={this.leaveMouseHandler}
-            transition>
-              {({ TransitionProps }) => (
-                <Fade {...TransitionProps} timeout={350}>
+            onMouseLeave={this.leaveMouseHandler}>
+              {
+               
                   <Paper>
                     <List>
                       {this.props.courseList ? this.props.courseList.list.map(category => (
@@ -310,8 +317,7 @@ class Header extends Component {
                       </Popper>
                     </List>
                   </Paper>
-                </Fade>
-              )}
+             }
 
           </Popper>
           <div className='header__schools'>
