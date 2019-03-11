@@ -359,7 +359,7 @@ exports.user_adding_course_to_collection = (req, res, next) => {
 
   User.findOneAndUpdate({_id: userId},
   {
-    course_collection: courseId
+    $push: { course_collection: courseId }
   },
   {
     new: true
@@ -416,4 +416,29 @@ exports.user_get_course_collection = (req, res, next) => {
       console.log(err);
       res.status(500).json({ error: err });
     }); 
+}
+
+exports.user_delete_course_from_collection = (req, res, next) => {
+  const id = req.params.id;
+  const userId = req.userData.userId;
+
+  User.update({_id: userId},
+    {
+      $pull: {course_collection: { $in: [id] }}
+    }) 
+    .exec()
+    .then(() => {
+      console.log('Successfuly delete course_collection');
+      res.status(200).json({          
+        message: 'Successfuly delete course_collection'        
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: "Error find course_collection",
+        error: err
+      });
+    }); 
+
 }
