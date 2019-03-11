@@ -20,7 +20,12 @@ const themeSchema = new Schema({
   course: [{
     type: Schema.Types.ObjectId,
     ref: 'Course'
-  }]
+  }],
+  url: {
+    type: String, 
+    required: true, 
+    unique: true
+  }
 },
 {
   timestamps: true

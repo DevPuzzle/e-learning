@@ -42,8 +42,56 @@ exports.cities_filter = (req, res, next) => {
 
 }
 
-exports.state_filter = (req, res, next) => {
-    
+exports.search_school = (req, res, next) => {
+  const city = req.body.city;
+  console.log('city', city);
+
+  School.find({})
+  .exec()
+  .then(doc => {
+    if(!doc){
+      res.status(500).json({
+        error: 'Not exist schools'
+      });
+    }    
+    if(city){
+      console.log('doc == ', doc);
+      const text = city.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+      const regex = new RegExp(text, 'gi');
+  
+      let filtered = doc.filter( obj => {
+        if(regex.test(obj.city)) {
+          console.log('obj.city ==', obj.city)
+          return obj
+        } else {          
+          return false                 
+        }        
+      })
+
+      if(filtered.lenth < 1){
+        res.status(500).json({
+          error: 'There are no schools in this city'
+        });
+      }
+      //console.log('FILTERED ==', filtered);  
+      res.status(200).json({
+        schools: filtered
+      }); 
+      
+    } else {
+      res.status(401).json({
+        error: 'Error send city'        
+      });
+    }
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({ message: 'Error', error: err });
+  });
+
+}
+
+exports.state_filter = (req, res, next) => {    
   const state = req.body.state;
   console.log('state', req.body.state);
 
