@@ -130,7 +130,7 @@ exports.get_theme_courses = (req, res, next) => {
   const theme_url = req.body.url;
   
   Theme.findOne({url: theme_url})
-    .select('_id name')
+    .select('_id name url')
     .populate({
       path: 'course'      
     })
@@ -157,7 +157,7 @@ exports.catalog_list = (req, res, next) => {
       select: '_id name',
       populate: {
         path: 'theme',
-        select: '_id name'        
+        select: '_id name url'        
       }
     })
     .exec()
