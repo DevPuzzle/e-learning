@@ -23,7 +23,6 @@ exports.cities_filter = (req, res, next) => {
     })
 
     let doc = filtered.map(obj => {
-
       return {
         state : obj.state,
         city : obj.city
@@ -73,7 +72,7 @@ exports.search_school = (req, res, next) => {
           error: 'There are no schools in this city'
         });
       }
-      //console.log('FILTERED ==', filtered);  
+      
       res.status(200).json({
         schools: filtered
       }); 
@@ -91,7 +90,7 @@ exports.search_school = (req, res, next) => {
 
 }
 
-exports.state_filter = (req, res, next) => {    
+/* exports.state_filter = (req, res, next) => {    
   const state = req.body.state;
   console.log('state', req.body.state);
 
@@ -147,5 +146,5 @@ exports.state_cities_filter = (req, res, next) => {
     });
   }
 
-}
+} */
 
