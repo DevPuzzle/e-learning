@@ -5,10 +5,10 @@ const SearchController = require('../controllers/search');
 checkAuth = require('../middleware/check-auth');
 
 router.post("/cities/filter", checkAuth, SearchController.cities_filter);
-// Filter school by state or city
+// Filter school by city
 router.post("/school", SearchController.search_school);
 
-// router.post("/state/filter", checkAuth, SearchController.state_filter);
-// router.post("/state_cities/filter", checkAuth, SearchController.state_cities_filter);
-
+/* router.post("/state/filter", checkAuth, SearchController.state_filter);
+router.post("/state_cities/filter", checkAuth, SearchController.state_cities_filter);
+ */
 module.exports = router;

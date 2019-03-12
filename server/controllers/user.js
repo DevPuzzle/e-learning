@@ -5,14 +5,15 @@ const User  = require('../models/user');
 const UserVerify = require('../models/user_verify');
 const fs = require('fs');
 const nodemailer = require('nodemailer');
-const config = require('../config/mailer');
+//const config = require('../config/mailer');
 const generator = require('generate-password');
+const keys = require('../config/keys');
 // config mail //
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: config.MAIL_USER,
-    pass: config.MAIL_PASS
+    user: keys.EMAIL_USER,
+    pass: keys.EMAIL_PASS
   }
 });
 
@@ -200,7 +201,7 @@ exports.user_login = (req, res, next) => {
               userId: user[0]._id,
               role: user[0].role
             },
-            'secretkey',
+            keys.JWT_KEY,            
             {
                 expiresIn: "1h"
             }
@@ -300,7 +301,7 @@ exports.user_forgotten_pass = (req, res, next) => {
         console.log('USERNAME', username);        
 
         const mailOptions = {
-          from: config.MAIL_USER,
+          from: keys.EMAIL_USER,
           to: email,
           subject: 'Reset Password',
           html:`<div style="background:#fff;font:14px sans-serif;color:#686f7a;border-top:4px solid #0277bd;margin-bottom:20px">                    
