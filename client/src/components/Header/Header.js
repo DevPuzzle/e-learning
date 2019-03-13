@@ -18,7 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { withStyles, Popper, Fade, Paper } from '@material-ui/core';
 import { getUserData } from '../../actions/profileActions';
 import { getCourseList } from '../../actions/courseListActions';
-
+import axios from 'axios';
 import logo from '../../assets/images/OWL.png';
 
 
@@ -77,6 +77,11 @@ class Header extends Component {
     openCategoriesList: false,
     openSubcategoriesList: false,
     openThemesList: false,
+    selectedCategoryEl: null,
+    selectedSubcategoryEl: null,
+    selectedThemeEl: null,
+    subcategories: null,
+    themes: null
   }
 
   componentDidMount(){
@@ -106,19 +111,65 @@ class Header extends Component {
   }
 
   openPopperHandler = e => {
+    const { currentTarget } = e;
     this.props.onGetCourseList();
+    this.setState({
+      selectedCategoryEl: null,
+      openCategoriesList: false
+    })
     this.setState(state => ({
+      selectedCategoryEl: currentTarget,
       openSubcategoriesList: false,
       openThemesList: false,
-      openCategoriesList: !state.openCategoriesList,
+      openCategoriesList: !this.state.openCategoriesList,
     }));
   }
 
   leaveMouseHandler = () => {
     this.setState({
-      openCategoriesList: false,
+      openThemesList: false,
       openSubcategoriesList: false,
-      openThemesList: false
+      openCategoriesList: false
+    })
+  }
+
+  showSubcategoriesHandler = (e, id) => {
+    const category = this.props.courseList.list.find(category => category._id === id);
+    const { currentTarget } = e;
+
+    this.setState({
+      selectedSubcategoryEl: currentTarget,
+      subcategories: null,
+      openSubcategoriesList: false,
+      openThemesList: false,
+    })
+    this.setState({
+      selectedSubcategoryEl: currentTarget,
+      openSubcategoriesList: true,
+      subcategories: category.subcategory
+    })
+  }
+
+  showThemesHandler = (e, id) => {
+    const subcategory = this.state.subcategories.find(subcategory => subcategory._id === id);
+    const { currentTarget } = e;
+    this.setState({
+      openThemesList: true,
+      selectedThemeEl: currentTarget,
+      themes: subcategory.theme
+    })
+  }
+
+  selectedThemeItemHandler = (url) => {
+    console.log(url)
+    axios.post('http://localhost:5000/course/get/by/theme', {url})
+    .then(response => {
+      this.props.history.push(`/courseList/${response.data.theme.url}`)
+    })
+    this.setState({
+      openThemesList: false,
+      openSubcategoriesList: false,
+      openCategoriesList: false
     })
   }
 
@@ -194,22 +245,78 @@ class Header extends Component {
           <NavLink to='/'><img src={logo} alt=""/><span>OwlUnion</span></NavLink>
         </div>
         <nav className='header__nav'>
-          <div className='header__courses' onClick={this.openPopperHandler}>
-          <p>
+          <div className='header__courses'>
+          <p onClick={this.openPopperHandler}>
             Courses
           </p>
           </div>
           <Popper
-            placement='right-start' 
+            placement='bottom' 
             style={{zIndex: '100000'}} 
             open={this.state.openCategoriesList} 
+            anchorEl={this.state.selectedCategoryEl}
             onMouseLeave={this.leaveMouseHandler}
             transition>
               {({ TransitionProps }) => (
                 <Fade {...TransitionProps} timeout={350}>
                   <Paper>
                     <List>
+                      {this.props.courseList ? this.props.courseList.list.map(category => (
+                        <React.Fragment key={category._id}>
+                          <ListItem
+                            onMouseOver={(e) => this.showSubcategoriesHandler(e, category._id)}
+                            button>
+                            {category.name}
+                          </ListItem>
+                        </React.Fragment>
+                      )) : null}
+                      <Popper 
+                        placement='right-start'
+                        style={{zIndex: '100100'}}
+                        open={this.state.openSubcategoriesList}
+                        anchorEl={this.state.selectedSubcategoryEl}
+                        transition>
+                        {({TransitionProps}) => (
+                          <Fade {...TransitionProps} timeout={350}>
+                            <Paper>
+                              <List>
+                                {this.state.subcategories.map(subcategory => (
+                                  <ListItem 
+                                    key={subcategory._id}
+                                    button
+                                    onMouseOver={(e) => this.showThemesHandler(e, subcategory._id)}>
+                                    {subcategory.name}
+                                  </ListItem>
+                                ))}
+                                <Popper
+                                  placement='right-start'
+                                  style={{zIndex: '100200'}}
+                                  open={this.state.openThemesList}
+                                  anchorEl={this.state.selectedThemeEl}
+                                  transition>
+                                    {({TransitionProps}) => (
+                                      <Fade {...TransitionProps} timeout={350}>
+                                        <Paper>
+                                          <List>
+                                            {this.state.themes.map(theme => (
+                                              <ListItem
+                                                key={theme._id}
+                                                button
+                                                onClick={() => this.selectedThemeItemHandler(theme.url)}>
+                                                  {theme.name}
+                                              </ListItem>
+                                            ))}
+                                          </List>
+                                        </Paper>
+                                      </Fade>
+                                    )}
+                                </Popper>  
+                              </List>
+                            </Paper>
+                          </Fade>
+                        )}
 
+                      </Popper>
                     </List>
                   </Paper>
                 </Fade>
@@ -289,7 +396,8 @@ const mapStateToProps = (state) => {
   return {
     auth: state.login.token,
     login: state.login,
-    profile: state.profile
+    profile: state.profile,
+    courseList: state.courseList.courseList
   }
 }
 

@@ -117,6 +117,7 @@ class MyCoursesInstructorForm extends Component {
             </h3>
         }
       }
+      
     let renderform = <form
     onSubmit={handleSubmit} 
     className='instructorForm'>    
