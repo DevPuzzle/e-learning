@@ -17,6 +17,7 @@ import MySchoolsContainer from '../containers/MySchoolsContainer/MySchoolsContai
 import SchoolElement from '../components/UI/Templates/SchoolElement/SchoolElement';
 import CourseElement from '../components/UI/Templates/CourseElement/CourseElement';
 import CourseList from '../components/CourseList/CourseList';
+import SchoolList from '../components/SchoolList/SchoolList';
 
 class Routes extends Component {
 
@@ -36,6 +37,8 @@ render(){
           <PrivateRoute path='/myCourses' redir='/' component={MyCoursesContainer} />
           <PrivateRoute path='/mySchools' redir='/' component={MySchoolsContainer} /> 
           <PrivateRoute path='/profile' exact redir='/' component={Profile} />
+          {/*Route for School Page */}
+          <Route path= '/school/list' exact component={SchoolList}/>
           <Route path='/courseList/:name' exact component={CourseList}/>  
           <Route path='/course/:name'  exact component={CourseElement} />
           <Route path='/school/:name' exact component={SchoolElement}/>

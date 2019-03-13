@@ -95,7 +95,7 @@ function Transition(props) {
                       <Button 
                         variant='contained' 
                         color='secondary' 
-                        onClick={() => this.addCourse(this.props.course._id)}>Add to cart</Button>
+                        onClick={() => this.addCourse(this.props.course._id)}>SUBSCRIBE</Button>
                     </div>
                    
                   </CardContent>
@@ -175,7 +175,7 @@ function Transition(props) {
                 <Button 
                   variant='contained' 
                   color='secondary' 
-                  onClick={() => this.addCourse(this.props.course._id)}>Add to cart</Button>
+                  onClick={() => this.addCourse(this.props.course._id)}>SUBSCRIBE</Button>
               </div>
             </div>
         </div>
