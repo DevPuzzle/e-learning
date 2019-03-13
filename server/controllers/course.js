@@ -380,7 +380,57 @@ exports.user_adding_course_to_collection = (req, res, next) => {
   const userId = req.userData.userId;
   const courseId = req.body.course_id;
 
-  User.findOneAndUpdate({_id: userId},
+  User.findOne({_id: userId})
+    .exec()
+    .then(doc => {
+      if (doc) {        
+
+        console.log(
+          'INCLUDES', 
+          doc.course_collection.map(courseId => courseId.toString())
+            .includes(courseId)
+        )
+        
+        if ( doc.course_collection && doc.course_collection.map(courseId => courseId.toString())
+            .includes(courseId) ) {             
+          
+          console.log('This course already exist in collection');
+          res.status(404).json({                     
+            error: 'This course already exist in collection'
+          });          
+        } else {  
+          User.update(doc, {
+            "$push": { course_collection: courseId }
+            },
+            {
+              new: true
+            })
+            .then(() => {
+              console.log('AAAAAAA')
+              console.log('Successfuly added course to collection');
+              res.status(200).json({                        
+                message: 'Successfuly added course to collection'
+              });
+            })            
+            .catch(err => {
+              console.log(err);
+              res.status(500).json({ error: err });
+            }); 
+
+          console.log('Else')
+        }
+      } else {
+        console.log(doc);
+        res.status(500).json({                
+          error: 'Error added course to collection'
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    });
+  /* User.findOneAndUpdate({_id: userId},
   {
     $push: { course_collection: courseId }
   },
@@ -403,7 +453,7 @@ exports.user_adding_course_to_collection = (req, res, next) => {
   .catch(err => {
     console.log(err);
     res.status(500).json({ error: err });
-  });    
+  });    */ 
   
 }
 

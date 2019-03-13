@@ -26,7 +26,7 @@ const styles = theme => ({
   grow: {
     flexGrow: 1,
   },
-  search: {
+  /* search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: 'rgba(225, 245, 254, 1)',
@@ -67,7 +67,7 @@ const styles = theme => ({
         width: 200,
       },
     },
-  },
+  }, */
 });
 
 class Header extends Component {
@@ -95,6 +95,10 @@ class Header extends Component {
       [side]: open,
     });
   };
+
+  /* navigateToSchools = () => {
+    this.props.history.push('/school/list');
+  } */
 
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -246,7 +250,7 @@ class Header extends Component {
         </div>
         <nav className='header__nav'>
           <div className='header__courses'>
-          <p onClick={this.openPopperHandler}>
+          <p className="header-active" onClick={this.openPopperHandler}>
             Courses
           </p>
           </div>
@@ -324,13 +328,13 @@ class Header extends Component {
 
           </Popper>
           <div className='header__schools'>
-          <p>
+          <NavLink activeClassName="header-active" to="/school/list">
             Schools
-          </p>
+          </NavLink>
           </div>
         </nav>
         <div className={classes.grow} />
-        <div className={`${classes.search} header__search`}>
+        {/* <div className={`${classes.search} header__search`}>
         <div className={classes.searchIcon}>
           <SearchIcon />
         </div>
@@ -341,7 +345,7 @@ class Header extends Component {
               input: classes.inputInput,
             }}
           />
-        </div>
+        </div> */}
       </div>
         <div className='header__log'>
         {!this.props.auth ? 

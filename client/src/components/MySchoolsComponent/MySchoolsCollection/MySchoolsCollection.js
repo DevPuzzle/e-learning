@@ -27,7 +27,6 @@ const styles = theme => ({
 });
 
 
-
 class MySchoolsCollection extends Component {
 
   state = {
