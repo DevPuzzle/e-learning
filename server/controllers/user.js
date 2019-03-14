@@ -553,7 +553,7 @@ exports.user_get = (req, res, next) => {
   // console.log('ID', userId);
 
   User.findOne({_id: userId})
-    .select('first_name last_name email name password userImage role')
+    //.select('first_name last_name email name password userImage role')
     .exec()
     .then(doc => {
 
@@ -569,7 +569,8 @@ exports.user_get = (req, res, next) => {
             password: doc.password,
             confirm_password: doc.password,
             userImage: doc.userImage,
-            role: doc.role                                   
+            role: doc.role,
+            course_collection: doc.course_collection                                  
         });
       } else {
         res.status(404)
