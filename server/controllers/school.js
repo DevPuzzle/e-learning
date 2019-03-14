@@ -304,30 +304,28 @@ exports.user_adding_school_to_collection = (req, res, next) => {
   const userId = req.userData.userId;
   const schoolId = req.body.school_id;
 
-  User.findOneAndUpdate({_id: userId},
-    {
-      $push: { school_collection: schoolId }
-    },
-    {
-      new: true
-    })
-    .then((doc) => {
-      if(doc){
+  User.findOne({_id: userId, school_collection: {$ne: schoolId}})
+    .then(doc => {
+      if (doc) {
+
+        doc.school_collection.push(schoolId);
+        doc.save();
         console.log(doc);
-        res.status(200).json({           
+        res.status(200).json({
           message: 'Successfuly added school to collection'
         });
+
       } else {
-        console.log(doc);
-        res.status(500).json({                
-          error: 'Error added school to collection'
+        console.log('This school already exist in collection')
+        res.status(404).json({                            
+          error: 'This school already exist in collection'
         });
       }
     })
     .catch(err => {
       console.log(err);
       res.status(500).json({ error: err });
-    });
+    });    
 
 }
 
