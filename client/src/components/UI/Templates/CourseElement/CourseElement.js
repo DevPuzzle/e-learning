@@ -25,19 +25,37 @@ function Transition(props) {
 
   state = {
     successAdded: false,
-    error: false
-  }
+    error: false,
+    checkInCollection: false
+      }
 
-  componentWillMount(){
+  componentDidMount(){
     this.props.onGetCourse(this.props.match.params.name);
   }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.course !== this.props.course) {
+      if(this.props.userData && this.props.course){
+        let courseCollection = this.props.userData.course_collection;
+        console.log('COURSE_COLLECTION ',  this.props.course._id)
+        let findthis = courseCollection.find(el => el === this.props.course._id)
+         if(findthis){
+          this.setState({
+            checkInCollection: true
+          })
+        }     
+        }
+      }
+    }
+  
 
   addCourse = (id) => {
     console.log('click')
     axios.post(' http://localhost:5000/course/addingToCollection', {course_id: id})
     .then(response => {
       this.setState({
-        successAdded: true
+        successAdded: true,
+        checkInCollection: true
       })
     })
     .catch(err => {
@@ -60,6 +78,7 @@ function Transition(props) {
   }
 
   render(){
+    console.log(this.state.checkInCollection)
     const { classes } = this.props;
     let render;
     if(this.props.course){
@@ -92,10 +111,13 @@ function Transition(props) {
                     <p
                       className='courseEl__cardDescr'>{this.props.course.description}</p>
                     <div className='courseEl__btn'>
-                      <Button 
-                        variant='contained' 
-                        color='secondary' 
-                        onClick={() => this.addCourse(this.props.course._id)}>SUBSCRIBE</Button>
+                    {this.state.checkInCollection ? 
+                    <div>ALREADY SUBSCRIBED</div> 
+                  : <Button 
+                  variant='contained' 
+                  color='secondary' 
+                  onClick={() => this.addCourse(this.props.course._id)}>SUBSCRIBE</Button>}
+                     
                     </div>
                    
                   </CardContent>
@@ -195,7 +217,8 @@ function Transition(props) {
 
 const mapStateToProps = (state) => {
   return {
-    course: state.courseReducer.course
+    course: state.courseReducer.course,
+    userData: state.profile.userData
   }
 }
 
