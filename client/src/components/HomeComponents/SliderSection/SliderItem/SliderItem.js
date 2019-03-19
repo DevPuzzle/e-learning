@@ -43,7 +43,7 @@ const SliderItem = (props) => {
       onClick={() => props.navigateTo(props.item)}
       placement='right'
       style={{opacity: '1 !important'}}
-      title={<SliderItemDescription navigateTo={props.navigateTo} selectedItem={props.selectedItem}/>} 
+      title={<SliderItemDescription navigateTo={props.navigateTo} selectedItem={props.item}/>} 
       classes={{
         popper: classes.popper,
         tooltip: classes.htmlTooltip,

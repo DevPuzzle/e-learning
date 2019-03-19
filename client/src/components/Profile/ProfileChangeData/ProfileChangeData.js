@@ -31,6 +31,8 @@ export class ProfileChangeData extends Component {
     let renderform = <form 
     onSubmit={handleSubmit} 
     className='profile__form'>
+     {this.props.profileError ? 
+        <div className='login__userError'>Cant change data, try again</div> : null}
       <div className='profile__pass'>
       <Field 
         type='text'

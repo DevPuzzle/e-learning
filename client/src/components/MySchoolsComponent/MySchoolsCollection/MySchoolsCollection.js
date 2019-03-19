@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Card, CardActionArea, CardMedia, CardContent, Typography, Button, CardActions } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import DeleteModal from '../../UI/Templates/DeleteModal/DeleteModal';
+import Spinner from '../../UI/Spinner/Spinner';
 
 const styles = theme => ({
   fab: {
@@ -64,10 +65,13 @@ class MySchoolsCollection extends Component {
     
     return (
       <React.Fragment>
-        {this.props.schoolCollection ? this.props.schoolCollection.map(school => (
-          <div className='col-md-3' key={school._id}>
+        {this.props.loading ?
+          <Spinner />
+          :
+          this.props.schoolCollection ? this.props.schoolCollection.map(school => (
+          <div className='col-md-3 mb-4 ' key={school._id}>
         <Card
-          className={this.props.classes.card}>
+          className={`${this.props.classes.card} mx-auto`}>
         <CardActionArea>
         <CardMedia
           className={this.props.classes.media}
@@ -87,7 +91,11 @@ class MySchoolsCollection extends Component {
             </Typography>
              <Typography 
               style={{
-                color: 'rgba(0, 0, 0, 0.54)'
+                color: 'rgba(0, 0, 0, 0.54)',
+                fontSize: '18px',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden'
               }}
               component="p">
               {`${school.city} ${school.state}`}
@@ -118,7 +126,9 @@ class MySchoolsCollection extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    schoolCollection: state.schoolCollectionReducer.schoolCollection
+    schoolCollection: state.schoolCollectionReducer.schoolCollection,
+    loading: state.schoolCollectionReducer.loading,
+    error: state.schoolCollectionReducer.error
   }
 }
 

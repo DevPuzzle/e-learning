@@ -10,7 +10,7 @@ const Footer = () => {
           {/* <div style={{width: '30px'}}>
             <img style={{width: '100%', height: '100%'}} src={logo} alt=""/>
           </div> */}
-          <div style={{display: 'flex',flexDirection: 'column', alignItems: 'center'}}>
+          <div style={{display: 'flex',flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
             <div style={{ marginBottom: '10px', alignItems: 'center' }}>
               ©{new Date().getFullYear()} OwlUnion.com All rights reserved.
             </div> 

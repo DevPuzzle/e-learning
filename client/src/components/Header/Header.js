@@ -7,8 +7,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/loginActions';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -19,55 +17,13 @@ import { withStyles, Popper, Fade, Paper } from '@material-ui/core';
 import { getUserData } from '../../actions/profileActions';
 import { getCourseList } from '../../actions/courseListActions';
 import axios from 'axios';
-import logo from '../../assets/images/OWL.png';
+import logo from '../../assets/images/owl.png';
 
 
 const styles = theme => ({
   grow: {
     flexGrow: 1,
-  },
-  /* search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: 'rgba(225, 245, 254, 1)',
-    '&:hover': {
-      backgroundColor: 'rgba(225, 245, 254, 0.7)',
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit,
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    width: theme.spacing.unit * 9,
-    height: '100%',
-    color: '#01579b',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputRoot: {
-    color: '#01579b',
-    width: '100%',
-  },
-  inputInput: {
-    paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: 120,
-      '&:focus': {
-        width: 200,
-      },
-    },
-  }, */
+  }
 });
 
 class Header extends Component {
@@ -85,6 +41,7 @@ class Header extends Component {
   }
 
   componentDidMount(){
+    this.props.onGetCourseList();
     if(this.props.auth){
       this.props.onGetUserData()
     }
@@ -95,10 +52,6 @@ class Header extends Component {
       [side]: open,
     });
   };
-
-  /* navigateToSchools = () => {
-    this.props.history.push('/school/list');
-  } */
 
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -116,17 +69,16 @@ class Header extends Component {
 
   openPopperHandler = e => {
     const { currentTarget } = e;
-    this.props.onGetCourseList();
     this.setState({
       selectedCategoryEl: null,
       openCategoriesList: false
     })
-    this.setState(state => ({
+    this.setState({
       selectedCategoryEl: currentTarget,
       openSubcategoriesList: false,
       openThemesList: false,
       openCategoriesList: !this.state.openCategoriesList,
-    }));
+    });
   }
 
   leaveMouseHandler = () => {
@@ -165,7 +117,6 @@ class Header extends Component {
   }
 
   selectedThemeItemHandler = (url) => {
-    console.log(url)
     axios.post('http://localhost:5000/course/get/by/theme', {url})
     .then(response => {
       this.props.history.push(`/courseList/${response.data.theme.url}`)
@@ -183,26 +134,33 @@ class Header extends Component {
     const { classes } = this.props;
     const sideList = (
         <List className='drawer'>
-          <ListItem className='drawer__link' component={Link} to='/myCourses' button>
+          <ListItem className='drawer__link' component={NavLink} to='/courseList/javascript' button>
             <i className="fas fa-book"></i> Courses
           </ListItem>
-          <ListItem className='drawer__link' component={Link} to='/mySchools' button>
+          <ListItem className='drawer__link' component={NavLink} to='/school/list' button>
             <i className="fas fa-graduation-cap"></i> Schools
           </ListItem>
           {!this.props.auth ?
           <React.Fragment>
           <Divider />
-          <ListItem className='drawer__link' component={Link} to='/login' button>
+          <ListItem className='drawer__link' component={NavLink} to='/login' button>
             <i className="fas fa-lock"></i> Login
           </ListItem>
-          <ListItem className='drawer__link' component={Link} to='/signUp' button>
+          <ListItem className='drawer__link' component={NavLink} to='/signUp' button>
             <i className="fas fa-user-plus"></i> Sign Up
           </ListItem>
           </React.Fragment>
           :
           <React.Fragment>
           <Divider />
-          <ListItem component={Link} to='/profile' className='drawer__link' button>
+          <ListItem className='drawer__link' component={NavLink} to='/mycourses' button>
+            <i className="fas fa-user-graduate"></i> My Courses
+          </ListItem>
+          <ListItem className='drawer__link' component={NavLink} to='/myschools' button>
+            <i className="fas fa-school"></i> My Schools
+          </ListItem>
+          <Divider />
+          <ListItem component={NavLink} to='/profile' className='drawer__link' button>
             <i className="fas fa-user-cog"></i> Profile
           </ListItem>
           <ListItem className='drawer__link' onClick={this.logout} button>
@@ -246,11 +204,11 @@ class Header extends Component {
         </Drawer>
       </div>
       <div className='header__logo'>
-          <NavLink to='/'><img src={logo} alt=""/><span>OwlUnion</span></NavLink>
+          <NavLink to='/'><img src={logo} alt=""/></NavLink>
         </div>
         <nav className='header__nav'>
           <div className='header__courses'>
-          <p className="header-active" onClick={this.openPopperHandler}>
+          <p className={this.props.location.pathname.includes('courseList') ? 'header__navLink active' : 'header__navLink' } onClick={this.openPopperHandler}>
             Courses
           </p>
           </div>
@@ -270,7 +228,11 @@ class Header extends Component {
                           <ListItem
                             onMouseOver={(e) => this.showSubcategoriesHandler(e, category._id)}
                             button>
-                            {category.name}
+                            <div className='courseListContainer'>
+                              <p>{category.name}</p>
+                              <p><i className="fas fa-angle-right"></i></p>
+                            </div>
+                            
                           </ListItem>
                         </React.Fragment>
                       )) : null}
@@ -289,7 +251,10 @@ class Header extends Component {
                                     key={subcategory._id}
                                     button
                                     onMouseOver={(e) => this.showThemesHandler(e, subcategory._id)}>
-                                    {subcategory.name}
+                                    <div className='courseListContainer'>
+                                      <p>{subcategory.name}</p>
+                                      <p><i className="fas fa-angle-right"></i></p>
+                                    </div>
                                   </ListItem>
                                 ))}
                                 <Popper
@@ -328,7 +293,7 @@ class Header extends Component {
 
           </Popper>
           <div className='header__schools'>
-          <NavLink activeClassName="header-active" to="/school/list">
+          <NavLink className='header__navLink' activeClassName="header-active" to="/school/list">
             Schools
           </NavLink>
           </div>
@@ -350,10 +315,10 @@ class Header extends Component {
         <div className='header__log'>
         {!this.props.auth ? 
         <React.Fragment>
-        <NavLink to='/login'>
+        <NavLink to='/login' activeClassName="header-active">
             LogIn
           </NavLink>
-          <NavLink to='/signup'>
+          <NavLink to='/signup' activeClassName="header-active">
             SignUp
           </NavLink> 
           </React.Fragment>
@@ -379,8 +344,8 @@ class Header extends Component {
           }}
           open={Boolean(open)}
           onClose={this.handleClose}>
-          <NavLink onClick={this.handleClose} className='header__dropnav' to='/myCourses'><MenuItem><span><i className="fas fa-user-graduate"></i></span>My Courses</MenuItem></NavLink>
-          <NavLink onClick={this.handleClose} className='header__dropnav' to='/mySchools'><MenuItem><span><i className="fas fa-school"></i></span>My Schools</MenuItem></NavLink>
+          <NavLink onClick={this.handleClose} className='header__dropnav' to='/mycourses'><MenuItem><span><i className="fas fa-user-graduate"></i></span>My Courses</MenuItem></NavLink>
+          <NavLink onClick={this.handleClose} className='header__dropnav' to='/myschools'><MenuItem><span><i className="fas fa-school"></i></span>My Schools</MenuItem></NavLink>
           <NavLink onClick={this.handleClose} className='header__dropnav' to='/profile'><MenuItem><span><i className="fas fa-user-cog"></i></span>Profile</MenuItem></NavLink>
           {this.props.login.role === 'admin' ?
             <NavLink onClick={this.handleClose} className='header__dropnav' to='/admin'><MenuItem><span><i className="fas fa-cog"></i></span>Admin Area</MenuItem></NavLink> : null}

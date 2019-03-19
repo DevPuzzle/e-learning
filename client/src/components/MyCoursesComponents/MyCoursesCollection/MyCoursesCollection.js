@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Card, CardActionArea, CardMedia, CardContent, Typography, Button, CardActions } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import DeleteModal from '../../UI/Templates/DeleteModal/DeleteModal';
+import Spinner from '../../UI/Spinner/Spinner';
 
 const styles = theme => ({
   fab: {
@@ -62,12 +63,17 @@ class MyCoursesCollection extends Component {
   }
 
   render(){
+    console.log(this.props)
     return (
       <React.Fragment>
-        {this.props.courseCollection ? this.props.courseCollection.map(course => (
-          <div className='col-md-3' key={course._id}>
+        {this.props.loading ?
+          <Spinner />
+          :
+          this.props.courseCollection ? 
+          this.props.courseCollection.map(course => (
+          <div className='col-md-3 mb-4' key={course._id}>
         <Card
-          className={this.props.classes.card}>
+          className={`${this.props.classes.card} mx-auto`}>
         <CardActionArea>
         <CardMedia
           className={this.props.classes.media}
@@ -87,7 +93,11 @@ class MyCoursesCollection extends Component {
             </Typography>
              <Typography 
               style={{
-                color: 'rgba(0, 0, 0, 0.54)'
+                color: 'rgba(0, 0, 0, 0.54)',
+                fontSize: '18px',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden'
               }}
               component="p">
               {`${course.theme.name}`}
@@ -118,7 +128,10 @@ class MyCoursesCollection extends Component {
 
 const mapStateToProps = (state) => {  
   return {
-    courseCollection: state.courseCollectionReducer.courseCollection
+    courseCollection: state.courseCollectionReducer.courseCollection,
+    loading: state.courseCollectionReducer.loading,
+    error: state.courseCollectionReducer.error
+
   }
 }
 

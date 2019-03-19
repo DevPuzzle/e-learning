@@ -140,7 +140,7 @@ render() {
               className='col-md-4 mb-4' 
               onClick={() => this.navigateTo(school.url)}>
               <Card
-                className={classes.card}>
+                className={`${classes.card} mx-auto`}>
                 <CardActionArea>
                   <CardMedia 
                     className={classes.media}

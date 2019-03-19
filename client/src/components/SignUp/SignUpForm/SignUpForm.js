@@ -64,6 +64,8 @@ class SignUpForm extends Component {
     let renderform = <form
     onSubmit={handleSubmit} 
     className='signUp__form'>    
+    {this.props.userError ? 
+        <div className='login__userError'>Connection error, try again later</div> : null}
       <div className='signUp__name'>
       <Field 
             type='text'

@@ -183,7 +183,6 @@ class MyCoursesInstructor extends Component{
   }
 
   handleUpdateCourseCover = (values) => {
-    console.log('Values theme id',values);
     const formData = new FormData();
     formData.append('name', values.name);
     formData.append('info', values.info);

@@ -25,11 +25,21 @@ function Transition(props) {
 
   state = {
     successAdded: false,
-    error: false
+    error: false,
+    checkInCollection: false
   }
 
   componentWillMount(){
     this.props.onGetSchool(this.props.match.params.name);
+  }
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.school !== this.props.school) {
+      if(this.props.userData && this.props.school) {
+        let schoolCollection = this.props.userData;
+        //ДОДЕЛАТЬ!
+      }
+    }
   }
 
   addSchool = (id) => {
@@ -197,7 +207,8 @@ function Transition(props) {
 
 const mapStateToProps = (state) => {
   return {
-    school: state.schoolReducer.school
+    school: state.schoolReducer.school,
+    userData: state.profile.userData
   }
 }
 

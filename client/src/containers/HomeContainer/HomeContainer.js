@@ -8,33 +8,56 @@ import { connect } from 'react-redux';
 import ErrorComponent from '../../components/ErrorComponent/ErrorComponent';
 import SliderSection from '../../components/HomeComponents/SliderSection/SliderSection';
 import axios from 'axios';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class HomeContainer extends Component {
   state = {
     courses: [],
     schools: [],
-    selectedCourse: null
+    selectedCourse: null,
+    selectedSchool: null,
+    loadingCourse: false,
+    loadingSchool: false
   }
 
   componentWillMount(){
+    this.setState({
+      loadingCourse: true
+    });
+    this.setState({
+      loadingSchool: true
+    })
     axios.get('http://localhost:5000/course/list')
     .then(response => {
       this.setState({
+        loadingCourse: false,
         courses: response.data.courseList
       })
+    })
+    .catch(err => {
+      console.log(err)
     })
 
     axios.get('http://localhost:5000/school/list')
     .then(response => {
       this.setState({
+        loadingSchool: false,
         schools: response.data.schoolList
       })
+    }).catch(err => {
+      console.log(err)
     })
   }
 
   selectedCourse = (item) => {
     this.setState({
       selectedCourse: item
+    })
+  }
+
+  selectedSchool = (item) => {
+    this.setState({
+      selectedSchool: item
     })
   }
 
@@ -45,7 +68,7 @@ class HomeContainer extends Component {
           <div className='container'>   
             <div className='home__content row align-items-center'>
               <div 
-                className='col-md-5' 
+                className='col-md-6' 
                 style={{
                     top: '-80px'
                 }}>
@@ -83,10 +106,13 @@ class HomeContainer extends Component {
         fontWeight: 600,
         fontSize: '22px',
         marginBottom: '10px'}}>New courses</h2>
-            <SliderSection 
-              selectedItem={this.state.selectedCourse}
-              selectedItemHandler={this.selectedCourse}
-              items={this.state.courses}/>
+          {this.state.loadingCourse ? 
+            <Spinner />
+            :  <SliderSection 
+            selectedItem={this.state.selectedCourse}
+            selectedItemHandler={this.selectedCourse}
+            items={this.state.courses}/>
+          }
           </div>
           
         </div>
@@ -97,10 +123,13 @@ class HomeContainer extends Component {
           fontWeight: 600,
           fontSize: '22px',
           marginBottom: '10px'}}>New Schools</h2>
-            <SliderSection 
-              selectedItem={this.state.selectedCourse}
-              selectedItemHandler={this.selectedCourse}
+            {this.state.loadingSchool ? 
+            <Spinner />
+            :  <SliderSection 
+              selectedItem={this.state.selectedSchool}
+              selectedItemHandler={this.selectedSchool}
               items={this.state.schools}/>
+            }
           </div>
           
         </div>

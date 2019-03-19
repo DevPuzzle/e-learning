@@ -73,24 +73,20 @@ class SliderSection extends Component {
         }
       ]
     };
-
-  
     return(
-      <div>
-      
+      <React.Fragment>
       <Slider {...settings} >
       {this.props.items ?
          this.props.items.map(item => (
         <div key={item._id}>
           <SliderItem
             navigateTo={this.navigateTo}
-            selectedItem={this.props.selectedItem}
             selectedItemHandler={this.props.selectedItemHandler}
             item={item}/>
         </div>
          )) : null}         
       </Slider>
-    </div>
+    </React.Fragment>
     )
   }
 }

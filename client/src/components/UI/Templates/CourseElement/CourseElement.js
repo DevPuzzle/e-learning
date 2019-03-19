@@ -37,7 +37,6 @@ function Transition(props) {
     if (prevProps.course !== this.props.course) {
       if(this.props.userData && this.props.course){
         let courseCollection = this.props.userData.course_collection;
-        console.log('COURSE_COLLECTION ',  this.props.course._id)
         let findthis = courseCollection.find(el => el === this.props.course._id)
          if(findthis){
           this.setState({
@@ -112,7 +111,7 @@ function Transition(props) {
                       className='courseEl__cardDescr'>{this.props.course.description}</p>
                     <div className='courseEl__btn'>
                     {this.state.checkInCollection ? 
-                    <div>ALREADY SUBSCRIBED</div> 
+                    <div style={{color: '#0277bd'}}><i className="fas fa-check"></i> Already subscribed</div> 
                   : <Button 
                   variant='contained' 
                   color='secondary' 

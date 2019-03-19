@@ -254,7 +254,9 @@ const styles = theme => ({
 
 const mapStateToProps = (state) => {
   return {
-    userSchoolCovers: state.schoolCovers.schoolCovers
+    userSchoolCovers: state.schoolCovers.schoolCovers,
+    loading: state.schoolCovers.loading,
+    error: state.schoolCovers.error
   }
 }
 

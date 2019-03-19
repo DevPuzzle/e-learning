@@ -59,6 +59,8 @@ export class ProfileImageChange extends Component {
         component={this.renderFileField}/>
       </div>
       <div className='profile__changeImageBtnCont'>
+      {this.props.profileError ? 
+        <div className='login__userError'>Cant load image, try again</div> : null}
       {this.props.selectedImage ?
        <Button
        className='profile__changeImageSaveBtn'
@@ -68,8 +70,6 @@ export class ProfileImageChange extends Component {
          Save
        </Button>
        : null}
-       
-        
       </div>
     </form>
 

@@ -11,8 +11,14 @@ export const passwordChange = (values) => {
       dispatch(changePasswordSuccess(response.data));
     })
     .catch(err => {
-      console.log(err)
+      dispatch(changePasswordFail())
     })
+  }
+}
+
+export const changePasswordFail = () => {
+  return {
+    type: actionTypes.PASSWORD_CHANGE_FAIL
   }
 }
 
@@ -37,6 +43,15 @@ export const userDataChange = (values) => {
     .then(response => {
       dispatch(changeUserDataSuccess(values));
     })
+    .catch(err => {
+      dispatch(changeUserDataFail());
+    })
+  }
+}
+
+export const changeUserDataFail = () => {
+  return {
+    type: actionTypes.USERDATA_CHANGE_FAIL
   }
 }
 
@@ -84,8 +99,10 @@ export const avatarUpload = (image) => {
     dispatch(avatarUploadStart());
     axios.patch(`${URL}/avatar/uploads`, formData)
     .then(response => {
-      console.log(response.data)
       dispatch(avatarUploadSuccess(response.data));
+    })
+    .catch(err => {
+      dispatch(avatarUploadFail());
     })
   }
 }
@@ -101,6 +118,12 @@ export const avatarUploadSuccess = (data) => {
   return{
     type: actionTypes.AVATAR_UPLOAD_SUCCESS,
     payload: data
+  }
+}
+
+export const avatarUploadFail = () => {
+  return {
+    type: actionTypes.AVATAR_UPLOAD_FAIL
   }
 }
 

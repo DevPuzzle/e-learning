@@ -22,7 +22,7 @@ import SchoolList from '../components/SchoolList/SchoolList';
 class Routes extends Component {
 
 componentWillMount(){
-   this.props.onTryAutoLogin();
+  this.props.onTryAutoLogin();
  }
 
 render(){  
@@ -34,8 +34,8 @@ render(){
         <Switch>          
           <AdminPrivateRoute redir='/' exact path='/admin' component={AdminContaner} />
           <Route path='/confirmEmail' exact component={SignUpConfirmEmail}/>
-          <PrivateRoute path='/myCourses' redir='/' component={MyCoursesContainer} />
-          <PrivateRoute path='/mySchools' redir='/' component={MySchoolsContainer} /> 
+          <PrivateRoute path='/mycourses' redir='/' component={MyCoursesContainer} />
+          <PrivateRoute path='/myschools' redir='/' component={MySchoolsContainer} /> 
           <PrivateRoute path='/profile' exact redir='/' component={Profile} />
           {/*Route for School Page */}
           <Route path= '/school/list' exact component={SchoolList}/>

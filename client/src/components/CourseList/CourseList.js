@@ -70,7 +70,7 @@ const styles = () => ({
               className='col-md-4' 
               onClick={() => this.navigateTo(course.url)}>
               <Card
-                className={classes.card}>
+                className={`${classes.card} mx-auto`}>
                 <CardActionArea>
                   <CardMedia 
                     className={classes.media}

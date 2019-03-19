@@ -2,6 +2,7 @@ import * as actionTypes from './actionTypes';
 import axios from 'axios';
 import setAuthToken from '../setAuthToken/setAuthToken';
 import { getUserData} from './profileActions';
+import jwtDecode from 'jwt-decode';
 
 const URL = 'http://localhost:5000/user/login';
 
@@ -51,15 +52,20 @@ export const authCheckState = () => {
   return dispatch => {
     const token = localStorage.getItem('jwt');
     const username = localStorage.getItem('username');
-    const role = localStorage.getItem('role')
-    if(token){
-        dispatch(loginSuccess(token, username, role));
-        dispatch(getUserData())
+    const role = localStorage.getItem('role');
+    if(!token){
+        dispatch(logout());
+      }else {
+        const decodedToken = jwtDecode(token);
+        if(decodedToken.exp <= new Date() / 1000){
+          dispatch(logout())
+        }else {
+          dispatch(loginSuccess(token, username, role));
+          dispatch(getUserData());
+        }
       }
-      
     }
   }
-
 
 export const logout = () => {
   return dispatch => {
@@ -68,6 +74,7 @@ export const logout = () => {
 }
 
 export const logoutSuccess = () => {
+  console.log('logout')
   localStorage.removeItem('jwt');
   localStorage.removeItem('username');
   localStorage.removeItem('role')
