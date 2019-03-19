@@ -570,7 +570,8 @@ exports.user_get = (req, res, next) => {
             confirm_password: doc.password,
             userImage: doc.userImage,
             role: doc.role,
-            course_collection: doc.course_collection                                  
+            course_collection: doc.course_collection,   
+            school_collection: doc.school_collection                              
         });
       } else {
         res.status(404)

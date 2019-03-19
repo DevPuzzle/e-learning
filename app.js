@@ -18,15 +18,20 @@ const courseRoutes = require('./server/routes/course');
 const schoolRoutes = require('./server/routes/school');
 const searchRoutes = require('./server/routes/search');
 const keys = require('./server/config/keys');
+const path = require('path');
 
 //mongoose.connect('mongodb://vitaliy:qa123123@ds261114.mlab.com:61114/e-learning');
 mongoose.connect(`mongodb://${keys.MONGO_USER}:${keys.MONGO_PASSWORD}@ds261114.mlab.com:61114/${keys.MONGO_DB}`);
 mongoose.connection.once('open', () => console.log('Connected to MongoDB'));
 
+
 app.use(morgan("dev"));
 app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use('/', express.static(path.join(__dirname, './client/build')));
+
+
 app.use(expressValidator());
 
 app.use((req, res, next) => {
@@ -69,5 +74,9 @@ app.use((error, req, res, next) => {
       }
   });
 });
+
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, './client/build', 'index.html'));
+ });
 
 module.exports = app;
