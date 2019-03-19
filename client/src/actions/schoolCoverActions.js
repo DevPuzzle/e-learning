@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-const URL = 'http://localhost:5000';
+const URL = 'http://owlunion.com';
 
 export const getSchoolCovers = () => {
   return dispatch => {
@@ -140,7 +140,7 @@ export const getSchoolSuccess = (data) => {
 export const getSchoolCollection = () => {
   return dispatch => {
     dispatch(getSchoolCollectionStart());
-    axios.get('http://localhost:5000/school/collection/get')
+    axios.get('http://owlunion.com/school/collection/get')
     .then(response => {
       dispatch(getSchoolCollectionSuccess(response.data.user_school_collection))
     })
@@ -166,7 +166,7 @@ export const getSchoolCollectionSuccess = (data) => {
 export const deleteSchoolCollection = (id) => {
   return dispatch => {
     dispatch(deleteSchoolCollectionStart());
-    axios.delete(`http://localhost:5000/school/collection/delete/${id}`)
+    axios.delete(`http://owlunion.com/school/collection/delete/${id}`)
     .then(response => {
       dispatch(deleteSchoolCollectionSuccess(id));
     })

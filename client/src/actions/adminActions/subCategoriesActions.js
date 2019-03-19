@@ -2,7 +2,7 @@ import * as actionTypes from '../actionTypes';
 import axios from 'axios';
 import {resetThemes} from './themesActions';
 
-const URL = 'http://localhost:5000';
+const URL = 'http://owlunion.com';
 
 export const getSubCategories = (categoryId) => {
 
@@ -26,7 +26,6 @@ export const getSubCategoriesStart = () => {
 }
 
 export const getSubcategoriesSuccess = (data) => {
-  console.log(data)
   return {
     type: actionTypes.GET_SUBCATEGORIES_SUCCESS,
     payload: data

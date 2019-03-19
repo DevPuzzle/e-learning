@@ -18,7 +18,7 @@ const SchoolCover = (props) => {
         <CardActionArea>
           <CardMedia 
             className={props.classes.media}
-            image={`http://localhost:5000/${props.schoolCover.image}`}
+            image={`http://owlunion.com/${props.schoolCover.image}`}
             title={props.schoolCover.name}/>
             <CardContent>
               <Typography

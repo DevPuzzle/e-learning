@@ -49,7 +49,7 @@ function Transition(props) {
   
 
   addCourse = (id) => {
-    axios.post(' http://localhost:5000/course/addingToCollection', {course_id: id})
+    axios.post('http://owlunion.com/course/addingToCollection', {course_id: id})
     .then(response => {
       this.setState({
         successAdded: true,
@@ -96,7 +96,7 @@ function Transition(props) {
                 <Card className={classes.card}>
                   <CardMedia 
                     className={classes.media}
-                    image={`http://localhost:5000/${this.props.course.image}`}/>
+                    image={`http://owlunion.com/${this.props.course.image}`}/>
                   <CardContent>
                     <Typography 
                       className='courseEl__cardTitle'
@@ -188,7 +188,7 @@ function Transition(props) {
         <div className='courseEl__hidden'>
             <div className='row courseEl__hiddenCont'>
               <div className='courseEl__hiddenImg'>
-                <img src={`http://localhost:5000/${this.props.course.image}`} alt=""/>
+                <img src={`http://owlunion.com/${this.props.course.image}`} alt=""/>
               </div>
               <div className='courseEl__hiddenBtn'>
                 <Button 

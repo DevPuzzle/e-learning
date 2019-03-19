@@ -110,7 +110,7 @@ class MyCoursesInstructorForm extends Component {
         if(selectedImage){
           return <img src={this.props.imagePreviewUrl}/>
         }else if(apiImage){
-          return <img src={`http://localhost:5000/${apiImage.image}`} />
+          return <img src={`http://owlunion.com/${apiImage.image}`} />
         }else{
           return <h3 className='instructorForm__imageText'>
               Image will be here

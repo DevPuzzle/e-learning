@@ -65,7 +65,7 @@ class SchoolList extends Component {
   }
 
 componentWillMount(){
-  axios.get('http://localhost:5000/school/list')
+  axios.get('http://owlunion.com/school/list')
   .then(res => {
     this.setState({
       schoolList: res.data.schoolList,
@@ -138,7 +138,7 @@ render() {
                 <CardActionArea>
                   <CardMedia 
                     className={classes.media}
-                    image={`http://localhost:5000/${school.image}`}
+                    image={`http://owlunion.com/${school.image}`}
                     title={school.name}/>
                   <CardContent>
                     <Typography 

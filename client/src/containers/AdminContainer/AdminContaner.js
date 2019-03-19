@@ -66,7 +66,7 @@ class AdminContainer extends React.Component {
   componentWillMount(){
     this.props.onTryAutoLogin();
     if(this.props.location.pathname.includes('/admin'))
-    axios.get('http://localhost:5000/admin/area')
+    axios.get('http://owlunion.com/admin/area')
     .then(response =>{
 
     })

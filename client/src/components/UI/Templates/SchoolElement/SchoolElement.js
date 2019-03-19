@@ -48,7 +48,7 @@ function Transition(props) {
   }
 
   addSchool = (id) => {
-    axios.post('http://localhost:5000/school/addingToCollection', {school_id: id})
+    axios.post('http://owlunion.com/school/addingToCollection', {school_id: id})
     .then(response => {
       this.setState({
         successAdded: true
@@ -82,7 +82,7 @@ function Transition(props) {
         <React.Fragment>
           <div className='schoolEl__background'
             style={{
-              background: `url(http://localhost:5000/${this.props.school.image}) no-repeat center center`
+              background: `url(http://owlunion.com/${this.props.school.image}) no-repeat center center`
             }}>
           <div className='container'>
             <div className='row schoolEl__overEl'>
@@ -98,7 +98,7 @@ function Transition(props) {
                 <Card className={classes.card}>
                   <CardMedia 
                     className={classes.media}
-                    image={`http://localhost:5000/${this.props.school.logo}`}/>
+                    image={`http://owlunion.com/${this.props.school.logo}`}/>
                   <CardContent>
                     <Typography 
                       className='schoolEl__cardTitle'
@@ -189,10 +189,10 @@ function Transition(props) {
           </div>
             
         </Dialog>
-        <div className='schoolEl__hidden' style={{background: `url(http://localhost:5000/${this.props.school.image}) no-repeat center center`}}>
+        <div className='schoolEl__hidden' style={{background: `url(http://owlunion.com/${this.props.school.image}) no-repeat center center`}}>
             <div className='row schoolEl__hiddenCont'>
               <div className='schoolEl__hiddenImg'>
-                <img src={`http://localhost:5000/${this.props.school.logo}`} alt=""/>
+                <img src={`http://owlunion.com/${this.props.school.logo}`} alt=""/>
               </div>
               <div className='schoolEl__hiddenBtn'>
                 <Button 
