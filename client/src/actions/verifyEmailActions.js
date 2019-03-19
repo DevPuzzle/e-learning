@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-const URL = 'http://localhost:5000/user/verifyEmail';
+const URL = 'http://owlunion.com/user/verifyEmail';
 
 export const verifyEmail = (verify_code) => {
   return dispatch => {

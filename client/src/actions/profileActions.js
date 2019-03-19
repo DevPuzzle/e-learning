@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-const URL = 'http://localhost:5000/user';
+const URL = 'http://owlunion.com/user';
 
 export const passwordChange = (values) => {
   return dispatch => {

@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
 
-const URL = 'http://localhost:5000/user/signup';
+const URL = 'http://owlunion.com/user/signup';
 
 
 

@@ -2,7 +2,7 @@ import * as actionTypes from '../actionTypes';
 import axios from 'axios';
 
 
-const URL = 'http://localhost:5000/category';
+const URL = 'http://owlunion.com/category';
 
 //CATEGORIES
 export const getCategories = () => {
@@ -82,7 +82,6 @@ export const deleteCategory = (id) => {
   return dispatch => {
     axios.delete(`${URL}/delete/${id}`)
     .then(res => {
-      console.log(res)
       dispatch(deleteCategorySuccess(id));
     })
   }

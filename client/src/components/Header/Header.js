@@ -117,7 +117,7 @@ class Header extends Component {
   }
 
   selectedThemeItemHandler = (url) => {
-    axios.post('http://localhost:5000/course/get/by/theme', {url})
+    axios.post('http://owlunion.com/course/get/by/theme', {url})
     .then(response => {
       this.props.history.push(`/courseList/${response.data.theme.url}`)
     })
@@ -173,9 +173,9 @@ class Header extends Component {
 
     const avatar = () => {
       if(this.props.profile.avatar && this.props.profile.avatar.userImage){
-        return <img className='header__profileImage' src={`http://localhost:5000/${this.props.profile.avatar.userImage}`}/>
+        return <img className='header__profileImage' src={`http://owlunion.com/${this.props.profile.avatar.userImage}`}/>
       }else if(!this.props.profile.avatar && this.props.profile.userData && this.props.profile.userData.userImage){
-        return <img className='header__profileImage' src={`http://localhost:5000/${this.props.profile.userData.userImage}`} />;
+        return <img className='header__profileImage' src={`http://owlunion.com/${this.props.profile.userData.userImage}`} />;
       }else {
         return <i className="fas fa-user-circle header__usericon"></i>
       }

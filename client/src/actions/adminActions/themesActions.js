@@ -1,7 +1,7 @@
 import * as actionTypes from '../actionTypes';
 import axios from 'axios';
 
-const URL = 'http://localhost:5000';
+const URL = 'http://owlunion.com';
 
 export const getThemes = (subcategoryId) => {
   return dispatch => {
@@ -82,7 +82,6 @@ export const deleteTheme = (id) => {
     dispatch(deleteThemeStart());
     axios.delete(`${URL}/theme/delete/${id}`)
     .then(response => {
-      console.log(response);
       dispatch(deleteThemeSuccess(id));
     })
   }

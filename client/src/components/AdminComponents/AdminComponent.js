@@ -89,15 +89,12 @@ import AdminDeleteModal from '../UI/Templates/AdminDeleteModal/AdminDeleteModal'
 
   // delete category
   deleteCategory = () => {
-     
-    console.log('delete')  
     this.props.onDeleteCategory(this.state.itemToDelete);
     this.closeDeleteModalHandler();
   } 
 
   // delete subcategory
-  deleteSubcategory = (id) => {  
-    console.log('delete')  
+  deleteSubcategory = (id) => {
     this.props.onDeleteSubcategory(this.state.itemToDelete);
     this.closeDeleteModalHandler();
   }
