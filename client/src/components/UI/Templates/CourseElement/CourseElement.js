@@ -37,7 +37,7 @@ function Transition(props) {
     if (prevProps.course !== this.props.course) {
       if(this.props.userData && this.props.course){
         let courseCollection = this.props.userData.course_collection;
-        let findthis = courseCollection.find(el => el === this.props.course._id)
+        let findthis = courseCollection.find(el => el === this.props.course._id);
          if(findthis){
           this.setState({
             checkInCollection: true
@@ -49,7 +49,6 @@ function Transition(props) {
   
 
   addCourse = (id) => {
-    console.log('click')
     axios.post(' http://localhost:5000/course/addingToCollection', {course_id: id})
     .then(response => {
       this.setState({
@@ -77,7 +76,6 @@ function Transition(props) {
   }
 
   render(){
-    console.log(this.state.checkInCollection)
     const { classes } = this.props;
     let render;
     if(this.props.course){
@@ -215,6 +213,7 @@ function Transition(props) {
 }
 
 const mapStateToProps = (state) => {
+  
   return {
     course: state.courseReducer.course,
     userData: state.profile.userData

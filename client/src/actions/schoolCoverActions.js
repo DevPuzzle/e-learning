@@ -89,7 +89,6 @@ export const deleteSchoolCover = (id) => {
     dispatch(deleteSchoolCoverStart());
     axios.delete(`${URL}/school/delete/${id}`)
     .then(response => {
-      console.log(id)
       dispatch(deleteSchoolCoverSuccess(id))
     })
     .catch(err => {

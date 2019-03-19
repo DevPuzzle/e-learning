@@ -74,7 +74,6 @@ export const logout = () => {
 }
 
 export const logoutSuccess = () => {
-  console.log('logout')
   localStorage.removeItem('jwt');
   localStorage.removeItem('username');
   localStorage.removeItem('role')
