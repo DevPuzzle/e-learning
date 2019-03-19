@@ -24,7 +24,6 @@ const styles = () => ({
   componentWillMount(){
     axios.post('http://localhost:5000/course/get/by/theme', {url:this.props.match.params.name})
     .then(response =>{
-      console.log(response.data.theme.course)
       this.setState({
         courseList: response.data.theme.course
       })
@@ -35,7 +34,6 @@ const styles = () => ({
     if (this.props.match.params.name !== prevProps.match.params.name) {
       axios.post('http://localhost:5000/course/get/by/theme', {url:this.props.match.params.name})
     .then(response =>{
-      console.log(response.data.theme.course)
       this.setState({
         courseList: response.data.theme.course
       })
@@ -70,7 +68,7 @@ const styles = () => ({
               className='col-md-4' 
               onClick={() => this.navigateTo(course.url)}>
               <Card
-                className={classes.card}>
+                className={`${classes.card} mx-auto`}>
                 <CardActionArea>
                   <CardMedia 
                     className={classes.media}

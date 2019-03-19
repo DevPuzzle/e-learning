@@ -14,7 +14,7 @@ const SchoolCover = (props) => {
     <div 
       className='col-md-3 mb-4'>
       <Card
-        className={props.classes.card}>
+        className={`${props.classes.card} mx-auto`}>
         <CardActionArea>
           <CardMedia 
             className={props.classes.media}

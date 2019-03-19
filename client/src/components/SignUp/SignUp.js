@@ -29,7 +29,8 @@ class SignUp extends Component {
       <SignUpForm
       loading={this.props.loading}
       showConfirm={this.state.showConfirm}
-      onSubmit={this.submit}/>
+      onSubmit={this.submit}
+      userError={this.props.error}/>
     )
   }
 }
@@ -37,7 +38,8 @@ class SignUp extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.signup.loading
+    loading: state.signup.loading,
+    error: state.signup.error
   }
 }
 

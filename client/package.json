@@ -9,6 +9,7 @@
     "bootstrap-4-grid": "^2.4.1",
     "classnames": "^2.2.6",
     "downshift": "^3.2.6",
+    "jwt-decode": "^2.2.0",
     "material-ui": "^0.20.2",
     "node-sass": "^4.11.0",
     "prop-types": "^15.6.2",

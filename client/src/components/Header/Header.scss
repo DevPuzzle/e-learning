@@ -12,7 +12,6 @@ header {
       display: flex;
       align-items: center;
     }
-   
     &__logo{
       font-family: 'Merienda One', cursive;
       font-size: 14px;
@@ -31,6 +30,23 @@ header {
         width: 50px;
         height: auto;
       }
+    }
+    
+
+    &__navLink {
+      color: #0277bd;
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: bold;
+      &:hover {
+        color: #039be5;
+      }
+    }
+    &__navLink.active {
+      color: #039be5;
+    }
+    .header-active {
+      color: #039be5;
     }
     &__nav{
       display: flex;
@@ -61,6 +77,7 @@ header {
         }
       }
     }
+    
     &__responseDrawer {
       button {
         color: #0277bd;
@@ -124,6 +141,7 @@ header {
   border-radius: 50%;
 
 }
+
 }
 }
 
@@ -169,8 +187,25 @@ header {
       color: #fff !important;
     }
   }
+  &__link.active {
+    background: #0277bd !important;
+    color: #fff !important;
+  }
 }
 
+
+.courseListContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  p {
+    margin-right: 10px;
+    &:last-child {
+      margin-right: 0;
+      color:gray;
+    }
+  }
+}
 
 
 @media (max-width: 575.98px) { 

@@ -19,10 +19,7 @@ const styles = (theme) => ({
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: 'rgba(225, 245, 254, 1)',    
-    /* '&:hover': {
-      backgroundColor: 'rgba(216, 238, 242, 0.85)',
-    }, */
+    backgroundColor: 'rgba(225, 245, 254, 1)',
     marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
@@ -70,7 +67,6 @@ class SchoolList extends Component {
 componentWillMount(){
   axios.get('http://localhost:5000/school/list')
   .then(res => {
-    console.log('componentWillMount', res.data.schoolList);
     this.setState({
       schoolList: res.data.schoolList,
       filteredSchools: res.data.schoolList
@@ -97,10 +93,8 @@ navigateTo = (url) => {
 
 render() {
   const { classes } = this.props;
-  console.log('filter', this.state.filteredSchools)
   return (
     <React.Fragment>
-      
     <div className="searchContainer" style={{
       background: '#0277bd',
       padding: '40px 15px',
@@ -140,7 +134,7 @@ render() {
               className='col-md-4 mb-4' 
               onClick={() => this.navigateTo(school.url)}>
               <Card
-                className={classes.card}>
+                className={`${classes.card} mx-auto`}>
                 <CardActionArea>
                   <CardMedia 
                     className={classes.media}

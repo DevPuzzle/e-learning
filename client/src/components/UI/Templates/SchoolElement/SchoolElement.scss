@@ -148,6 +148,30 @@
   }
 }
 
+@media (max-width: 499.98px) {
+  .courseEl {
+    &__successImg {
+      padding: 60px 15px;
+      i {
+        font-size: 60px;
+      }
+    }
+    &__errorMessage {
+      padding: 10px 15px;
+      font-size: 16px;
+    }
+    &__errorImg {
+      padding: 60px 15px;
+      i {
+        font-size: 60px;
+      }
+    }
+    &__errorMessage {
+      padding: 10px 15px;
+      font-size: 16px;
+    }
+  }
+}
 
 @media (max-width: 575.98px) { 
   .schoolEl {
@@ -204,6 +228,20 @@
       button {
         padding: 20px 50px;
       }
+    }
+    &__successImg {
+      padding: 15px 45px;
+    }
+    &__errorMessage {
+      padding: 10px 15px;
+      font-size: 16px;
+    }
+    &__errorImg {
+      padding: 15px 45px;
+    }
+    &__errorMessage {
+      padding: 10px 15px;
+      font-size: 16px;
     }
   }
  }

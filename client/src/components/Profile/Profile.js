@@ -75,7 +75,8 @@ class Profile extends Component {
               defaultImage={defaultImage}
               selectedImage={this.state.selectedImage}
               changes={this.changes} 
-              onSubmit={this.changeUserImage}/>
+              onSubmit={this.changeUserImage}
+              profileError={this.props.imageError}/>
             </div>
             </div>
         </div>
@@ -88,14 +89,16 @@ class Profile extends Component {
             <ProfileChangeData 
               loading={this.props.loading}
               initialValues={this.props.userData}
-              onSubmit={this.changeUserDataHandler}/>    
+              onSubmit={this.changeUserDataHandler}
+              profileError={this.props.error}/>    
             </div>
           </div>
             <div className='col-md-5'>
             <h3 className='profile__title'>Password</h3>
             <div className='profile__container mb-4'> 
             <ProfileChangePassword 
-              onSubmit={this.changePasswordHandler}/> 
+              onSubmit={this.changePasswordHandler}
+              profileError={this.props.passwordChange}/> 
             </div>
             </div>
                               
@@ -113,8 +116,11 @@ const mapStateToProps = (state) => {
     userData: state.profile.userData,
     avatar: state.profile.avatar,
     loading: state.profile.loading,
-    showDeleteButton: state.profile.showDeleteButton
-}
+    showDeleteButton: state.profile.showDeleteButton,
+    error: state.profile.error,
+    imageError: state.profile.imageError,
+    passwordError: state.profile.passwordError
+  }
 }
 
 

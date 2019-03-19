@@ -31,6 +31,8 @@ export class ProfileChangePassword extends Component {
     let renderform = <form 
     onSubmit={handleSubmit} 
     className='profile__form'>
+     {this.props.profileError ? 
+        <div className='login__userError'>Cant change password, try again</div> : null}
       <div className='profile__pass'>
       <Field 
         type='password'

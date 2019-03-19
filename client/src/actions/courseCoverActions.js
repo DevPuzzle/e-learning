@@ -14,7 +14,8 @@ export const getCourseCovers = () => {
       dispatch(getCourseCoversSuccess(response.data.user_courses_covers));
     })
     .catch(err => {
-      console.log(err)
+      console.log(err);
+      
     })
   }
 }

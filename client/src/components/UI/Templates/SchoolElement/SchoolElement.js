@@ -25,11 +25,26 @@ function Transition(props) {
 
   state = {
     successAdded: false,
-    error: false
+    error: false,
+    checkInCollection: false
   }
 
   componentWillMount(){
     this.props.onGetSchool(this.props.match.params.name);
+  }
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.school !== this.props.school) {
+      if(this.props.userData && this.props.school) {
+        let schoolCollection = this.props.userData.school_collection;
+        let findthis = schoolCollection.find(el => el === this.props.school._id);
+        if(findthis){
+          this.setState({
+            checkInCollection: true
+          })
+        }     
+      }
+    }
   }
 
   addSchool = (id) => {
@@ -60,6 +75,7 @@ function Transition(props) {
 
   render(){
     const { classes } = this.props;
+    
     let render;
     if(this.props.school){
       render = (
@@ -94,10 +110,14 @@ function Transition(props) {
                     <p
                       className='schoolEl__cardDescr'>{this.props.school.info}</p> 
                     <div className='schoolEl__btn'>
+                      {this.state.checkInCollection ?
+                        <div style={{color: '#0277bd'}}><i className="fas fa-check"></i> Already subscribed</div> 
+                      :
                       <Button
                         onClick={() => this.addSchool(this.props.school._id)} 
                         variant='contained' 
-                        color='secondary'>Subscribe</Button>
+                        color='secondary'>Subscribe</Button>}
+                      
                     </div>
                    
                   </CardContent>
@@ -196,8 +216,10 @@ function Transition(props) {
 }
 
 const mapStateToProps = (state) => {
+  
   return {
-    school: state.schoolReducer.school
+    school: state.schoolReducer.school,
+    userData: state.profile.userData
   }
 }
 
