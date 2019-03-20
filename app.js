@@ -29,7 +29,7 @@ app.use(morgan("dev"));
 app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use('/', express.static(path.join(__dirname, './client/build')));
+
 
 
 app.use(expressValidator());
@@ -59,7 +59,7 @@ app.use("/theme", themeRoutes);
 app.use("/course", courseRoutes);
 app.use("/school", schoolRoutes);
 app.use("/search", searchRoutes);
-
+app.use('/', express.static(path.join(__dirname, './client/build')));
 app.use((req, res, next) => {
   const error = new Error('Not found');
   error.status = 404;

@@ -18,12 +18,14 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.user_signup = (req, res, next) => {
+  console.log('USER_SIGNUP');
   req.check('email', 'Invalid email address').isEmail();
   req.check('password', 'Password is invalid').isLength({min: 6}).equals(req.body.confirm_password);
 
   var errors = req.validationErrors();
   if (errors) {    
     return res.status(500).json({
+      message: "validation error",
       errors: errors
     });
   }
@@ -55,10 +57,12 @@ exports.user_signup = (req, res, next) => {
         bcrypt.hash(req.body.password, 10, (err, hash) => {
           if (err) {
             return res.status(500).json({
+              message: 'bcrypt error',
               error: err
             });
           } else {
             //const role = 'admin'
+            console.log('CREATE USER');
             const user = new User({
               _id: new mongoose.Types.ObjectId(),
               first_name: req.body.first_name,
@@ -70,12 +74,13 @@ exports.user_signup = (req, res, next) => {
               role: req.body.role,              
               //role: role
             });
+            console.log('CREATE USER');
             user
               .save()
               .then(result => {        
-
+                console.log('SEND MAIL');
                 const mailOptions = {
-                  from: config.MAIL_USER,
+                  from: keys.EMAIL_USER,
                   to: email,
                   subject: 'Confirm your account',
                   html:`<div style="background:#fff;font:14px sans-serif;color:#686f7a;border-top:4px solid #0277bd;margin-bottom:20px">                    
@@ -112,7 +117,7 @@ exports.user_signup = (req, res, next) => {
         
                         <p>
                           <a style="background:#0277bd;padding:7px;border-radius:2px;color:#fff;text-decoration:none"
-                          href="http://localhost:3000/verifyEmail/${verify_code}">
+                          href="http://owlunion.com/verifyEmail/${verify_code}">
                               CONFIRM
                           </a>
                         </p>
@@ -124,7 +129,8 @@ exports.user_signup = (req, res, next) => {
 
                 transporter.sendMail(mailOptions, function(error, info){
                   if (error) {
-                    console.log(error);
+                    console.log('sendMail Error', error);
+
                   } else {
                     console.log('Email sent: ' + info.response);
                   }
@@ -148,6 +154,7 @@ exports.user_signup = (req, res, next) => {
               .catch(err => {
                 console.log(err);
                 res.status(500).json({
+                  message: "error",
                   error: err
                 });
               });
@@ -338,7 +345,7 @@ exports.user_forgotten_pass = (req, res, next) => {
 
                 <p>
                   <a style="background:#0277bd;padding:7px;border-radius:2px;color:#fff;text-decoration:none"
-                    href="http://localhost:3000/login">
+                    href="http://owlunion.com/login">
                       LOGIN
                   </a>
                 </p>
