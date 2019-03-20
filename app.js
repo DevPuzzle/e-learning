@@ -30,7 +30,11 @@ app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
+/* app.use('/', (req, res, next) => {
+  res.status(200).json({
+    'message': 'Helolo'
+  })
+}); */
 
 app.use(expressValidator());
 
@@ -47,19 +51,24 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/api/user", userRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/student", studentRoutes);
+app.use("/api/teacher", teacherRoutes);
 
-app.use("/user", userRoutes);
-app.use("/admin", adminRoutes);
-app.use("/student", studentRoutes);
-app.use("/teacher", teacherRoutes);
+app.use("/api/category", categoryRoutes);
+app.use("/api/subcategory", subcategoryRoutes);
+app.use("/api/theme", themeRoutes);
+app.use("/api/course", courseRoutes);
+app.use("/api/school", schoolRoutes);
+app.use("/api/search", searchRoutes);
 
-app.use("/category", categoryRoutes);
-app.use("/subcategory", subcategoryRoutes);
-app.use("/theme", themeRoutes);
-app.use("/course", courseRoutes);
-app.use("/school", schoolRoutes);
-app.use("/search", searchRoutes);
-app.use('/', express.static(path.join(__dirname, './client/build')));
+app.use("/", express.static(path.join(__dirname, './client/build')));
+
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, './client/build', 'index.html'));
+});
+
 app.use((req, res, next) => {
   const error = new Error('Not found');
   error.status = 404;
@@ -75,8 +84,5 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, './client/build', 'index.html'));
- });
 
 module.exports = app;
