@@ -57,8 +57,8 @@ export const authCheckState = () => {
         dispatch(logout());
       }else {
         const decodedToken = jwtDecode(token);
-        if(decodedToken.exp <= new Date() / 1000){
-          dispatch(logout())
+        if(decodedToken.exp <= new Date() / 1000) {
+          dispatch(logout());
         }else {
           dispatch(loginSuccess(token, username, role));
           dispatch(getUserData());

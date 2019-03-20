@@ -17,7 +17,7 @@ import { withStyles, Popper, Fade, Paper } from '@material-ui/core';
 import { getUserData } from '../../actions/profileActions';
 import { getCourseList } from '../../actions/courseListActions';
 import axios from 'axios';
-import logo from '../../assets/images/owl.png';
+import logo from '../../assets/images/wisdom.png';
 
 
 const styles = theme => ({
