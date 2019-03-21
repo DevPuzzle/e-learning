@@ -188,13 +188,18 @@ function Transition(props) {
         <div className='courseEl__hidden'>
             <div className='row courseEl__hiddenCont'>
               <div className='courseEl__hiddenImg'>
-                <img src={`${window.location.origin}/api/${this.props.course.image}`} alt=""/>
+                <img src={`/${this.props.course.image}`} alt=""/>
               </div>
               <div className='courseEl__hiddenBtn'>
-                <Button 
-                  variant='contained' 
-                  color='secondary' 
-                  onClick={() => this.addCourse(this.props.course._id)}>SUBSCRIBE</Button>
+              {this.state.checkInCollection ?
+                <div style={{color: '#fff'}} className='courseEl__hiddenCheck'><i className="fas fa-check"></i> Already subscribed</div> 
+              :
+              <Button 
+                variant='contained' 
+                color='secondary' 
+                onClick={() => this.addCourse(this.props.course._id)}>SUBSCRIBE</Button>
+              }
+                
               </div>
             </div>
         </div>

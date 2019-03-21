@@ -51,7 +51,8 @@ function Transition(props) {
     axios.post(`${window.location.origin}/api/school/addingToCollection`, {school_id: id})
     .then(response => {
       this.setState({
-        successAdded: true
+        successAdded: true,
+        checkInCollection: true
       })
     })
     .catch(err => {
@@ -192,13 +193,17 @@ function Transition(props) {
         <div className='schoolEl__hidden' style={{background: `url(/${this.props.school.image}) no-repeat center center`}}>
             <div className='row schoolEl__hiddenCont'>
               <div className='schoolEl__hiddenImg'>
-                <img src={`${window.location.origin}/api/${this.props.school.logo}`} alt=""/>
+                <img src={`/${this.props.school.logo}`} alt=""/>
               </div>
+              {this.state.checkInCollection ?
+                <div style={{color: '#fff'}} className='courseEl__hiddenCheck'><i className="fas fa-check"></i> Already subscribed</div> 
+              :
               <div className='schoolEl__hiddenBtn'>
                 <Button 
                   onClick={() => this.addSchool(this.props.school._id)}
                   variant='contained' color='secondary'>Subscribe</Button>
               </div>
+              }
             </div>
         </div>
         </React.Fragment>
