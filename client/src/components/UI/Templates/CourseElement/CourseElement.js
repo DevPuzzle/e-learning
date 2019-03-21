@@ -192,7 +192,7 @@ function Transition(props) {
               </div>
               <div className='courseEl__hiddenBtn'>
               {this.state.checkInCollection ?
-                <div style={{color: '#0277bd'}} className='courseEl__hiddenCheck'><i className="fas fa-check"></i> Already subscribed</div> 
+                <div style={{color: '#fff'}} className='courseEl__hiddenCheck'><i className="fas fa-check"></i> Already subscribed</div> 
               :
               <Button 
                 variant='contained' 

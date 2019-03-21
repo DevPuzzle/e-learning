@@ -196,7 +196,7 @@ function Transition(props) {
                 <img src={`/${this.props.school.logo}`} alt=""/>
               </div>
               {this.state.checkInCollection ?
-                <div style={{color: '#0277bd'}} className='courseEl__hiddenCheck'><i className="fas fa-check"></i> Already subscribed</div> 
+                <div style={{color: '#fff'}} className='courseEl__hiddenCheck'><i className="fas fa-check"></i> Already subscribed</div> 
               :
               <div className='schoolEl__hiddenBtn'>
                 <Button 
