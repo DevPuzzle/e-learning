@@ -5,9 +5,7 @@ import {
   FormControl, 
   InputLabel, 
   Input,
-  TextField,
-  Paper,
-  MenuItem} from '@material-ui/core';
+  TextField} from '@material-ui/core';
  import Typehead from '../../../UI/Templates/Typehead/Typehead';
 
 
@@ -83,7 +81,7 @@ import {
         if(selectedImage){
           return <img src={previewImg}/>
         }else if(apiImage){
-          return <img src={`${window.location.origin}/api/${apiImage}`}/>
+          return <img src={`/${apiImage}`}/>
         }else{
           return <h3 className='instructorForm__imageText'>
             Image will be here
