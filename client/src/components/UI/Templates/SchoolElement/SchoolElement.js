@@ -82,7 +82,7 @@ function Transition(props) {
         <React.Fragment>
           <div className='schoolEl__background'
             style={{
-              background: `/${this.props.school.image}) no-repeat center center`
+              background: `url(/${this.props.school.image}) no-repeat center center`
             }}>
           <div className='container'>
             <div className='row schoolEl__overEl'>
