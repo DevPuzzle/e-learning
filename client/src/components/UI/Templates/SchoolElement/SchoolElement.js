@@ -51,7 +51,8 @@ function Transition(props) {
     axios.post(`${window.location.origin}/api/school/addingToCollection`, {school_id: id})
     .then(response => {
       this.setState({
-        successAdded: true
+        successAdded: true,
+        checkInCollection: true
       })
     })
     .catch(err => {
