@@ -194,11 +194,15 @@ function Transition(props) {
               <div className='schoolEl__hiddenImg'>
                 <img src={`/${this.props.school.logo}`} alt=""/>
               </div>
+              {this.state.checkInCollection ?
+                <div style={{color: '#0277bd'}} className='courseEl__hiddenCheck'><i className="fas fa-check"></i> Already subscribed</div> 
+              :
               <div className='schoolEl__hiddenBtn'>
                 <Button 
                   onClick={() => this.addSchool(this.props.school._id)}
                   variant='contained' color='secondary'>Subscribe</Button>
               </div>
+              }
             </div>
         </div>
         </React.Fragment>
