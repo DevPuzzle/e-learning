@@ -50,11 +50,11 @@ class Profile extends Component {
 
      let avatar = defaultImage;
     if(this.props.avatar && this.props.avatar.userImage ){
-      avatar = `${window.location.origin}/api/${this.props.avatar.userImage}`;
+      avatar = `/${this.props.avatar.userImage}`;
       
       
     }else if(!this.props.avatar && this.props.userData && this.props.userData.userImage){
-      avatar = `${window.location.origin}/api/${this.props.userData.userImage}`;
+      avatar = `/${this.props.userData.userImage}`;
     }
     
 
