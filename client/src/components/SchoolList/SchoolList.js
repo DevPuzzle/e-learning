@@ -138,7 +138,7 @@ render() {
                 <CardActionArea>
                   <CardMedia 
                     className={classes.media}
-                    image={`${window.location.origin}/api/${school.image}`}
+                    image={`/${school.image}`}
                     title={school.name}/>
                   <CardContent>
                     <Typography 

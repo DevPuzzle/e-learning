@@ -75,7 +75,7 @@ class MySchoolsCollection extends Component {
         <CardActionArea>
         <CardMedia
           className={this.props.classes.media}
-          image={`${window.location.origin}/api/${school.image}`}
+          image={`/${school.image}`}
           title={school.name}/>
           <CardContent>
             <Typography 

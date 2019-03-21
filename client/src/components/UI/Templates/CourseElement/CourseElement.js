@@ -96,7 +96,7 @@ function Transition(props) {
                 <Card className={classes.card}>
                   <CardMedia 
                     className={classes.media}
-                    image={`${window.location.origin}/api/${this.props.course.image}`}/>
+                    image={`/${this.props.course.image}`}/>
                   <CardContent>
                     <Typography 
                       className='courseEl__cardTitle'
