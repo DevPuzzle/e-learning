@@ -4,7 +4,6 @@ const initialState = {
   loading: false,
   error: null,
   email: null
-
 }
 
 const signupReducer = ( state = initialState, action) => {

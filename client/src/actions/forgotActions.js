@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-const URL = 'http://owlunion.com/user/forgotten/password';
+const URL = `${window.location.origin}/api/user/forgotten/password`;
 
 export const forgot = (values) => {
   return dispatch => {

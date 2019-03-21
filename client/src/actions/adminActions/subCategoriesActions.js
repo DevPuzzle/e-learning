@@ -2,7 +2,7 @@ import * as actionTypes from '../actionTypes';
 import axios from 'axios';
 import {resetThemes} from './themesActions';
 
-const URL = 'http://owlunion.com';
+const URL = `${window.location.origin}/api`;
 
 export const getSubCategories = (categoryId) => {
 

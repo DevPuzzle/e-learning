@@ -24,8 +24,8 @@ class Routes extends Component {
 componentWillMount(){
   this.props.onTryAutoLogin();
  }
-
-render(){  
+ 
+render(){
   return(
     <div style={ this.props.location.pathname.includes('admin') ? {
       display: 'none'

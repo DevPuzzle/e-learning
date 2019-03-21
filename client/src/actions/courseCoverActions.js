@@ -1,8 +1,8 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-const URL = 'http://owlunion.com/course';
-const fetchUrl = 'http://owlunion.com/course/covers/instructor';
+const URL = `${window.location.origin}/api/course`;
+const fetchUrl = `${window.location.origin}/api/course/covers/instructor`;
 
 
 
@@ -141,7 +141,7 @@ export const getCourseSuccess = (data) => {
 export const getCourseCollection = () => {
   return dispatch => {
     dispatch(getCourseCollectionStart());
-    axios.get('http://owlunion.com/course/collection/get')
+    axios.get(`${window.location.origin}/api/course/collection/get`)
     .then(response => {
       dispatch(getCourseCollectionSuccess(response.data.user_course_collection))
     })
@@ -168,7 +168,7 @@ export const getCourseCollectionSuccess = (data) => {
 export const deleteCourseCollection = (id) => {
   return dispatch => {
     dispatch(deleteCourseCollectionStart());
-    axios.delete(`http://owlunion.com/course/collection/delete/${id}`)
+    axios.delete(`${window.location.origin}/api/course/collection/delete/${id}`)
     .then(response => {
       dispatch(deleteCourseCollectionSuccess(id));
     })

@@ -27,7 +27,7 @@ class HomeContainer extends Component {
     this.setState({
       loadingSchool: true
     })
-    axios.get('http://owlunion.com/course/list')
+    axios.get(`${window.location.origin}/api/course/list`)
     .then(response => {
       this.setState({
         loadingCourse: false,
@@ -38,7 +38,7 @@ class HomeContainer extends Component {
       console.log(err)
     })
 
-    axios.get('http://owlunion.com/school/list')
+    axios.get(`${window.location.origin}/api/school/list`)
     .then(response => {
       this.setState({
         loadingSchool: false,
