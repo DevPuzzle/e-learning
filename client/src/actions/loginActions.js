@@ -4,7 +4,7 @@ import setAuthToken from '../setAuthToken/setAuthToken';
 import { getUserData} from './profileActions';
 import jwtDecode from 'jwt-decode';
 
-const URL = 'http://owlunion.com/user/login';
+const URL = `${window.location.origin}/api/user/login`;
 
 export const login = (values, history) => {
   return dispatch => {    

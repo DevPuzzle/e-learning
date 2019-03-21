@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-const URL = 'http://owlunion.com/course/catalog/list';
+const URL = `${window.location.origin}/api/course/catalog/list`;
 
 export const getCourseList = () => {
   return dispatch => {

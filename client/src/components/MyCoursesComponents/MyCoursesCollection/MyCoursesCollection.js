@@ -76,7 +76,7 @@ class MyCoursesCollection extends Component {
         <CardActionArea>
         <CardMedia
           className={this.props.classes.media}
-          image={`http://owlunion.com/${course.image}`}
+          image={`${window.location.origin}/api/${course.image}`}
           title={course.name}/>
           <CardContent>
             <Typography 

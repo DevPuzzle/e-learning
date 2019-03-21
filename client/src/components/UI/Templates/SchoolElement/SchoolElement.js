@@ -48,7 +48,7 @@ function Transition(props) {
   }
 
   addSchool = (id) => {
-    axios.post('http://owlunion.com/school/addingToCollection', {school_id: id})
+    axios.post(`${window.location.origin}/api/school/addingToCollection`, {school_id: id})
     .then(response => {
       this.setState({
         successAdded: true
@@ -82,7 +82,7 @@ function Transition(props) {
         <React.Fragment>
           <div className='schoolEl__background'
             style={{
-              background: `url(http://owlunion.com/${this.props.school.image}) no-repeat center center`
+              background: `url(${window.location.origin}/api/${this.props.school.image}) no-repeat center center`
             }}>
           <div className='container'>
             <div className='row schoolEl__overEl'>
@@ -98,7 +98,7 @@ function Transition(props) {
                 <Card className={classes.card}>
                   <CardMedia 
                     className={classes.media}
-                    image={`http://owlunion.com/${this.props.school.logo}`}/>
+                    image={`${window.location.origin}/api/${this.props.school.logo}`}/>
                   <CardContent>
                     <Typography 
                       className='schoolEl__cardTitle'
@@ -189,10 +189,10 @@ function Transition(props) {
           </div>
             
         </Dialog>
-        <div className='schoolEl__hidden' style={{background: `url(http://owlunion.com/${this.props.school.image}) no-repeat center center`}}>
+        <div className='schoolEl__hidden' style={{background: `url(${window.location.origin}/api/${this.props.school.image}) no-repeat center center`}}>
             <div className='row schoolEl__hiddenCont'>
               <div className='schoolEl__hiddenImg'>
-                <img src={`http://owlunion.com/${this.props.school.logo}`} alt=""/>
+                <img src={`${window.location.origin}/api/${this.props.school.logo}`} alt=""/>
               </div>
               <div className='schoolEl__hiddenBtn'>
                 <Button 

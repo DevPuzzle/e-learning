@@ -22,7 +22,7 @@ const styles = () => ({
   }
   
   componentWillMount(){
-    axios.post('http://owlunion.com/course/get/by/theme', {url:this.props.match.params.name})
+    axios.post(`${window.location.origin}/api/course/get/by/theme`, {url:this.props.match.params.name})
     .then(response =>{
       this.setState({
         courseList: response.data.theme.course
@@ -32,7 +32,7 @@ const styles = () => ({
 
   componentDidUpdate(prevProps) {
     if (this.props.match.params.name !== prevProps.match.params.name) {
-      axios.post('http://owlunion.com/course/get/by/theme', {url:this.props.match.params.name})
+      axios.post(`${window.location.origin}/api/course/get/by/theme`, {url:this.props.match.params.name})
     .then(response =>{
       this.setState({
         courseList: response.data.theme.course
@@ -72,7 +72,7 @@ const styles = () => ({
                 <CardActionArea>
                   <CardMedia 
                     className={classes.media}
-                    image={`http://owlunion.com/${course.image}`}/>
+                    image={`${window.location.origin}/api/${course.image}`}/>
                   <CardContent
                   style={{
                     maxHeight: '100px',

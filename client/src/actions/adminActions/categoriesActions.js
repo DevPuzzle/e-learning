@@ -2,7 +2,7 @@ import * as actionTypes from '../actionTypes';
 import axios from 'axios';
 
 
-const URL = 'http://owlunion.com/category';
+const URL = `${window.location.origin}/api/category`;
 
 //CATEGORIES
 export const getCategories = () => {

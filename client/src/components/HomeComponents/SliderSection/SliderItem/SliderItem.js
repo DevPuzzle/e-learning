@@ -55,7 +55,7 @@ const SliderItem = (props) => {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image={`http://owlunion.com/${props.item.image}`}
+          image={`${window.location.origin}/api/${props.item.image}`}
         />
         <CardContent style={{
           maxHeight: '100px',

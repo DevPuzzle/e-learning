@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-const URL = 'http://owlunion.com/user';
+const URL = `${window.location.origin}/api/user`;
 
 export const passwordChange = (values) => {
   return dispatch => {
