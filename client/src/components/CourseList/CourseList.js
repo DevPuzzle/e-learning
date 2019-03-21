@@ -72,7 +72,7 @@ const styles = () => ({
                 <CardActionArea>
                   <CardMedia 
                     className={classes.media}
-                    image={`${window.location.origin}/api/${course.image}`}/>
+                    image={`/${course.image}`}/>
                   <CardContent
                   style={{
                     maxHeight: '100px',

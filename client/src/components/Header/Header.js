@@ -173,9 +173,9 @@ class Header extends Component {
 
     const avatar = () => {
       if(this.props.profile.avatar && this.props.profile.avatar.userImage){
-        return <img className='header__profileImage' src={`${window.location.origin}/api/${this.props.profile.avatar.userImage}`}/>
+        return <img className='header__profileImage' src={`/${this.props.profile.avatar.userImage}`}/>
       }else if(!this.props.profile.avatar && this.props.profile.userData && this.props.profile.userData.userImage){
-        return <img className='header__profileImage' src={`${window.location.origin}/api/${this.props.profile.userData.userImage}`} />;
+        return <img className='header__profileImage' src={`/${this.props.profile.userData.userImage}`} />;
       }else {
         return <i className="fas fa-user-circle header__usericon"></i>
       }

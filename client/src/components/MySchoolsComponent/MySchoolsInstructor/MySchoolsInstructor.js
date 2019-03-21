@@ -132,7 +132,7 @@ const styles = theme => ({
   //CITIES
 
   fetchCities = (city) => {
-    const cityUrl = 'http://owlunion.com';
+    const cityUrl = `${window.location.origin}/api`;;
     axios.post(`${cityUrl}/search/cities/filter`, {city})
     .then(response => {
       this.setState({

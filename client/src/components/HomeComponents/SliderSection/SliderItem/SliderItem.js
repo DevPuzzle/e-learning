@@ -55,7 +55,7 @@ const SliderItem = (props) => {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image={`${window.location.origin}/api/${props.item.image}`}
+          image={`/${props.item.image}`}
         />
         <CardContent style={{
           maxHeight: '100px',
