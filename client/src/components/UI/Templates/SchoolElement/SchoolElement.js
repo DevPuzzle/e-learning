@@ -192,7 +192,7 @@ function Transition(props) {
         <div className='schoolEl__hidden' style={{background: `url(/${this.props.school.image}) no-repeat center center`}}>
             <div className='row schoolEl__hiddenCont'>
               <div className='schoolEl__hiddenImg'>
-                <img src={`${window.location.origin}/api/${this.props.school.logo}`} alt=""/>
+                <img src={`/${this.props.school.logo}`} alt=""/>
               </div>
               <div className='schoolEl__hiddenBtn'>
                 <Button 

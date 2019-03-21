@@ -188,7 +188,7 @@ function Transition(props) {
         <div className='courseEl__hidden'>
             <div className='row courseEl__hiddenCont'>
               <div className='courseEl__hiddenImg'>
-                <img src={`${window.location.origin}/api/${this.props.course.image}`} alt=""/>
+                <img src={`/${this.props.course.image}`} alt=""/>
               </div>
               <div className='courseEl__hiddenBtn'>
                 <Button 
