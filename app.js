@@ -21,7 +21,14 @@ const keys = require('./server/config/keys');
 const path = require('path');
 
 //mongoose.connect('mongodb://vitaliy:qa123123@ds261114.mlab.com:61114/e-learning');
-mongoose.connect(`mongodb://${keys.MONGO_USER}:${keys.MONGO_PASSWORD}@ds261114.mlab.com:61114/${keys.MONGO_DB}`);
+// mongoose.connect(`mongodb://${keys.MONGO_USER}:${keys.MONGO_PASSWORD}@ds261114.mlab.com:61114/${keys.MONGO_DB}`);
+
+mongoose.connect(`mongodb+srv://${keys.MONGO_USER}:${keys.MONGO_PASSWORD}@cluster0-hsxf7.mongodb.net/${keys.MONGO_DB}?retryWrites=true`).then(result => {
+    console.log('connected !!!');
+    app.listen(process.env.PORT || 80);
+}).catch(err => {
+    console.log(err);
+});
 mongoose.connection.once('open', () => console.log('Connected to MongoDB'));
 
 
